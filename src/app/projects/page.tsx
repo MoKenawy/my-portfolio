@@ -7,14 +7,14 @@ function Projects() {
             <ProjectCard
                 title="DriveWise"
                 description="A Python Web Application that uses Django, Flask, TensorFlow, Scikit-learn, OpenCV, and Yolo to detect driver drowsiness."
-                image="/drivewise/logo.png"
+                image="drivewise/logo.png"
                 tags={['AI', 'Computer Vision', 'Drowsiness Detection']}
                 overview="This project uses Django, Flask, TensorFlow, Scikit-learn, OpenCV, and Yolo to detect driver drowsiness. The application is a RESTful API that takes an image as an input and returns the detected driver drowsiness as an output."
                 tools={['Django', 'Flask', 'TensorFlow', 'Scikit-learn', 'OpenCV', 'Yolo', 'Python']}
                 links={[
                     { name: 'GitHub', url: 'https://github.com/MoKenawy/DriveWise-Driving-Station' },
                 ]}
-                images={['/drivewise/Dashboard-2.png', '/drivewise/Driver-details.png', '/drivewise/Driver-Details-2.png']} />
+                images={['drivewise/Dashboard-2.png', 'drivewise/Driver-details.png', 'drivewise/Driver-Details-2.png']} />
 
             <ProjectCard
                 title="Egyptian Currency Recognition"
@@ -30,7 +30,7 @@ function Projects() {
             <ProjectCard
                 title="Rental Contracts Expert System"
                 description="A CLIPS Expert System to assist civilians in creating rental contracts that comply with Egyptian legal requirements."
-                image="/rental-contracts-expert-system.jpg"
+                image="rental-contracts-expert-system.jpg"
                 tags={['CLIPS', 'Expert System', 'Legal', 'Rental Contracts']}
                 overview="Developed an expert system to assist civilians in creating rental contracts that comply with Egyptian legal requirements. Implemented using CLIPS for rule-based reasoning and knowledge representation."
                 tools={['CLIPS']}
@@ -41,7 +41,7 @@ function Projects() {
             <ProjectCard
                 title="Face Detection using OpenCV"
                 description="A Web Application that uses OpenCV.js to detect faces in images."
-                image="/face-detection.jpg"
+                image="face-detection.jpg"
                 tags={['OpenCV', 'Face Detection', 'WebApp']}
                 overview="This project uses OpenCV.js to detect faces in images. The application takes an image as an input and returns the detected faces as an output."
                 tools={['OpenCV.js', 'JavaScript', 'HTML', 'CSS']} />

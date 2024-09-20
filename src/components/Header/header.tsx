@@ -13,7 +13,7 @@ function Header({ links = [] }: { links?: NavLink[] }) {
         <Navbar className="flex w-full" maxWidth="full">
             <NavbarBrand>
                 
-                <Image src="/logo.jpg" className="h-12 w-auto rounded-full" alt="logo" width={50} height={50} />
+                <Image src="logo.jpg" className="h-12 w-auto rounded-full" alt="logo" width={50} height={50} />
                 <p className="font-bold text-inherit ml-2">Mohammed Kenawy</p>
             </NavbarBrand>
 

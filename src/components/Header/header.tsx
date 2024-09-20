@@ -1,4 +1,5 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Button } from "@nextui-org/react";
+import Link from "next/link";
 
 type NavLink = {
     name: string;
@@ -18,7 +19,7 @@ function Header({ links = [] }: { links?: NavLink[] }) {
                 {links.map(({ href, name }) => (
                     <NavbarItem key={name}>
                         {href ? (
-                            <Link color="primary" href={href}>
+                            <Link href={href}>
                                 {name}
                             </Link>
                         ) : (

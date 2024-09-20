@@ -46,7 +46,10 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml', '**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
-
+            
+      - name: Set environment variable for GitHub Pages
+        run: echo "BASE_PATH=/my-portfolio" >> $GITHUB_ENV
+        
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 

@@ -4,7 +4,6 @@ import Header from "@/components/Header/header";
 import SideNav from "@/components/Sidenav/sideNav";
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import { Spacer } from "@nextui-org/react";
-import Image from "next/image";
 import { Suspense } from "react";
 
 const navLinks = [

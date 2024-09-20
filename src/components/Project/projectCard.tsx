@@ -20,7 +20,7 @@ export default function ProjectCard({ title, description, image, tags = [], over
 
     const renderTags = () => (
         <div className="flex flex-wrap gap-x-2 gap-y-1 mt-4 text-[#6c5ce7]">
-            {tags.map((tag, index) => (
+            {tags.map((tag) => (
                 <React.Fragment key={tag}>
                     <span className="bg-zinc-100 px-2 py-1 rounded-md text-sm">{tag}</span>
                 </React.Fragment>

@@ -1,81 +1,78 @@
 "use client";
 
-import { Modal, Button, useDisclosure, Card, CardBody, CardHeader, CardFooter, Divider, Spacer, Image, Skeleton } from "@nextui-org/react";
 import React from "react";
 import ProjectModal from "./projectModal";
 
-interface ProjectCardProps {
-    title: string;
-    description: string;
-    image: string;
-    tags?: string[];
-    overview: string;
-    tools?: string[];
-    images?: string[];
-    links?: { name: string; url: string }[];
+export interface ProjectCardProps {
+  title: string;
+  description: string;
+  image?: string;
+  tags?: string[];
+  overview: string;
+  tools?: string[];
+  images?: string[];
+  links?: { name: string; url: string }[];
+  /** Mono metadata lines shown in the right column (e.g. stack, phase, year). */
+  meta?: string[];
 }
 
-export default function ProjectCard({ title, description, image, tags = [], overview, tools = [], images = [], links = [] }: ProjectCardProps) {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+// One entry in the index — a case-study opening, not a card (design.md §4).
+// Serif title and prose left; mono metadata right; a modal for the full read.
+export default function ProjectCard({
+  title,
+  description,
+  overview,
+  tags = [],
+  tools = [],
+  images = [],
+  links = [],
+  meta = [],
+}: ProjectCardProps) {
+  const [open, setOpen] = React.useState(false);
 
-    const renderTags = () => (
-        <div className="flex flex-wrap gap-x-2 gap-y-1 mt-4 text-[#6c5ce7]">
-            {tags.map((tag) => (
-                <React.Fragment key={tag}>
-                    <span className="bg-zinc-100 px-2 py-1 rounded-md text-sm">{tag}</span>
-                </React.Fragment>
-            ))}
-        </div>
-    );
+  return (
+    <article className="grid grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="prose-measure">
+        <h2 className="font-serif text-3xl leading-tight">{title}</h2>
+        <p className="mt-3 font-serif text-lg text-paper">{description}</p>
 
-    return (
-        <Card className="flex flex-col bg-gradient-to-r from-[#45b3fa] to-[#6c5ce7] rounded-md shadow-md p-3">
-            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start text-white">
-                <h3 className="text-2xl font-bold">{title || <Skeleton className="w-3/5 rounded-lg"><div className="h-6 w-3/5 rounded-lg bg-default-300"></div></Skeleton>}</h3>
-                <Spacer y={3}/>
+        {tags.length > 0 && (
+          <p className="mono mt-4 normal-case text-mid">
+            {tags.join("  ·  ")}
+          </p>
+        )}
 
-                <p className="mt-2">{description || <Skeleton className="w-full rounded-lg"><div className="h-3 w-full rounded-lg bg-default-300"></div></Skeleton>}</p>
-            </CardHeader>
-            <Spacer y={6}/>
-            <CardBody className="overflow-visible py-2">
-                <div className="p-1.5 bg-white rounded-md shadow-md">
-                    <Image
-                        src={image}
-                        alt={title}
-                        className="w-full h-64 object-cover rounded-md"
-                        width="100%"
-                    />
-                </div>
-            </CardBody>
-            <Spacer y={6}/>
-
-            <Divider className="bg-white" />
-
-            <CardFooter className="flex flex-col gap-2 text-white">
-                {renderTags()}
-
-                <Button onPress={onOpen} className="mt-4 bg-white text-[#6c5ce7]">
-                    Learn More
-                </Button>
-            </CardFooter>
-            <Modal isOpen={isOpen} onClose={onClose} isDismissable={false} isKeyboardDismissDisabled={true}
-                size={"3xl"}
-                scrollBehavior={"outside"}
-
-
+        <ProjectModal
+          open={open}
+          onOpenChange={setOpen}
+          title={title}
+          overview={overview}
+          tools={tools}
+          images={images}
+          links={links}
+          trigger={
+            <button
+              type="button"
+              className="mono mt-6 border border-hairline px-3 py-2 text-mid transition-colors hover:border-paper hover:text-paper"
             >
-                <ProjectModal
-                    title={title}
-                    overview={overview}
-                    tools={tools}
-                    images={images}
-                    links={links}
-                    onClose={onClose}
-                />
-            </Modal>
-        </Card>
-    );
+              Read more
+            </button>
+          }
+        />
+      </div>
+
+      {meta.length > 0 && (
+        <div className="text-left sm:text-right">
+          {meta.map((line) => (
+            <p
+              key={line}
+              className="font-mono text-xs leading-relaxed text-mid"
+            >
+              {line}
+            </p>
+          ))}
+        </div>
+      )}
+    </article>
+  );
 }
-
-
-

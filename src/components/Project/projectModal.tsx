@@ -1,66 +1,110 @@
-import { ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from "@nextui-org/react";
-import { Image, Link } from "@nextui-org/react";
+"use client";
+
+import * as Dialog from "@radix-ui/react-dialog";
+import Image from "next/image";
 import React from "react";
 
+// Uses the Radix Dialog primitive (the same one shadcn's Dialog wraps) for
+// focus trap, Escape, and scroll lock; styled directly against Manuscript
+// tokens. When shadcn's CLI is adopted later, this slots in as its Dialog.
 interface ProjectModalProps {
-    title: string;
-    overview: string;
-    tools?: string[];
-    images?: string[];
-    links?: { name: string; url: string }[];
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  trigger: React.ReactNode;
+  title: string;
+  overview: string;
+  tools?: string[];
+  images?: string[];
+  links?: { name: string; url: string }[];
 }
 
+export default function ProjectModal({
+  open,
+  onOpenChange,
+  trigger,
+  title,
+  overview,
+  tools = [],
+  images = [],
+  links = [],
+}: ProjectModalProps) {
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-black/70" />
+        <Dialog.Content className="fixed left-1/2 top-1/2 z-50 max-h-[85vh] w-[92vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-y-auto border border-hairline bg-ground p-6 sm:p-8">
+          <div className="flex items-start justify-between gap-6">
+            <Dialog.Title className="font-serif text-3xl leading-tight">
+              {title}
+            </Dialog.Title>
+            <Dialog.Close
+              aria-label="Close"
+              className="mono shrink-0 border border-hairline px-3 py-1 text-mid transition-colors hover:border-paper hover:text-paper"
+            >
+              Close
+            </Dialog.Close>
+          </div>
 
-export default function ProjectModal({ title, overview, tools = [], images = [], links = [], onClose }: ProjectModalProps & { onClose: () => void }) {
-    return (
-        <ModalContent className="max-w-3xl rounded-md shadow-md p-4">
-            <ModalHeader className="flex flex-col gap-1">
-                <h3 className="font-bold text-2xl ">{title}</h3>
-            </ModalHeader>
-            <ModalBody>
-                <div className="flex flex-col gap-4 ">
-                    <h4 className="font-bold">Overview</h4>
-                    <p className="text-sm">{overview}</p>
-                </div>
-                <div className="flex flex-col gap-4 mt-4 ">
-                    <h4 className="font-bold">Tools & Technologies used:</h4>
-                    <ul className="list-disc ml-6">
-                        {tools.map((tool) => (
-                            <li key={tool} className="text-sm">{tool}</li>
-                        ))}
-                    </ul>
+          <hr className="flourish mt-4" />
 
-                </div>
-                {images.length > 0 && (
-                    <div className="flex flex-col gap-4 mt-4 ">
-                        <h4 className="font-bold">Screenshots:</h4>
+          <Dialog.Description asChild>
+            <p className="prose-measure mt-6 font-serif text-lg text-paper">
+              {overview}
+            </p>
+          </Dialog.Description>
 
-                        <div className="flex flex-wrap gap-4">
-                            {images.map((image) => (
-                                <Image key={image} src={image} alt={title} width="200px" height="150px" className="rounded-md shadow-md" />
-                            ))}
-                        </div>
-                    </div>
-                )}
-                {links.length > 0 && (
-                    <div className="flex flex-col gap-4 mt-4 ">
-                        <h4 className="font-bold">Links:</h4>
+          {tools.length > 0 && (
+            <section className="mt-8">
+              <span className="mono block">Stack</span>
+              <p className="mt-2 font-mono text-sm leading-relaxed text-paper">
+                {tools.join("  ·  ")}
+              </p>
+            </section>
+          )}
 
-                        <div className="flex flex-wrap gap-4">
-                            {links.map((link) => (
-                                <Button key={link.name} as={Link} href={link.url} target="_blank" rel="noopener noreferrer" color="primary" variant="solid">
-                                    {link.name}
-                                </Button>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </ModalBody>
-            <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                    Close
-                </Button>
-            </ModalFooter>
-        </ModalContent>
-    );
+          {images.length > 0 && (
+            <section className="mt-8">
+              <span className="mono block">Figures</span>
+              <div className="mt-3 flex flex-wrap gap-4">
+                {images.map((src) => (
+                  <span
+                    key={src}
+                    className="border border-hairline p-1.5"
+                  >
+                    <Image
+                      src={`/${src}`}
+                      alt={`${title} — screenshot`}
+                      width={220}
+                      height={160}
+                      className="h-40 w-auto object-cover"
+                    />
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {links.length > 0 && (
+            <section className="mt-8">
+              <span className="mono block">Links</span>
+              <div className="mt-3 flex flex-wrap gap-4">
+                {links.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mono border border-hairline px-3 py-2 text-mid transition-colors hover:border-paper hover:text-paper"
+                  >
+                    {link.name} ↗
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
 }

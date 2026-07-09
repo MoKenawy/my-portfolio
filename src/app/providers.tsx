@@ -1,20 +1,9 @@
-"use client";
-
-
-import { NextUIProvider } from "@nextui-org/react";
-
-
 export default function Providers({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <div className="h-full">
-                <NextUIProvider>
-                    {children}
-                </NextUIProvider>
-        </div>
-
-    );
+  // NextUIProvider removed in the Manuscript migration; no provider is needed
+  // now that components are styled directly against the design tokens.
+  return <>{children}</>;
 }

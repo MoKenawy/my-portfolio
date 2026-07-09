@@ -2,26 +2,131 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  Manuscript design system — design.md Rev B.
+  Strict neutral. No hue beyond a single optional accent (off by default).
+  Dark is a near-mechanical inversion of light; the two stay in lockstep.
+  The site runs dark-dominant; light surfaces (CV, teaching, DMS) flip data-theme.
+*/
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dark-dominant (§2.2) — the site's own mode */
+  --ground: #0a0a0a;      /* page background */
+  --paper: #f5f2ea;       /* primary text, headings, rules */
+  --mid: #aaaaaa;         /* secondary text, metadata */
+  --hairline: #333333;    /* dividers, spec-strip rules */
+  --accent: #791f1f;      /* oxblood — reviewer's pen; used once per view, opt-in */
+
+  --measure: 68ch;        /* body reading measure (~66–75 chars) */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Light-dominant (§2.1) — mechanical inversion */
+:root[data-theme="light"] {
+  --ground: #f5f2ea;      /* ivory manuscript paper */
+  --paper: #1a1712;       /* warm near-black ink */
+  --mid: #5c5344;
+  --hairline: #c4baa6;
+  --accent: #791f1f;
+}
+
+:root[data-theme="dark"] {
+  --ground: #0a0a0a;
+  --paper: #f5f2ea;
+  --mid: #aaaaaa;
+  --hairline: #333333;
+  --accent: #791f1f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ground);
+  color: var(--paper);
+  font-family: var(--font-serif), Georgia, Cambria, "Times New Roman", serif;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.75;
+  margin: 0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Arabic runs get the Arabic face, weighted equal to Latin (§3). */
+:lang(ar),
+[dir="rtl"] {
+  font-family: var(--font-arabic), "Segoe UI", Tahoma, sans-serif;
+}
+
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  /* Square corners everywhere; the system forbids rounded cards (§9). */
+  h1, h2, h3, h4 {
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Mono utility layer — spec strips, revision marks, metadata labels. */
+  .mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+
+  /* A short hairline rule under a title — the manuscript flourish (§4). */
+  .flourish {
+    width: 44px;
+    height: 1px;
+    background: var(--paper);
+    border: 0;
+  }
+
+  /* Body prose column: Newsreader at the reading measure (§3, §11). */
+  .prose-measure {
+    max-width: var(--measure);
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .font-serif {
+    font-family: var(--font-serif), Georgia, serif;
+  }
+  .font-mono {
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+  .font-arabic {
+    font-family: var(--font-arabic), "Segoe UI", Tahoma, sans-serif;
+  }
+}
+
+/* Focus is always visible — keyboard users get the accent as the focus ring. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
 }

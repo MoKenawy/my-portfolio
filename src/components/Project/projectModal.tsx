@@ -1,8 +1,10 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import Image from "next/image";
 import React from "react";
+import Figure from "@/components/Figure/figure";
+import HostedVideo from "@/components/Figure/hostedVideo";
+import type { ProjectImage, ProjectVideo } from "@/lib/media";
 
 // Uses the Radix Dialog primitive (the same one shadcn's Dialog wraps) for
 // focus trap, Escape, and scroll lock; styled directly against Manuscript
@@ -14,7 +16,8 @@ interface ProjectModalProps {
   title: string;
   overview: string;
   tools?: string[];
-  images?: string[];
+  images?: ProjectImage[];
+  videos?: ProjectVideo[];
   links?: { name: string; url: string }[];
 }
 
@@ -26,6 +29,7 @@ export default function ProjectModal({
   overview,
   tools = [],
   images = [],
+  videos = [],
   links = [],
 }: ProjectModalProps) {
   return (
@@ -63,23 +67,31 @@ export default function ProjectModal({
             </section>
           )}
 
+          {/* Screens run full width and keep their colour: a dashboard cropped
+              to a thumbnail strip proves nothing, and the interface's own
+              greens and reds are what the violation states are read by. */}
           {images.length > 0 && (
             <section className="mt-8">
               <span className="mono block">Figures</span>
-              <div className="mt-3 flex flex-wrap gap-4">
-                {images.map((src) => (
-                  <span
-                    key={src}
-                    className="border border-hairline p-1.5"
-                  >
-                    <Image
-                      src={`/${src}`}
-                      alt={`${title} — screenshot`}
-                      width={220}
-                      height={160}
-                      className="h-40 w-auto object-cover"
-                    />
-                  </span>
+              <div className="mt-4 space-y-8">
+                {images.map((image) => (
+                  <Figure
+                    key={image.src}
+                    {...image}
+                    tone="colour"
+                    sizes="(min-width: 640px) 36rem, 88vw"
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+
+          {videos.length > 0 && (
+            <section className="mt-8">
+              <span className="mono block">Recordings</span>
+              <div className="mt-4 space-y-8">
+                {videos.map((video) => (
+                  <HostedVideo key={video.src} {...video} />
                 ))}
               </div>
             </section>

@@ -2,6 +2,7 @@
 
 import React from "react";
 import ProjectModal from "./projectModal";
+import type { ProjectImage, ProjectVideo } from "@/lib/media";
 
 export interface ProjectCardProps {
   title: string;
@@ -10,7 +11,8 @@ export interface ProjectCardProps {
   tags?: string[];
   overview: string;
   tools?: string[];
-  images?: string[];
+  images?: ProjectImage[];
+  videos?: ProjectVideo[];
   links?: { name: string; url: string }[];
   /** Mono metadata lines shown in the right column (e.g. stack, phase, year). */
   meta?: string[];
@@ -25,6 +27,7 @@ export default function ProjectCard({
   tags = [],
   tools = [],
   images = [],
+  videos = [],
   links = [],
   meta = [],
 }: ProjectCardProps) {
@@ -49,6 +52,7 @@ export default function ProjectCard({
           overview={overview}
           tools={tools}
           images={images}
+          videos={videos}
           links={links}
           trigger={
             <button

@@ -6,7 +6,9 @@ const docLinks = [
   { name: "Ship", href: "/ship" },
   { name: "Document", href: "/document" },
   { name: "GitHub", href: "https://github.com/MoKenawy" },
-  { name: "Contact", href: "/contact" },
+  // Held at full ink so the way to reach a person is never the faintest thing
+  // on the page — the footer is the only contact route on the loop pages.
+  { name: "Contact", href: "/contact", cta: true },
 ];
 
 export default function Footer() {
@@ -17,7 +19,7 @@ export default function Footer() {
           Durable artifacts left behind. Built with intent.
         </span>
         <nav aria-label="Elsewhere" className="flex flex-wrap gap-x-6 gap-y-2">
-          {docLinks.map(({ name, href }) => {
+          {docLinks.map(({ name, href, cta }) => {
             const external = href.startsWith("http");
             return (
               <Link
@@ -26,7 +28,12 @@ export default function Footer() {
                 {...(external
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
-                className="mono text-mid transition-colors hover:text-paper"
+                className={
+                  "mono transition-colors " +
+                  (cta
+                    ? "text-paper underline decoration-hairline underline-offset-4 hover:decoration-paper"
+                    : "text-mid hover:text-paper")
+                }
               >
                 {name}
               </Link>

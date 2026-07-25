@@ -177,7 +177,7 @@ It is filed primarily under **Learn** (essay-as-teaching), cross-linked from **R
 
 Flagship page treatment: its own template, Level A, bilingual (RTL Arabic set in Plex Sans Arabic, weighted equal to Latin), the three-voice structure preserved as a visible device, and the concept-mapping appendix presented as a documentation footer writ large. Interactive elements stay within the palette and forbidden-list — no color, no decoration; the interaction is structural, not ornamental.
 
-**Positioning caution:** flagship literary work pulls the brand toward "systems-thinker who writes" and slightly away from "backend engineer who ships." For DMS/Gulf clients this is pure upside (rare depth, Arabic fluency). For a fast-skimming recruiter it risks reading as impressive-but-impractical — so recruiters are led with **Ship**, and the flagship is what makes them reconsider once engaged, never the first thing a job-filter skim meets.
+**Positioning caution:** flagship literary work pulls the brand toward "systems-thinker who writes" and slightly away from "full-stack engineer who ships." For DMS/Gulf clients this is pure upside (rare depth, Arabic fluency). For a fast-skimming recruiter it risks reading as impressive-but-impractical — so recruiters are led with **Ship**, and the flagship is what makes them reconsider once engaged, never the first thing a job-filter skim meets.
 
 ---
 

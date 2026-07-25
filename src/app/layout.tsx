@@ -5,9 +5,9 @@ import { newsreader, plexMono, plexArabic } from "./fonts/manuscript";
 import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "Mohammed Kenawy — Backend Engineer",
+  title: "Mohammed Kenawy — Full-stack Engineer",
   description:
-    "Backend engineer working on payroll, migrations, and systems that outlive their builders. Node.js, TypeScript, SQL Server, and a five-year account of the work.",
+    "full-stack engineer working on payroll, migrations, and systems that outlive their builders. Node.js, TypeScript, SQL Server, and a five-year account of the work.",
 };
 
 export default function RootLayout({

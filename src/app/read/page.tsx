@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageShell, { PageOpening } from "@/components/PageShell/pageShell";
+import Figure from "@/components/Figure/figure";
 import { flagship } from "@/lib/flagship";
 
 export const metadata: Metadata = {
@@ -54,11 +55,11 @@ const basics: Basic[] = [
     author: "Seymour Lipschutz, Marc Lipson",
     year: "2021",
   },
-    {
+  {
     title: "Systems Analysis and Design",
     author: "Alan Dennis, Barbara Haley Wixom, Roberta M. Roth",
     year: "2022",
-    revisit: true
+    revisit: true,
   },
   { title: "Digital Fundamentals", author: "Thomas L. Floyd", year: "2022" },
 
@@ -69,7 +70,7 @@ const basics: Basic[] = [
     year: "2022",
   },
   { title: "Clean Code", author: "Robert C. Martin", year: "2022" },
-    {
+  {
     title: "Software Engineering",
     author: "Ian Sommerville",
     year: "2023",
@@ -81,7 +82,7 @@ const basics: Basic[] = [
     year: "2023",
     revisit: true,
   },
-    {
+  {
     title: "Operating System Concepts",
     author: "Abraham Silberschatz",
     year: "2023",
@@ -196,6 +197,19 @@ export default function ReadPage() {
           inside it. The titles held at full weight are the ones I still revisit;
           the rest I read in chapters, enough to carry the shape of the field.
         </p>
+
+        {/* Proof artifact — the reading in its original setting, before it was
+            a list (brand-guidelines-anti-ai.md §3, class 1). Pairs with
+            Silberschatz in the 2023 register below. */}
+        <Figure
+          className="mt-10 max-w-2xl"
+          src="/figures/os-board-2023.jpg"
+          alt="A whiteboard covered in handwritten operating-systems notes: definitions of an operating system and a command shell, an app–shell–kernel–hardware diagram, and a worked list of Linux commands."
+          caption="fig. 1 — operating systems, 2023. app → shell → kernel → hardware, and the command set underneath it."
+          width={1500}
+          height={1220}
+          sizes="(min-width: 768px) 42rem, 100vw"
+        />
 
         <div className="mt-12 border-t border-hairline">
           {basicsYears.map((year) => (

@@ -63,7 +63,7 @@ Do not hide the use of coding agents — concealment makes the work look like ev
 
 ### 2.7 Experience framing
 
-Current industry experience is approximately six months. The brand sells trajectory and depth of thinking, never seniority. Permitted framings: "early-career," "backend engineer," the five-year narrative arc. Forbidden framings: "senior," "expert," years-of-experience inflation, or any title the CV cannot defend in an interview.
+Current industry experience is approximately six months. The brand sells trajectory and depth of thinking, never seniority. Permitted framings: "early-career," "full-stack engineer," the five-year narrative arc. Forbidden framings: "senior," "expert," years-of-experience inflation, or any title the CV cannot defend in an interview.
 
 ---
 
@@ -128,7 +128,7 @@ No gradients, glassmorphism, neon, glow, blur, or 3D renders. No dark-gradient h
 
 ## 5. Application by audience
 
-**Career growth (employers, senior engineers).** English-first. Lead with paid-lesson case studies: the Access-to-web migration, the deterministic payroll engine, chaos testing the reporting subsystem. GitHub is the primary destination; the portfolio site routes to it. Site and GitHub run dark mode; case studies at Level B (prose + spec-strip). LinkedIn headline: "Backend engineer — payroll, migrations, and systems that outlive their builders."
+**Career growth (employers, senior engineers).** English-first. Lead with paid-lesson case studies: the Access-to-web migration, the deterministic payroll engine, chaos testing the reporting subsystem. GitHub is the primary destination; the portfolio site routes to it. Site and GitHub run dark mode; case studies at Level B (prose + spec-strip). LinkedIn headline: "full-stack engineer — payroll, migrations, and systems that outlive their builders."
 
 **DMS market (Egypt and Gulf clients).** Arabic-first pages. On-premises, air-gapped, and compliance language in the opening paragraph, not buried. The SRS excerpt offered as a downloadable sample — for this buyer, the documentation is the product demo. Direct contact channels (phone, WhatsApp) visible. The technical-proposal page format is the pitch itself.
 

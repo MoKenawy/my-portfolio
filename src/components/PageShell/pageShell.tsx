@@ -1,8 +1,13 @@
+import { Suspense } from "react";
 import Header from "@/components/Header/header";
+import SideNav from "@/components/Sidenav/sideNav";
 import Footer from "@/components/Footer/footer";
 
-// Standard chrome for every route: masthead, a centered content column, and the
-// documentation footer. Pages supply only their own content.
+// Standard chrome for every route: masthead, the profile rail, a centered
+// content column, and the documentation footer. Pages supply only their own
+// content. The rail sits here rather than on Home alone so the real profiles —
+// the independently verifiable half of the evidence library — are reachable
+// from wherever a reader lands.
 export default function PageShell({
   children,
 }: {
@@ -11,6 +16,9 @@ export default function PageShell({
   return (
     <>
       <Header />
+      <Suspense fallback={null}>
+        <SideNav />
+      </Suspense>
       <main className="mx-auto max-w-6xl px-5 sm:px-8">{children}</main>
       <Footer />
     </>

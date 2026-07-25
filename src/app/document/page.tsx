@@ -53,13 +53,7 @@ const artifacts: Artifact[] = [
     title: "Exemplary-conduct discharge rating",
     note: "Military service ended with an exemplary-conduct rating — offered as a trust signal for government and enterprise clients where it matters.",
     status: "On request",
-  },
-  {
-    kind: "Teaching",
-    title: "AI course material",
-    note: "Raw snippets from teaching AI courses. A person explaining a concept in real time is among the hardest proofs to fabricate.",
-    status: "Coming",
-  },
+  }
 ];
 
 export default function DocumentPage() {

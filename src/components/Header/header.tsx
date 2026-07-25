@@ -70,7 +70,23 @@ function Header() {
               </Link>
             );
           })}
-          <div className="self-center">
+          {/* Utilities, not destinations — Contact sits outside the loop
+              (design.md §10.1), so it is a bordered button beside the theme
+              toggle rather than a sixth nav item. Held at hairline weight so it
+              never out-weighs Ship, the primary destination. */}
+          <div className="flex items-center gap-3 self-center">
+            <Link
+              href="/contact"
+              aria-current={pathname === "/contact" ? "page" : undefined}
+              className={
+                "mono border px-[10px] py-[5px] transition-colors " +
+                (pathname === "/contact"
+                  ? "border-paper text-paper"
+                  : "border-hairline text-mid hover:border-paper hover:text-paper")
+              }
+            >
+              Contact
+            </Link>
             <ThemeToggle />
           </div>
         </nav>

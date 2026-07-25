@@ -18,7 +18,7 @@ Through this project I fell in love with computer vision — and discovered a pa
 
 Late that year I tried teaching for real — AI courses — and the students' feedback was great. Now I know it: I love teaching.
 
-Around the same time I joined the first round of the **DEPI — AWS Machine Learning Engineer** program, and came out of it with **SympAI**: a healthcare chatbot that helps users describe their symptoms and get preliminary medical guidance. I built the backend with FastAPI on top of medical language models (BioMistral 7B and Meditron 7B) with multi-turn conversations via LangChain, a Next.js frontend, everything Dockerized and deployed on AWS — EC2 behind an API Gateway and Load Balancer, with the frontend on Amplify with CI/CD.
+Around the same time I joined the first round of the **DEPI — AWS Machine Learning Engineer** program, and came out of it with **SympAI**: a healthcare chatbot that helps users describe their symptoms and get preliminary medical guidance. I built the full-stack with FastAPI on top of medical language models (BioMistral 7B and Meditron 7B) with multi-turn conversations via LangChain, a Next.js frontend, everything Dockerized and deployed on AWS — EC2 behind an API Gateway and Load Balancer, with the frontend on Amplify with CI/CD.
 
 ## 2025 — The Army: A Leader by Surprise
 
@@ -50,7 +50,7 @@ Two decisions sit at the heart of the design: separating a **diagram's identity 
 
 ## 2026 — First Job in the Tech Industry
 
-A backend engineer on a very small team, converting an HR & Personnel system from **MS Access to a modern web application** — and on a team this size, "small" means you touch everything: planning, analysis, design, implementation, testing, deployment.
+A full-stack engineer on a very small team, converting an HR & Personnel system from **MS Access to a modern web application** — and on a team this size, "small" means you touch everything: planning, analysis, design, implementation, testing, deployment.
 
 The first lesson we paid for: **data migrations cost more than you think** — and it might have been better to start from the application layer, to see the full picture of the system first.
 

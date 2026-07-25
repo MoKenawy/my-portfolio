@@ -28,7 +28,7 @@ export default function Home() {
             alt=""
             width={200}
             height={200}
-            className="hidden shrink-0 brightness-0 invert sm:block sm:h-[28rem] sm:w-[28rem] lg:h-[36rem] lg:w-[36rem]"
+            className="logo-mark hidden shrink-0 sm:block sm:h-[28rem] sm:w-[28rem] lg:h-[36rem] lg:w-[36rem]"
             priority
           />
         </div>

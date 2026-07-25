@@ -41,6 +41,16 @@
   box-sizing: border-box;
 }
 
+/* Logo is authored black; invert to paper-white in dark mode, keep native
+   black in light mode. */
+.logo-mark {
+  filter: brightness(0) invert(1);
+}
+
+:root[data-theme="light"] .logo-mark {
+  filter: none;
+}
+
 html {
   -webkit-text-size-adjust: 100%;
 }

@@ -24,7 +24,7 @@ function Header() {
             alt=""
             width={32}
             height={32}
-            className="h-8 w-8 brightness-0 invert"
+            className="logo-mark h-11 w-11"
             priority
           />
           Mohammed Kenawy

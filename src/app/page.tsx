@@ -116,7 +116,7 @@ export default function Home() {
 
           <p className="mb-5">
             Between the army and now I built a Diagram Management System — an
-            air-gapped, on-premises archive for engineering diagrams, written
+             on-premises archive for engineering diagrams, written
             TypeScript end to end with a fully RTL Arabic interface. Its two
             load-bearing decisions were separating a diagram&apos;s identity
             from its files so the version history is immutable, and a

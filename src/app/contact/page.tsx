@@ -34,7 +34,7 @@ export default function Contact() {
       <PageOpening
         eyebrow="Colophon — get in touch"
         title="Building systems that outlive their builders."
-        lede="Open to full-stack and systems work around payroll, migrations, and data-intensive systems — and to Arabic-first work on on-premises, air-gapped archival. The clearest picture of how I work is the commit history, not a pitch."
+        lede="Open to full-stack and systems work around payroll, migrations, and data-intensive systems. The clearest picture of how I work is the commit history, not a pitch."
       />
 
       {/* Addresses on the left, the portrait plate in the right margin — the

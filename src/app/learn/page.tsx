@@ -26,7 +26,7 @@ const lessons: Lesson[] = [
   },
   {
     lesson: "Own the AI use; the SRS is the proof of authorship.",
-    cost: "One air-gapped DMS, specified before it was generated",
+    cost: "DMS, specified before it was generated",
     body: "I wrote the SRS and the ADRs, then directed coding agents against them. Hiding that would make the work look like everyone else's. Stating the workflow — and showing the specification — puts authorship above the tools.",
   },
 ];

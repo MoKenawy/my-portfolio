@@ -3,6 +3,7 @@ import PageShell from "@/components/PageShell/pageShell";
 import Figure from "@/components/Figure/figure";
 import ContactCTA from "@/components/ContactCTA/contactCta";
 import { flagship } from "@/lib/flagship";
+import { asset } from "@/lib/media";
 
 // Home / About — Level A, fully literary (design.md §6, §7). Sits outside the
 // read → learn → ship → document loop as the literary landing; the five-year
@@ -24,7 +25,7 @@ export default function Home() {
             </p>
           </div>
           <Image
-            src="/Logo.svg"
+            src={asset("/Logo.svg")}
             alt=""
             width={200}
             height={200}
@@ -140,7 +141,7 @@ export default function Home() {
         <div className="border-t border-hairline pt-6 lg:border-l lg:border-t-0 lg:pl-8">
           <Figure
             className="mb-9 max-w-[13rem]"
-            src="/figures/portrait-2024.jpg"
+            src={asset("/figures/portrait-2024.jpg")}
             alt="Mohammed Kenawy, photographed in 2024."
             caption="fig. 1 — 2024."
             width={821}

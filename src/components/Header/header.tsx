@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./themeToggle";
 import { navLinks } from "@/lib/nav";
+import { asset } from "@/lib/media";
 
 // Masthead — the top of a manuscript, not a hero (design.md §4).
 // The nav enacts the read → learn → ship → document loop; each item carries a
@@ -20,7 +21,7 @@ function Header() {
           className="flex items-center gap-3 font-serif text-2xl font-medium tracking-tight"
         >
           <Image
-            src="/Logo.svg"
+            src={asset("/Logo.svg")}
             alt=""
             width={32}
             height={32}

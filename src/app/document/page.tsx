@@ -45,7 +45,7 @@ const artifacts: Artifact[] = [
   {
     kind: "SRS + ADRs",
     title: "Diagram Management System — specification",
-    note: "A complete SRS and design models for the air-gapped DMS, with the implementation broken into task prompts for coding agents. Redacted excerpts available to serious enquirers — for this buyer, the documentation is the demo.",
+    note: "A complete SRS and design models for the DMS, with the implementation broken into task prompts for coding agents. Redacted excerpts available to serious enquirers — for this buyer, the documentation is the demo.",
     status: "Excerpts on request",
   },
   {

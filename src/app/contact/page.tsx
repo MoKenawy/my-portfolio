@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import PageShell, { PageOpening } from "@/components/PageShell/pageShell";
 import Figure from "@/components/Figure/figure";
+import { asset } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Contact — Mohammed Kenawy",
@@ -80,7 +81,7 @@ export default function Contact() {
 
         <Figure
           className="max-w-[17rem]"
-          src="/figures/portrait-2023.jpg"
+          src={asset("/figures/portrait-2023.jpg")}
           alt="Mohammed Kenawy, photographed in 2023."
           caption="fig. 1 — 2023."
           width={900}

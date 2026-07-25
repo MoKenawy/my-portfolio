@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PageShell, { PageOpening } from "@/components/PageShell/pageShell";
 import VideoFigure from "@/components/Figure/videoFigure";
 import { flagship } from "@/lib/flagship";
+import { asset } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Learn — Mohammed Kenawy",
@@ -89,7 +90,7 @@ export default function LearnPage() {
         <VideoFigure
           className="mt-10 max-w-2xl"
           videoId="qipesDc6O4A"
-          poster="/figures/teaching-ai-course.jpg"
+          poster={asset("/figures/teaching-ai-course.jpg")}
           title="Introduction to AI course — snippet"
           alt="A lecture slide titled “Branches of Artificial Intelligence” showing machine learning, deep learning, neural networks, natural language processing, expert systems, fuzzy logic, robotics, computer vision and cognitive computing around a central node, with the speaker in a corner webcam frame."
           caption="fig. 1 — introduction to AI, course snippet. the branches slide"

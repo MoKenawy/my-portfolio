@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import PageShell, { PageOpening } from "@/components/PageShell/pageShell";
 import Figure from "@/components/Figure/figure";
 import { flagship } from "@/lib/flagship";
+import { asset } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Read — Mohammed Kenawy",
@@ -203,7 +204,7 @@ export default function ReadPage() {
             Silberschatz in the 2023 register below. */}
         <Figure
           className="mt-10 max-w-2xl"
-          src="/figures/os-board-2023.jpg"
+          src={asset("/figures/os-board-2023.jpg")}
           alt="A whiteboard covered in handwritten operating-systems notes: definitions of an operating system and a command shell, an app–shell–kernel–hardware diagram, and a worked list of Linux commands."
           caption="fig. 1 — operating systems, 2023. app → shell → kernel → hardware, and the command set underneath it."
           width={1500}

@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 const channels = [
   {
     label: "Email",
-    value: "mohammedgamal2002@gmail.com",
-    href: "mailto:mohammedgamal2002@gmail.com",
+    value: "mokenawy.business@gmail.com",
+    href: "mailto:mokenawy.business@gmail.com",
   },
   {
     label: "GitHub",

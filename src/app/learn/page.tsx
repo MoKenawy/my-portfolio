@@ -23,11 +23,7 @@ const lessons: Lesson[] = [
     cost: "An HR system migration, done the harder way first",
     body: "Moving off MS Access, we led with the data migration. It cost more than we expected. Starting from the application layer would have shown us the whole system before we committed to a shape for the data. The failure had a consequence, so it counts as engineering rather than confession.",
   },
-  {
-    lesson: "Idempotency isn't free, and you notice when it's missing.",
-    cost: "A biometric attendance gateway, reconciled twice",
-    body: "The ZKTeco gateway needed dual-path reconciliation and idempotent deduplication before the numbers stopped drifting. Getting the same event twice has to be a non-event; designing for that up front is cheaper than repairing the ledger after.",
-  },
+
   {
     lesson: "Own the AI use; the SRS is the proof of authorship.",
     cost: "One air-gapped DMS, specified before it was generated",

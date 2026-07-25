@@ -52,15 +52,6 @@ function Projects() {
           },
         ]}
       />
-
-      <ProjectCard
-        title="Face Detection with OpenCV.js"
-        description="A web application that detects faces in images entirely in the browser."
-        tags={["Computer Vision", "Web"]}
-        overview="Uses OpenCV.js to detect faces in images. The application takes an image as input and returns the detected faces, running fully client-side."
-        tools={["OpenCV.js", "JavaScript", "HTML", "CSS"]}
-        meta={["Computer Vision", "Client-side", "2023"]}
-      />
     </>
   );
 }

@@ -18,6 +18,15 @@ type Entry = {
   note: string;
 };
 
+// Back to basics — the textbook register from the academic years. `revisit`
+// marks the ones still pulled off the shelf; the rest were read in parts.
+type Basic = {
+  title: string;
+  author: string;
+  year: string;
+  revisit?: boolean;
+};
+
 const reading: Entry[] = [
   {
     title: "Designing Data-Intensive Applications",
@@ -38,6 +47,114 @@ const reading: Entry[] = [
     note: "In 2022 this was my identity — I was the clean-code guy. I still value it, but the lesson since is that clean code alone is not good enough; the system around it has to be right too.",
   },
 ];
+
+const basics: Basic[] = [
+  {
+    title: "Discrete Mathematics",
+    author: "Seymour Lipschutz, Marc Lipson",
+    year: "2021",
+  },
+    {
+    title: "Systems Analysis and Design",
+    author: "Alan Dennis, Barbara Haley Wixom, Roberta M. Roth",
+    year: "2022",
+    revisit: true
+  },
+  { title: "Digital Fundamentals", author: "Thomas L. Floyd", year: "2022" },
+
+  { title: "Pattern Classification", author: "Richard O. Duda", year: "2022" },
+  {
+    title: "Computer Organization and Architecture",
+    author: "William Stallings",
+    year: "2022",
+  },
+  { title: "Clean Code", author: "Robert C. Martin", year: "2022" },
+    {
+    title: "Software Engineering",
+    author: "Ian Sommerville",
+    year: "2023",
+    revisit: true,
+  },
+  {
+    title: "Fundamentals of Database Systems",
+    author: "Ramez Elmasri",
+    year: "2023",
+    revisit: true,
+  },
+    {
+    title: "Operating System Concepts",
+    author: "Abraham Silberschatz",
+    year: "2023",
+    revisit: true,
+  },
+  {
+    title: "Human–Computer Interaction",
+    author: "Alan Dix",
+    year: "2023",
+    revisit: true,
+  },
+
+  {
+    title: "Introduction to Java Programming and Data Structures",
+    author: "Y. Daniel Liang",
+    year: "2023",
+  },
+  {
+    title: "Introduction to Algorithms",
+    author: "Thomas H. Cormen",
+    year: "2023",
+  },
+  {
+    title: "Data Communications and Networking",
+    author: "Behrouz A. Forouzan",
+    year: "2023",
+    revisit: true,
+  },
+  {
+    title: "Prolog Programming for Artificial Intelligence",
+    author: "Ivan Bratko",
+    year: "2023",
+  },
+
+  {
+    title: "Artificial Intelligence: A Modern Approach",
+    author: "Stuart J. Russell, Peter Norvig",
+    year: "2024",
+  },
+  {
+    title: "Computer Security: Principles and Practice",
+    author: "William Stallings, Lawrie Brown",
+    year: "2024",
+  },
+  {
+    title: "Digital Image Processing",
+    author: "Rafael C. Gonzalez",
+    year: "2024",
+    revisit: true,
+  },
+  {
+    title: "Computer Vision: A Modern Approach",
+    author: "David A. Forsyth",
+    year: "2024",
+  },
+  {
+    title: "Compilers: Principles, Techniques, and Tools",
+    author: "Alfred V. Aho, Monica S. Lam, Ravi Sethi, Jeffrey D. Ullman",
+    year: "2024",
+  },
+  {
+    title: "Introduction to Data Compression",
+    author: "Khalid Sayood",
+    year: "2024",
+    revisit: true,
+  },
+];
+
+// Newest year first — the register reads backwards, most recent at the top.
+const basicsYears = basics
+  .map(({ year }) => year)
+  .filter((year, i, all) => all.indexOf(year) === i)
+  .sort((a, b) => Number(b) - Number(a));
 
 export default function ReadPage() {
   return (
@@ -65,6 +182,55 @@ export default function ReadPage() {
           </article>
         ))}
       </div>
+
+      {/* Back to basics — the academic-years register. Set in the manuscript
+          hand: mono year rails, serif titles, revisited books held at full ink. */}
+      <section className="mt-20">
+        <p className="mono mb-5">Back to basics · the academic years</p>
+        <h2 className="max-w-[20ch] font-serif text-3xl leading-tight sm:text-4xl">
+          The textbooks underneath.
+        </h2>
+        <hr className="flourish mt-6" />
+        <p className="prose-measure mt-6 font-serif text-lg text-paper">
+          All of it was additional study — read beside the coursework, not
+          inside it. The titles held at full weight are the ones I still revisit;
+          the rest I read in chapters, enough to carry the shape of the field.
+        </p>
+
+        <div className="mt-12 border-t border-hairline">
+          {basicsYears.map((year) => (
+            <div
+              key={year}
+              className="grid grid-cols-1 gap-x-10 border-b border-hairline py-8 sm:grid-cols-[6rem_minmax(0,1fr)]"
+            >
+              <p className="mono pt-1">{year}</p>
+              <ul className="mt-4 space-y-5 sm:mt-0">
+                {basics
+                  .filter((book) => book.year === year)
+                  .map(({ title, author, revisit }) => (
+                    <li key={title}>
+                      <p
+                        className={
+                          revisit
+                            ? "font-serif text-xl leading-snug text-paper"
+                            : "font-serif text-xl leading-snug text-mid"
+                        }
+                      >
+                        {title}
+                        {revisit && (
+                          <span className="mono ml-3 align-middle">
+                            revisited
+                          </span>
+                        )}
+                      </p>
+                      <p className="mono mt-1 normal-case text-mid">{author}</p>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
 
       {/* Cross-link to the flagship — the theory it draws on (design.md §10.3). */}
       <section className="mt-12 border-b border-hairline pb-9">

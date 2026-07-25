@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./themeToggle";
@@ -16,8 +17,16 @@ function Header() {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-8 gap-y-4 px-5 py-5 sm:px-8">
         <Link
           href="/"
-          className="font-serif text-2xl font-medium tracking-tight"
+          className="flex items-center gap-3 font-serif text-2xl font-medium tracking-tight"
         >
+          <Image
+            src="/Logo.svg"
+            alt=""
+            width={32}
+            height={32}
+            className="h-8 w-8 brightness-0 invert"
+            priority
+          />
           Mohammed Kenawy
         </Link>
 

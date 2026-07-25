@@ -1,3 +1,4 @@
+import Image from "next/image";
 import PageShell from "@/components/PageShell/pageShell";
 import Figure from "@/components/Figure/figure";
 import ContactCTA from "@/components/ContactCTA/contactCta";
@@ -12,13 +13,25 @@ export default function Home() {
     <PageShell>
       {/* Opening — a page of an essay, not a hero. */}
       <section className="pt-20 sm:pt-28">
-        <p className="mono mb-5">An account of the work · 2022 — present</p>
-        <h1 className="max-w-[15ch] font-serif text-5xl leading-[1.05] sm:text-7xl">
-          You don&apos;t ship code, you ship understanding made durable.
-        </h1>
-        <p className="mt-5 max-w-[46ch] font-serif text-xl italic text-paper sm:text-2xl">
-          Mohammed Kenawy — an early-career full-stack engineer in Egypt.
-        </p>
+        <div className="flex items-start justify-between gap-8">
+          <div>
+            <p className="mono mb-5">An account of the work · 2022 — present</p>
+            <h1 className="max-w-[15ch] font-serif text-5xl leading-[1.05] sm:text-7xl">
+              You don&apos;t ship code, you ship understanding made durable.
+            </h1>
+            <p className="mt-5 max-w-[46ch] font-serif text-xl italic text-paper sm:text-2xl">
+              Mohammed Kenawy — an early-career full-stack engineer in Egypt.
+            </p>
+          </div>
+          <Image
+            src="/Logo.svg"
+            alt=""
+            width={200}
+            height={200}
+            className="hidden shrink-0 brightness-0 invert sm:block sm:h-[28rem] sm:w-[28rem] lg:h-[36rem] lg:w-[36rem]"
+            priority
+          />
+        </div>
         <hr className="flourish mt-8" />
       </section>
 

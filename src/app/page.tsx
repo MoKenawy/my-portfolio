@@ -14,7 +14,7 @@ export default function Home() {
     <PageShell>
       {/* Opening — a page of an essay, not a hero. */}
       <section className="pt-20 sm:pt-28">
-        <div className="flex items-start justify-between gap-8">
+        <div className="flex flex-col items-start justify-between gap-8 sm:flex-row">
           <div>
             <p className="mono mb-5">An account of the work · 2022 — present</p>
             <h1 className="max-w-[15ch] font-serif text-5xl leading-[1.05] sm:text-7xl">
@@ -29,7 +29,7 @@ export default function Home() {
             alt=""
             width={200}
             height={200}
-            className="logo-mark hidden shrink-0 sm:block sm:h-[28rem] sm:w-[28rem] lg:h-[36rem] lg:w-[36rem]"
+            className="logo-mark h-40 w-40 shrink-0 sm:h-[28rem] sm:w-[28rem] lg:h-[36rem] lg:w-[36rem]"
             priority
           />
         </div>

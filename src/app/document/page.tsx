@@ -20,7 +20,21 @@ type Artifact = {
   status?: string;
 };
 
+// The published decision records live in-tree and are linked on GitHub rather
+// than re-rendered here: the repo shows the tables and the mermaid flow without
+// a markdown dependency, and — more to the point — it carries the commit history
+// behind each file. Renaming identifiers cost these records their verifiability;
+// the history is what gives it back.
+const RECORDS = "https://github.com/MoKenawy/my-portfolio/blob/main/Docs/publish";
+
 const artifacts: Artifact[] = [
+  {
+    kind: "Architecture decision records",
+    title: "Five decisions from an HR & payroll platform",
+    note: "Written while modernising a legacy MS Access system: how a queued job survives the process that enqueued it dying, when deduplicating forever serves stale data, who may read an operation another user created, and how payroll recalculation regenerates its own output without destroying a manual edit. One of them exists because it caught an earlier record claiming durability nothing in the design delivered. Table and column names are renamed; the decisions, the rejected options, and the consequences are not.",
+    href: `${RECORDS}/README.md`,
+    hrefLabel: "Read the records",
+  },
   {
     kind: "Documentation-as-teaching",
     title: `${flagship.titleAr} — concept appendix`,

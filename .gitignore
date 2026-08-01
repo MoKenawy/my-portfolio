@@ -34,4 +34,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Docs/ holds internal strategy and the employer's own documentation set —
+# none of it ships. The one exception is Docs/publish/, the redacted records
+# the Document page links to; those are public by intent.
 Docs/*
+!Docs/publish/

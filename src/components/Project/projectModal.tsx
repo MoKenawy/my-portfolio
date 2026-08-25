@@ -14,6 +14,8 @@ interface ProjectModalProps {
   onOpenChange: (open: boolean) => void;
   trigger: React.ReactNode;
   title: string;
+  /** The turn the card doesn't have room for — what explains the problem. */
+  insight: string;
   overview: string;
   tools?: string[];
   images?: ProjectImage[];
@@ -26,6 +28,7 @@ export default function ProjectModal({
   onOpenChange,
   trigger,
   title,
+  insight,
   overview,
   tools = [],
   images = [],
@@ -52,8 +55,14 @@ export default function ProjectModal({
 
           <hr className="flourish mt-4" />
 
+          {/* The insight leads the long read — it's the beat the card omits,
+              and the one that explains why the solution took the shape it did. */}
+          <p className="prose-measure mt-6 font-serif text-xl italic text-mid">
+            {insight}
+          </p>
+
           <Dialog.Description asChild>
-            <p className="prose-measure mt-6 font-serif text-lg text-paper">
+            <p className="prose-measure mt-5 font-serif text-lg text-paper">
               {overview}
             </p>
           </Dialog.Description>

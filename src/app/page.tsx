@@ -1,9 +1,28 @@
 import Image from "next/image";
+import Link from "next/link";
 import PageShell from "@/components/PageShell/pageShell";
 import Figure from "@/components/Figure/figure";
 import ContactCTA from "@/components/ContactCTA/contactCta";
 import { flagship } from "@/lib/flagship";
 import { asset } from "@/lib/media";
+
+// One beat of the decision spine: a mono label in the left rail, the message
+// itself at the reading measure. The register grid from Read's basics list, so
+// the spine reads as another page of the same manuscript rather than a widget.
+function Beat({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="grid grid-cols-1 gap-x-10 gap-y-3 border-b border-hairline py-8 sm:grid-cols-[11rem_minmax(0,1fr)]">
+      <p className="mono pt-1">{label}</p>
+      <div className="prose-measure">{children}</div>
+    </div>
+  );
+}
 
 // Home / About — Level A, fully literary (design.md §6, §7). Sits outside the
 // read → learn → ship → document loop as the literary landing; the five-year
@@ -23,6 +42,14 @@ export default function Home() {
             <p className="mt-5 max-w-[46ch] font-serif text-xl italic text-paper sm:text-2xl">
               Mohammed Kenawy — an early-career full-stack engineer in Egypt.
             </p>
+            {/* The ask, in the opening rather than 3,000 words below it: the
+                reader learns what this page wants from them at the masthead. */}
+            <Link
+              href="/contact"
+              className="mono mt-6 inline-block normal-case underline decoration-hairline underline-offset-4 transition-colors hover:text-paper hover:decoration-paper"
+            >
+              Hire one engineer who owns it end to end — and documents it. →
+            </Link>
           </div>
           <Image
             src={asset("/Logo.svg")}
@@ -36,9 +63,66 @@ export default function Home() {
         <hr className="flourish mt-8" />
       </section>
 
+      {/* The decision spine — one promise, three messages. It sits above the
+            essay so a skim meets problem → solution → evidence first, and the
+            long account below becomes the reward for an engaged reader rather
+            than the first thing anyone hits (design.md §6). A reader can stop
+            here and act; the essay is the depth underneath. */}
+      <section className="mt-16">
+        <p className="mono mb-5">The promise</p>
+        <h2 className="prose-measure font-serif text-3xl leading-snug sm:text-4xl">
+          I build the systems that have to be right — and leave them documented
+          well enough that the next person inherits them, not reverse-engineers
+          them.
+        </h2>
+        <hr className="flourish mt-7" />
+
+        <div className="mt-10 border-t border-hairline">
+          <Beat label="Why now — the problem">
+            <p className="font-serif text-lg text-paper">
+              When a payroll run is wrong or a migration loses data, you find
+              out in production, in front of the people it affects. Most
+              engineers can&apos;t show you they&apos;ve built for that case
+              before.
+            </p>
+          </Beat>
+
+          <Beat label="How it works — the solution">
+            <p className="font-serif text-lg text-paper">
+              You get one engineer who owns the whole path — analysis to
+              deployment — and hands back not just working software but the
+              specification and decision record that let your team maintain it
+              without me.
+            </p>
+          </Beat>
+
+          <Beat label="Why believe — the evidence">
+            <p className="font-serif text-lg text-paper">
+              Everything I claim is inspectable: public commit history, a real
+              SRS you can read, recordings of the systems running. You
+              don&apos;t have to trust a pitch — you can check the work.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <Link
+                href="/ship"
+                className="mono inline-block border border-hairline px-4 py-3 text-mid transition-colors hover:border-paper hover:text-paper"
+              >
+                See what I&apos;ve shipped →
+              </Link>
+              <Link
+                href="/contact"
+                className="mono inline-block border border-paper bg-paper px-4 py-3 normal-case text-ground transition-colors hover:bg-transparent hover:text-paper"
+              >
+                Write to me →
+              </Link>
+            </div>
+          </Beat>
+        </div>
+      </section>
+
       {/* Flagship, surfaced immediately (design.md §10.3) — a prose lead-in,
             not a card. The fastest way to grasp the whole identity at once. */}
-      <section className="mt-14 border-y border-hairline py-10">
+      <section className="mt-16 border-y border-hairline py-10">
         <p className="mono mb-4">Flagship — filed under Learn</p>
         <div className="grid grid-cols-1 gap-x-12 gap-y-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div className="prose-measure">
@@ -70,8 +154,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Asymmetric spread — prose body + right reading margin. */}
-      <div className="mt-16 grid grid-cols-1 gap-x-16 gap-y-10 lg:grid-cols-[minmax(0,1fr)_260px]">
+      {/* Asymmetric spread — prose body + right reading margin. Unchanged, but
+            now labelled as optional depth: the spine above carries the decision,
+            this carries the account. */}
+      <p className="mono mt-16">The longer account ↓</p>
+      <div className="mt-8 grid grid-cols-1 gap-x-16 gap-y-10 lg:grid-cols-[minmax(0,1fr)_260px]">
         <article className="prose-measure font-serif text-lg">
           <p className="mb-5 text-xl italic text-mid">
             &ldquo;No, not good enough — yet.&rdquo;
@@ -97,12 +184,17 @@ export default function Home() {
           </p>
 
           <p className="mb-5">
-            What came after was where the work got interesting. A deterministic
-            payroll engine with retroactive recalculation, which became my entry
-            into fintech and double-entry ledgers. A metadata-driven reporting
-            and export subsystem — BullMQ queues, Redis, background workers,
+            What came after was where the work got interesting. The Access
+            migration turned out to be the first module of a larger ERP
+            digital transformation for the company, and I stayed on to build
+            the rest of it: a deterministic payroll engine with retroactive
+            recalculation, which became my entry into fintech and
+            double-entry ledgers; a metadata-driven reporting and export
+            subsystem — BullMQ queues, Redis, background workers,
             notifications over SSE, and enough failure modes to justify chaos
-            testing it. None of it is glamorous. All of it has to be right.
+            testing it; and the HR department system itself, the record of
+            people the payroll and reporting modules both read from. None of
+            it is glamorous. All of it has to be right.
           </p>
 
           <p className="mb-5">

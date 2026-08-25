@@ -13,7 +13,7 @@ export default function ShipLayout({
       <PageOpening
         eyebrow="Ship — selected shipments"
         title="Systems I built, and what they cost."
-        lede="Selected builds and shipped systems, documented as a ledger of engineering effort rather than a gallery. Each opens with the work itself and the lesson it taught."
+        lede="Selected builds and shipped systems, documented as a ledger of engineering effort rather than a gallery. Each opens with the problem it existed to solve, and closes on the evidence that it worked."
       />
 
       {/* Hairline-separated case-study list — no cards, no grid of tiles. */}

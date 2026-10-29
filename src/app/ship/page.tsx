@@ -99,7 +99,68 @@ function Projects() {
   return (
     <>
       {/* Ongoing work at the head of the ledger — the index reads newest
-          first, so a reader meets what I'm building now before what I built. */}
+          first, so a reader meets what I'm building now before what I built.
+          The two DEPI projects lead: the capstone, then the track project. */}
+      {/* The repository is private, so this entry carries no link — the proof
+          is described, and says so, rather than pointed at. */}
+      <ProjectCard
+        title="Agentic PR Reviewer"
+        problem="An AI code reviewer that reads its findings out of the model's prose can fail without anyone noticing. When the parse comes back empty, a broken run and a clean review look exactly the same."
+        insight="The model needs agency in only one step. Collecting the change, budgeting the prompt, validating what comes back and writing the report can all be a fixed pipeline. The one step where the model does act can be narrowed to a tool call, which a schema either accepts or rejects."
+        solution="A command-line reviewer for TypeScript and JavaScript changes. It reviews uncommitted work, a branch range, or a public GitHub pull request by URL, read-only. The review is one model pass through a LangGraph agent. A finding enters only as an emit_finding tool call, validated against a Pydantic schema that also generates the JSON Schema and the tool schema. The run allows at most one repair turn and one retry on a rate limit, and a prompt over its token budget is refused rather than cut. Every failure ends in a report, never in a silent “clean” result. Output is a terminal summary, a JSON report and a self-contained HTML report, with exit codes that tell a script what happened."
+        evidence="The repository is private for now, so this is described rather than linked. A versioned requirements specification (v1.7, with a requirements audit) and eleven architecture decision records came before and alongside the code. CI runs on every push and pull request on Linux and Windows, Python 3.12 and 3.13. The latest run passed 427 offline tests and 6 import-linter contracts that keep the core package free of LangChain and LangGraph. The tests block the network and use a scripted stand-in model, and a planted canary credential checks that no output leaks it."
+        tags={["AI Agents", "LLM Engineering", "Python"]}
+        overview="My DEPI capstone for the AI for Software Engineers track, where I was the sole software engineer. It is a command-line code reviewer for TypeScript and JavaScript changes that accepts AI findings only as schema-validated tool calls, never by parsing the model's prose, and reports every failure instead of hiding it. If the model never calls the finding tool, the report says so. The decision records set the shape: a fixed pipeline where the model has agency in one step; findings as validated tool calls; a local CLI core, with a future GitHub Action as an adapter; a Python harness reviewing a TypeScript target; and a framework-free core package, with LangChain and LangGraph allowed only in the agents layer, enforced by import-linter in CI. Langfuse supplies the managed system prompt, with a built-in fallback, and a render command re-renders a saved report. The first working version is built and merged, and the later stages are not built yet. It reads a public pull request from the command line; it does not post to one."
+        tools={[
+          "Python",
+          "LangGraph",
+          "Langfuse",
+          "Pydantic",
+          "Typer",
+          "Jinja2",
+          "PyTest",
+          "import-linter",
+          "uv",
+          "GitHub Actions",
+        ]}
+        meta={["AI agents", "DEPI Capstone", "Sole software engineer", "Active"]}
+      />
+
+      <ProjectCard
+        title="PDF2Deck Agent"
+        problem="Turning a PDF chapter into a slide deck is mostly transcription: headings into titles, paragraphs into bullets, figures carried across one at a time. Handing all of it to a model swaps the transcription for a different problem, an outline and a layout accepted unseen."
+        insight="The model is only needed for the semantic step, deciding what the outline is. Extraction, validation, style and rendering are ordinary deterministic Python. The two points where judgement matters, the outline and the finished deck, are where a person should approve, not where the model should guess."
+        solution="A LangGraph state machine: validate the input, extract the PDF, build the outline, wait for human approval, map the style, render the PPTX, validate it, wait for approval again. Both checkpoints use LangGraph's interrupt() with checkpointing, and a Gradio UI resumes the run with the reviewer's decision. Figures come out of the PDF with their page position, decoration is dropped, and the model picks at most one image per slide, which the renderer places beside the bullets."
+        evidence="The repository is public, with five design decision records, an issue log of ten problems found while debugging the review flow, and an annotated UI guide. The demo video is a test run: chapter 1 of OpenStax's Concepts of Biology, through both approvals, to a styled deck."
+        tags={["AI Agents", "LLM Engineering", "Python"]}
+        overview="A track project inside the DEPI AI for Software Engineers track, built by me as the sole software engineer. It turns a PDF into a PowerPoint deck and pauses for a person to approve the outline and the finished deck. The LLM does only the semantic work, a structured-output outline; ordinary Python owns PDF extraction, validation, style mapping and rendering with python-pptx, and that split is recorded as a design decision. An optional first and last page narrow the input while keeping the original page numbers. Style comes from a JSON preferences file (colours, fonts, type scale, slide size, tone, density), which the UI can generate from an existing PowerPoint template. It works with any OpenAI-compatible endpoint."
+        tools={[
+          "Python",
+          "LangGraph",
+          "LangChain",
+          "Pydantic",
+          "Gradio",
+          "pypdf",
+          "python-pptx",
+        ]}
+        meta={[
+          "AI agents",
+          "DEPI Track Project",
+          "Sole software engineer",
+          "Oct 2026",
+        ]}
+        links={[
+          {
+            name: "GitHub",
+            url: "https://github.com/MoKenawy/pdf2deck-agent",
+          },
+          {
+            name: "Demo video",
+            url: "https://drive.google.com/file/d/1uawnigtD5zGxpa5VG-PiQdWk6DqU9cnA/view",
+          },
+        ]}
+      />
+
       <ProjectCard
         title="Automated Job Discovery & Intelligence Pipeline"
         problem="A job search is mostly reading. The same role is posted on four platforms under three titles, most of what you open doesn't match the CV you'd send it, and finding that out costs an evening of closing tabs rather than an evening of applying."

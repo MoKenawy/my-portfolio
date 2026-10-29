@@ -18,7 +18,7 @@ Through this project I fell in love with computer vision — and discovered a pa
 
 Late that year I tried teaching for real — AI courses — and the students' feedback was great. Now I know it: I love teaching.
 
-Around the same time I joined the first round of the **DEPI — AWS Machine Learning Engineer** program, and came out of it with **SympAI**: a healthcare chatbot that helps users describe their symptoms and get preliminary medical guidance. I built the full-stack with FastAPI on top of medical language models (BioMistral 7B and Meditron 7B) with multi-turn conversations via LangChain, a Next.js frontend, everything Dockerized and deployed on AWS — EC2 behind an API Gateway and Load Balancer, with the frontend on Amplify with CI/CD.
+Around the same time I joined the first round of the **DEPI — AWS Machine Learning Engineer** program (January 2025), and came out of it with **SympAI**: a healthcare chatbot that helps users describe their symptoms and get preliminary medical guidance. I built the full-stack with FastAPI on top of medical language models (BioMistral 7B and Meditron 7B) with multi-turn conversations via LangChain, a Next.js frontend, everything Dockerized and deployed on AWS — EC2 behind an API Gateway and Load Balancer, with the frontend on Amplify with CI/CD.
 
 ## 2025 — The Army: A Leader by Surprise
 
@@ -65,6 +65,14 @@ And on the margins, deeper lessons:
 - I felt I was **late to the AI race** — so I decided not to watch from the sidelines: I experimented with agentic AI workflows and several coding agents (Antigravity, Codex, Cursor, Claude).
 - I felt — practically, this time — **the importance of testing**.
 - And finally I had time to think about **design** itself, starting a deeper journey with data: reading *Designing Data-Intensive Applications* by Martin Kleppmann, and thinking about **scaling** the system.
+
+## July – November 2026 — DEPI Again: AI for Software Engineers
+
+In July I went back to the **Digital Egypt Pioneers Initiative (DEPI)**, run by Egypt's Ministry of Communications and IT (MCIT), this time on the Industry (Professionals) track, as an **AI for Software Engineers** trainee: 140 hours, from 10 July to 5 November 2026, in two tracks, *Fundamentals of Agentic AI* and *Fundamentals of Entrepreneurship*.
+
+The capstone is the **Agentic PR Reviewer**, and I'm its sole software engineer. It's a command-line code reviewer for TypeScript and JavaScript changes that accepts AI findings only as **schema-validated tool calls**, never by parsing the model's prose, and reports every failure instead of hiding it. I wrote the specification first, a versioned requirements spec and **architecture decision records**, and the core rule is enforced by tooling: a framework-free core, with LangChain and LangGraph allowed only in the agents layer, checked by import-linter in CI. The first working version is built and merged; the later stages are not built yet.
+
+Inside the track there was a smaller project too: **PDF2Deck Agent**, which turns a PDF into a PowerPoint deck and pauses for a person to approve the outline and the finished deck. The LLM does only the semantic work, the outline; ordinary, deterministic Python does the extraction, validation, style mapping and rendering. Same idea as the capstone, from a different side: give the model the one step that needs it, and keep a human where judgement matters.
 
 ---
 

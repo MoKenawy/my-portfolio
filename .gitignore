@@ -39,3 +39,7 @@ next-env.d.ts
 # the Document page links to; those are public by intent.
 Docs/*
 !Docs/publish/
+
+# Claude Code session-local config: the dev-server launch entry and any
+# permission settings. Machine-local tooling, not site content.
+.claude/

@@ -7,7 +7,7 @@ import Providers from "./providers";
 export const metadata: Metadata = {
   title: "Mohammed Kenawy — Full-stack Engineer",
   description:
-    "full-stack engineer working on payroll, migrations, and systems that outlive their builders. Node.js, TypeScript, SQL Server, and a five-year account of the work.",
+    "full-stack engineer working on payroll, migrations, and systems that outlive their builders. Node.js, TypeScript, SQL Server and Oracle, agent pipelines in Python, and a five-year account of the work.",
 };
 
 export default function RootLayout({

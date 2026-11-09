@@ -63,7 +63,7 @@ Do not hide the use of coding agents — concealment makes the work look like ev
 
 ### 2.7 Experience framing
 
-Current industry experience is approximately six months. The brand sells trajectory and depth of thinking, never seniority. Permitted framings: "early-career," "full-stack engineer," the five-year narrative arc. Forbidden framings: "senior," "expert," years-of-experience inflation, or any title the CV cannot defend in an interview.
+Current industry experience is approximately one year (Nov 2025 — present; updated 2026-11-09). The brand sells trajectory and depth of thinking, never seniority. Permitted framings: "early-career," "full-stack engineer," the five-year narrative arc. Forbidden framings: "senior," "expert," years-of-experience inflation, or any title the CV cannot defend in an interview.
 
 ---
 

@@ -174,8 +174,8 @@ export default function Home() {
           </p>
 
           <p className="mb-5">
-            The lesson I paid for most recently, and most literally: data
-            migrations cost more than you think. On my first industry team —
+            The lesson I paid for most literally: data migrations cost more
+            than you think. On my first industry team —
             small enough that &ldquo;full-stack engineer&rdquo; meant planning,
             analysis, design, testing, and deployment too — we moved an HR and
             personnel system off MS Access. It might have been better to start
@@ -193,8 +193,13 @@ export default function Home() {
             subsystem — BullMQ queues, Redis, background workers,
             notifications over SSE, and enough failure modes to justify chaos
             testing it; and the HR department system itself, the record of
-            people the payroll and reporting modules both read from. None of
-            it is glamorous. All of it has to be right.
+            people the payroll and reporting modules both read from. Then, at
+            the other end of the risk scale, the company&apos;s entire database
+            off SQL Server and onto Oracle — a transactional table of more than
+            two million rows, with cleansing and validation either side of the
+            crossing. That is the second migration in this account, and the one
+            I would least like to repeat. None of it is glamorous. All of it has
+            to be right.
           </p>
 
           <p className="mb-5">
@@ -271,7 +276,7 @@ export default function Home() {
             <div>
               <span className="mono mb-2 block">Framing</span>
               <p className="font-mono text-xs leading-relaxed text-mid">
-                ~6 months in industry.
+                ~1 year in industry.
                 <span className="block">Trajectory over seniority.</span>
               </p>
             </div>

@@ -95,9 +95,172 @@ const drivewiseVideos: ProjectVideo[] = [
   },
 ];
 
+// The employment facts, which the index had nowhere to put: a reader landing
+// on the primary destination should not have to infer from an essay where I
+// work and what I own there. Set as a band at the head of the ledger, in the
+// same register grid as a project entry — mono rail on the right, prose at the
+// measure — so it reads as the first page of the section rather than a résumé
+// header bolted on. The scope that has no entry of its own below lives here;
+// the three systems that earned entries follow it.
+function ThePost() {
+  return (
+    <section className="grid grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]">
+      <div className="prose-measure">
+        <p className="mono">The post</p>
+        <h2 className="mt-2 font-serif text-3xl leading-tight">
+          Fullstack Engineer, Queen Service
+        </h2>
+        <p className="mt-3 font-serif text-lg text-paper">
+          Primary engineer on the HR and payroll arm of a company-wide ERP
+          digital transformation — the replacement of a legacy MS Access
+          platform. The team was small enough that the title covered the whole
+          path: the requirements research, the architecture, the implementation,
+          the database underneath it, the deployment, and the specification the
+          rest of the team built from.
+        </p>
+
+        <p className="mono mt-7">The rest of the post</p>
+        <p className="mt-2 font-serif text-lg text-paper">
+          Requirements elicitation run as actual research — four structured
+          stakeholder interviews, observation of users in their own working
+          environment, and a beta programme of task-based usability sessions
+          with screen recording, behavioural pattern analysis and surveys, which
+          changed the interface that shipped. A configurable RBAC model with JWT
+          authentication, where a role&apos;s permissions are reconfigured
+          without a deployment. A schema re-architecture that introduced the
+          primary and foreign keys and constraints the inherited database never
+          had, resolved its orphaned rows, and retired the legacy tables nothing
+          used. And the SRS and decision records the team built from, teammates
+          onboarded onto the architecture, and their pull requests reviewed on
+          Gitea.
+        </p>
+      </div>
+
+      <div className="text-left sm:text-right">
+        {[
+          "Queen Service",
+          "Cairo, Egypt",
+          "Nov 2025 — present",
+          "First industry role",
+        ].map((line) => (
+          <p key={line} className="font-mono text-xs leading-relaxed text-mid">
+            {line}
+          </p>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Projects() {
   return (
     <>
+      <ThePost />
+
+      {/* The three systems from the post that earned an entry of their own.
+          Each closes on the published decision records where there are any —
+          the platform itself is my employer's and cannot be linked, so the
+          redacted ADRs are the only part a stranger can actually go and read. */}
+      <ProjectCard
+        title="Payroll engine"
+        problem="Payroll has no acceptable error rate: every figure is a legal obligation to a named person. The legacy platform could run a payroll but could not reproduce one — once an employee's grade, department or tax band had moved on, the run that paid them last March was no longer regenerable, and a dispute had nothing to be settled against."
+        insight="Recomputing from current data is the obvious answer and the wrong one, because the run has to reproduce the state as it was rather than as it is. That makes payroll a problem about modelling time, not about arithmetic — and the dated events that make it hard (a promotion effective mid-month, a transfer corrected after the fact) are produced by the employee subsystem underneath it. The two could not be designed separately."
+        solution="A deterministic engine over the HR subsystem I built first: the same inputs always produce the same outputs, across overtime, deductions and taxes for roughly 15,000 employees. Every run is backed by transaction history and an auditable change log, so a prior payroll stays reproducible after the data beneath it has changed. A recalculation replaces only the rows it generated itself, so a payroll officer's manual correction survives a rerun instead of being silently overwritten. Underneath sits the employee record the whole platform reads from — the full lifecycle of hiring, promotion, demotion and transfer, with banking details, dependants, positions and roles."
+        evidence="Two of the decision records behind it are published, redacted: ADR-P02 on safe recalculation by row origins, which is the mechanism that keeps a manual edit alive through a rerun, and ADR-P01 on resolving monthly identity through a manifest when the legacy period key is opaque. Table and column names are renamed; the decisions, the rejected options and the consequences are not, and the commit history behind each file is intact. The platform itself belongs to my employer and is not linkable."
+        tags={["Payroll", "Auditability", "Node.js"]}
+        overview="The flagship of the ERP work and the system I would want to be asked about. Payroll is unusual in that correctness is not a quality bar but the entire specification — 'mostly right' is a defect — and the requirement that shaped the design was reproducibility: a run from six months ago must be regenerable exactly, after the employees in it have been promoted, transferred, or had their tax band changed. Recomputing from today's data gives a different and wrong answer, so the engine reproduces the state as it stood. The second hard requirement is retroactive recalculation. The HR subsystem below it manages employee lifecycle events, and every one of them changes pay as of a date and can be corrected after the fact — which means a closed period sometimes has to be recomputed. A recalculation has to overwrite its own prior output while preserving a human override applied on top of it; get it wrong in one direction and you discard a payroll officer's correction, in the other and you refuse to recompute at all. The answer was to track the origin of every row and replace only the generated ones. The HR subsystem was built first, deliberately: nothing above it can be correct until the record of people is."
+        tools={[
+          "Node.js",
+          "Express",
+          "TypeScript",
+          "Prisma",
+          "Microsoft SQL Server",
+          "React",
+        ]}
+        meta={[
+          "Queen Service",
+          "~15,000 employees",
+          "In production",
+          "2025 — present",
+        ]}
+        links={[
+          {
+            name: "ADR-P02 — recalculation safety",
+            url: "https://github.com/MoKenawy/my-portfolio/blob/main/Docs/publish/adr-p02-recalculation-safety-row-origins.md",
+          },
+          {
+            name: "ADR-P01 — legacy period key",
+            url: "https://github.com/MoKenawy/my-portfolio/blob/main/Docs/publish/adr-p01-opaque-legacy-key-manifest.md",
+          },
+        ]}
+      />
+
+      <ProjectCard
+        title="Reporting & export subsystem"
+        problem="Every new report in the legacy platform needed a developer. Someone who wanted the same figures grouped a different way filed a request and waited, and what they eventually got was a report a developer had understood second-hand."
+        insight="The queue of requests is the symptom; the cause is that reports were code. If a report definition is data, the person who needs the report is the person who can make it, and the developer leaves the loop entirely. That turned out to be the instinct running through the whole platform — the work a developer does most often and values least is exactly the work the business should be able to do without one."
+        solution="A metadata-driven subsystem where users create, update and remove report definitions from the dashboard: twenty report types delivered, and changing one needs no deployment. Export to Excel, PDF and Word runs through Gotenberg on BullMQ worker queues backed by Redis, so a large export never holds the web tier, and Server-Sent Events push progress back to the user while it runs."
+        evidence="Three of its decision records are published, redacted. ADR-006 argues enqueue reliability down to a reconciliation sweep rather than a transactional outbox, and states plainly what that costs. ADR-008 sets idempotency dedupe scope per operation — a global unique index for immutable output, a filtered one for anything freshness-windowed. ADR-007 scopes an async operation resource to its owner and re-checks module permission on read. One of the five published records exists only because it caught an earlier one claiming a durability guarantee the design did not actually deliver; the correction is in the history rather than folded quietly into the original."
+        tags={["Background workers", "Reporting", "Node.js"]}
+        overview="The subsystem that taught me most about failure modes. The design decision is the one in the first line — report definitions are rows, not code — and everything else follows from exports being slow, large, and therefore asynchronous. A long export cannot run inside a request, so it runs on a queue; once it runs on a queue the user has no idea whether anything is happening, so progress comes back over Server-Sent Events rather than polling, which is the right trade when the stream only travels one way. And once work is enqueued, the interesting questions are all about what happens when something dies mid-job: a queued operation that is never picked up, a worker that falls over after it has produced output but before it has recorded that it did, the same export requested twice. Those are the questions the published records argue out. The reporting requirements came from their own round of stakeholder interviews, separate from the core HR and payroll ones, because reporting users and operational users are not the same people and do not want the same thing."
+        tools={[
+          "Node.js",
+          "Express",
+          "TypeScript",
+          "BullMQ",
+          "Redis",
+          "Gotenberg",
+          "Server-Sent Events",
+          "Microsoft SQL Server",
+        ]}
+        meta={[
+          "Queen Service",
+          "20 report types",
+          "In production",
+          "2025 — present",
+        ]}
+        links={[
+          {
+            name: "The published records",
+            url: "https://github.com/MoKenawy/my-portfolio/blob/main/Docs/publish/README.md",
+          },
+        ]}
+      />
+
+      <ProjectCard
+        title="SQL Server → Oracle migration"
+        problem="A cross-vendor database migration is the operation where failure is both total and quiet. The types do not line up, an empty string stops being an empty string somewhere in the crossing, and the rows that failed to arrive look exactly like the rows that were never there — until a payroll run built on them is wrong in front of the people it pays."
+        insight="The guarantee worth making is not that the data moved but that none of it was lost, and that is a claim about validation rather than about transfer. Which inverts where the work goes: the copy is the straightforward part, and the cleansing and the checking either side of it are the project."
+        solution="Planned and executed the migration of the company's entire database from Microsoft SQL Server to Oracle Database, including a transactional table of more than two million records, with data cleansing and validation through the cutover to guarantee zero data loss. It rested on the schema re-architecture described in the post above — you cannot move a database cleanly while it still holds rows pointing at parents that no longer exist."
+        evidence="This one I can describe but cannot hand you. It is my employer's production database: there is no repository to point at, and the validation artefacts stay inside the company. The decision records from the same platform are published and give a fair sample of how the work was reasoned about, but they are not this. Treat the zero-data-loss claim as something to interrogate in conversation rather than something this page proves — the honest answer to “how did you verify it?” is a better use of twenty minutes than a sentence here."
+        tags={["Migration", "Data integrity", "Oracle"]}
+        overview="The highest-risk thing I have done in production, and the one the rest of this page keeps alluding to. Moving between SQL Server and Oracle is not a copy: datetime types do not map one to one, identity columns become sequences, NVARCHAR becomes NVARCHAR2, and Oracle treats the empty string as NULL — which is a classic route to silent corruption, because nothing errors, the value simply stops being what it was. The transactional table alone exceeded two million rows. I owned both verbs on this: the planning and the execution, with data cleansing as part of the move and validation to prove nothing was lost. It is also why the schema work came first. Referential integrity is not a tidiness exercise when you are about to move everything — an orphaned row is a row you cannot classify as kept or dropped, and a migration full of them is unverifiable by construction."
+        tools={[
+          "Microsoft SQL Server",
+          "Oracle Database",
+          "SQL",
+          "Node.js",
+        ]}
+        meta={[
+          "Queen Service",
+          "2M+ record table",
+          "Production cutover",
+          "Zero data loss",
+        ]}
+      />
+
+      {/* The second register. Everything below was built outside the post —
+          on my own time, for a course, or under its own arrangement — and the
+          order follows the CV's, except that the two 2024 entries are ranked
+          by what they can actually show rather than by date. */}
+      <section className="py-10">
+        <p className="mono">Projects — outside the post</p>
+        <p className="prose-measure mt-3 font-serif text-lg text-paper">
+          Built on my own time, for a course, or under its own arrangement.
+          Newest first, and ranked honestly where two sit in the same year.
+        </p>
+      </section>
+
       {/* Ongoing work at the head of the ledger — the index reads newest
           first, so a reader meets what I'm building now before what I built.
           The two DEPI projects lead: the capstone, then the track project. */}
@@ -161,6 +324,38 @@ function Projects() {
         ]}
       />
 
+      {/* No link: the repository is not public, and the audit question about
+          what may be published from it is not mine to answer unilaterally. The
+          specification is the evidence, which is the claim this entry makes
+          anyway. */}
+      <ProjectCard
+        title="DMS — Diagram Management System"
+        problem="Engineering drawings move between departments as attachments and shared folders, so nobody can say with confidence which revision is current, who has seen it, or what the drawing looked like three revisions ago. And for the kind of organisation that holds drawings like these, none of it may leave the building."
+        insight="A diagram's identity is not its file. Separate the two and the version history becomes immutable by construction — a revision is a new file against a stable identity, and nothing is ever overwritten. The access question has the same shape: the rule people actually state is “the whole department, except one person”, which is a single indexed query against a polymorphic permission model and a thicket of special cases against any other."
+        solution="A React SPA over a Node.js REST API, TypeScript end to end, managing the lifecycle, distribution and archiving of engineering drawings across departments. JWT authentication with a configurable RBAC model governing per-role access to the archive. BullMQ and Redis workers take format-agnostic file processing (PDF, DWG) and automated backups off the request path. It deploys fully on-premises in Docker behind NGINX, with automated replication to secondary servers for disaster recovery, because for this buyer a cloud is not one of the options."
+        evidence="For this one the documentation is the demo. I wrote the SRS and the design models first and then directed coding agents against them — which is the part most people leave out, and the specification is precisely what makes the authorship checkable. Redacted excerpts go to serious enquirers. The repository is not public, so this entry carries no link."
+        tags={["On-premises", "Document management", "TypeScript"]}
+        overview="A secure engineering archive, written TypeScript end to end with a fully right-to-left Arabic interface. Two decisions carry the system. The first is separating a diagram's identity from its files, which is what makes the version history immutable rather than merely recorded. The second is a polymorphic permission model, so that the real-world rule — a whole department has access except one person — resolves in one indexed query instead of a special case per exception. The on-premises constraint shapes the rest: no managed queue, no object store, no cloud backup, so BullMQ and Redis run in the same compose file as everything else and disaster recovery is automated replication to secondary servers that I had to configure rather than purchase. It is also the second independent implementation of configurable RBAC I have built, after the HR platform, which is the part I would point at if asked whether I actually understand the pattern or just used it once."
+        tools={[
+          "Node.js",
+          "Express",
+          "Prisma",
+          "PostgreSQL",
+          "Redis",
+          "BullMQ",
+          "React",
+          "TypeScript",
+          "Docker",
+          "NGINX",
+        ]}
+        meta={[
+          "Secure engineering archive",
+          "On-premises",
+          "SRS excerpts on request",
+          "2026 — present",
+        ]}
+      />
+
       <ProjectCard
         title="Automated Job Discovery & Intelligence Pipeline"
         problem="A job search is mostly reading. The same role is posted on four platforms under three titles, most of what you open doesn't match the CV you'd send it, and finding that out costs an evening of closing tabs rather than an evening of applying."
@@ -209,8 +404,36 @@ function Projects() {
         videos={drivewiseVideos}
       />
 
-      {/* Deliberately shorter than the two above. An entry is given the length
-          it has earned, and ranking your own work honestly reads as more
+      {/* Same year as DriveWise and placed below it on purpose: DriveWise can
+          show two runs of the same drive, and this can show an architecture
+          diagram. Date order would flatter this entry at the reader's expense. */}
+      <ProjectCard
+        title="SympAI — healthcare chatbot"
+        problem="A chatbot is a long-lived conversation at the front and a set of independent services behind it, and the two have nothing in common. Put them in one deployable and their traffic patterns fight each other: the interface wants to be cheap, globally served and redeployed constantly, and the API wants containers, memory and a release it can be careful about."
+        insight="The split is the whole design. Once you accept that the interface and the request handling want different runtimes, the boundary between them stops being an inconvenience and becomes the thing that lets each half scale and ship without the other."
+        solution="A healthcare chatbot built as loosely coupled services: a Next.js interface for real-time interaction deployed on AWS Amplify, and the main API in FastAPI on AWS ECS, with DynamoDB for storage. Each half deploys on its own."
+        evidence="The frontend repository is public. This is the oldest cloud work on the page and I would rather state its limits than let the stack line imply more: it is a 2024 project, deployed and working, not production at scale, and my recent deployment experience is on-premises Docker and NGINX instead — a real skill, but a different one."
+        tags={["Cloud deployment", "Conversational AI", "AWS"]}
+        overview="Built in 2024, and the only AWS work on this page. The interesting part was the deployment topology rather than the conversation: a Next.js front end on Amplify for a responsive, real-time interface, and the main API as a containerised FastAPI service on ECS, so that the two halves could be scaled, released and reasoned about separately. DynamoDB sat behind the API. I list it because it is the thing backing any claim I make about AWS, and because being specific about when cloud experience happened is more useful than listing the services and letting a reader assume it is current — it is not. The deployment work I have done since is on-premises, which is where the DMS and the ERP platform both live."
+        tools={[
+          "Next.js",
+          "Python",
+          "FastAPI",
+          "AWS Amplify",
+          "AWS ECS",
+          "DynamoDB",
+        ]}
+        meta={["Healthcare", "AWS Amplify & ECS", "2024"]}
+        links={[
+          {
+            name: "GitHub — frontend",
+            url: "https://github.com/MoKenawy/sympai-front",
+          },
+        ]}
+      />
+
+      {/* Deliberately the shortest entry on the page. An entry is given the
+          length it has earned, and ranking your own work honestly reads as more
           confident than presenting unequal things as equals. */}
       <ProjectCard
         title="Egyptian Currency Recognition"
@@ -221,7 +444,7 @@ function Projects() {
         tags={["Computer Vision", "Object Detection", "Accessibility"]}
         overview="Built to answer a problem of trust rather than one of convenience: recognising Egyptian banknote denominations from a photograph, for people who cannot read them by sight. Uses OpenCV, DataGradients, YOLO, and Roboflow; the application takes an image as input and returns the detected denomination. It stops at the detection layer — turning it into something usable would need audio output and testing with visually impaired users, neither of which it has."
         tools={["OpenCV", "YOLO", "Roboflow", "DataGradients"]}
-        meta={["Computer Vision", "Roboflow Universe", "2024"]}
+        meta={["Computer Vision", "Roboflow Universe", "2023"]}
         links={[
           {
             name: "Model & dataset",

@@ -6,6 +6,14 @@ import Figure from "@/components/Figure/figure";
 import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 export interface ProjectCardProps {
+  /**
+   * A mono label above the title, in the same register as the eyebrows on
+   * `ThePost` and the band that opens the second half of the ledger. It exists
+   * so an entry belonging to the post still says so three screens after the
+   * post itself has scrolled away — the employer line in the right rail is
+   * metadata, and metadata is not where a reader looks for context.
+   */
+  eyebrow?: string;
   title: string;
   /** The friction or risk that existed before the work. The card opens here. */
   problem: string;
@@ -36,6 +44,7 @@ export interface ProjectCardProps {
 // the insight, the full overview, the stack and the figures wait in the modal,
 // so the depth is kept without the skim paying for it.
 export default function ProjectCard({
+  eyebrow,
   title,
   problem,
   insight,
@@ -56,7 +65,12 @@ export default function ProjectCard({
   return (
     <article className="grid grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]">
       <div className="prose-measure">
-        <h2 className="font-serif text-3xl leading-tight">{title}</h2>
+        {eyebrow && <p className="mono">{eyebrow}</p>}
+        <h2
+          className={`font-serif text-3xl leading-tight${eyebrow ? " mt-2" : ""}`}
+        >
+          {title}
+        </h2>
 
         {/* The problem carries the opening — no label, it simply starts there. */}
         <p className="mt-3 font-serif text-lg text-paper">{problem}</p>

@@ -96,8 +96,8 @@ const drivewiseVideos: ProjectVideo[] = [
 ];
 
 // Everything below is served from /public rather than ImageKit: these were
-// transcoded here to webp at the same 1600px cap, they come to about 700 KB for
-// the eleven of them, and keeping them in the repository means the evidence
+// transcoded here to webp at the same 1600px cap, they come to about 820 KB for
+// the thirteen of them, and keeping them in the repository means the evidence
 // ships with the commit that claims it. The first entry in each array is the
 // one the card shows as its plate, so it has to be the figure that argues best
 // on its own.
@@ -194,6 +194,25 @@ const jobDiscoveryImages: ProjectImage[] = [
   },
 ];
 
+// The two artifacts SympAI can actually hand over, both out of the public
+// frontend repository: the topology drawn at design time, and the thing it was
+// built to serve. The diagram leads because the entry's argument is the split
+// between the two halves, not the conversation on top of it.
+const sympaiImages: ProjectImage[] = [
+  {
+    ...shot("sympai/architecture", 1600, 556),
+    alt: "The AWS architecture diagram for SympAI. A prompt enters at the left through AWS Amplify, which serves the web interface, then passes to Amazon API Gateway and an AWS Elastic Load Balancer. Inside a VPC in the us-east-1 region, two public subnets hold an auto-scaling group labelled “CoreBackend (FastAPI)”, whose container image comes from AWS ECR. To the right sit DynamoDB, labelled “Chat History”, and Amazon ElastiCache for Redis. A separate box outside the AWS cloud, marked On-Premise, holds Ollama, reached by a dotted line from the backend.",
+    caption:
+      "fig. 1 — the split, drawn at design time: amplify serves the interface, api gateway and a load balancer front a fastapi auto-scaling group, dynamodb holds the chat history, and the model itself answers from outside the cloud entirely",
+  },
+  {
+    ...shot("sympai/chat", 1600, 750),
+    alt: "The SympAI chat interface: a left rail of saved conversations and a New Chat button, and a thread headed SymAI / symai.org. The assistant opens by introducing itself as SymptomSense and stating it is not a substitute for professional advice from a healthcare provider. The user reports pain in the lower back and upper neck; the assistant asks for location and a severity score from 1 to 10, then names cervical spondylosis or C7-S1 spinal stenosis as possibilities and says to see a doctor. A final exchange asks what osteoarthritis is and gets a plain-language answer.",
+    caption:
+      "fig. 2 — the thing it was all for. the first message the bot sends is the disclaimer, and the advice it ends on is to see a doctor",
+  },
+];
+
 // Already sitting in /public, unreferenced, since the entry was written.
 const currencyImages: ProjectImage[] = [
   {
@@ -212,7 +231,7 @@ const currencyImages: ProjectImage[] = [
 // same register grid as a project entry — mono rail on the right, prose at the
 // measure — so it reads as the first page of the section rather than a résumé
 // header bolted on. The scope that has no entry of its own below lives here;
-// the three systems that earned entries follow it.
+// the four systems that earned entries follow it.
 function ThePost() {
   return (
     <section className="grid grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]">
@@ -236,14 +255,12 @@ function ThePost() {
           stakeholder interviews, observation of users in their own working
           environment, and a beta programme of task-based usability sessions
           with screen recording, behavioural pattern analysis and surveys, which
-          changed the interface that shipped. A configurable RBAC model with JWT
-          authentication, where a role&apos;s permissions are reconfigured
-          without a deployment. A schema re-architecture that introduced the
-          primary and foreign keys and constraints the inherited database never
-          had, resolved its orphaned rows, and retired the legacy tables nothing
-          used. And the SRS and decision records the team built from, teammates
-          onboarded onto the architecture, and their pull requests reviewed on
-          Gitea.
+          changed the interface that shipped. A schema re-architecture that
+          introduced the primary and foreign keys and constraints the inherited
+          database never had, resolved its orphaned rows, and retired the legacy
+          tables nothing used. And the SRS and decision records the team built
+          from, teammates onboarded onto the architecture, and their pull
+          requests reviewed on Gitea.
         </p>
       </div>
 
@@ -268,18 +285,55 @@ function Projects() {
     <>
       <ThePost />
 
-      {/* The three systems from the post that earned an entry of their own.
+      {/* The four systems from the post that earned an entry of their own.
           Each closes on the published decision records where there are any —
           the platform itself is my employer's and cannot be linked, so the
-          redacted ADRs are the only part a stranger can actually go and read. */}
+          redacted ADRs are the only part a stranger can actually go and read.
+
+          The order is the dependency order, not the order of importance: the
+          record of people comes first because everything above it reads from
+          it, and an entry that says "the HR subsystem I built first" should
+          have the thing it names sitting above it on the page. */}
       <ProjectCard
-        title="Payroll engine"
+        eyebrow="Inside the post"
+        title="HR subsystem"
+        problem="Every module above it answers questions about people, and the legacy MS Access platform had no single record of a person to answer from. A promotion effective mid-month, a transfer corrected after the fact, a dependant added last year — each lived wherever it had been entered, so two modules could disagree about the same employee and both be defensible."
+        insight="The lifecycle events are not attributes on a row, they are dated facts, and every system above depends on reading them as of a date rather than as of now. That makes the record of people the thing that has to be right first: nothing built on top of it can be correct until it is."
+        solution="The employee record the whole platform reads from, built first and deliberately: the full lifecycle of hiring, promotion, demotion and transfer, with banking details, dependants, positions and roles, for roughly 15,000 employees. Every lifecycle event is dated and correctable after the fact, so a module above can ask what was true in March rather than only what is true now. Payroll, reporting and access control resolve a person through it instead of each keeping a copy."
+        evidence="This one I can describe but cannot hand you: the record is my employer's production data and there is no repository to point at. The two published payroll records are the closest thing to it on paper — ADR-P01 and ADR-P02 are both decisions about reading this record as of a date, and neither of them makes sense without it. Treat the shape of the model as something to interrogate in conversation rather than something this page proves."
+        tags={["HR", "Data modelling", "Node.js"]}
+        overview="The foundation, and the entry I would put first if the page were ordered by what everything else depends on. It was built first, deliberately: nothing above it can be correct until the record of people is. The design problem is that an employee is not a row but a history — hired on a date, promoted on a date, transferred on a date, and every one of those dates is correctable after someone has already acted on it. A system that stores only the current state can answer what is true now and nothing else, which is enough for a directory and useless for a payroll. So the lifecycle events are the record and the current state is a read of them, which is what makes a payroll run from six months ago reproducible and what makes retroactive recalculation a consequence of the design rather than a feature bolted onto it. The cost is that nothing is a simple lookup: every question about a person is a question about a person on a date, and the modules above have to be written knowing that. The upside is that they can all be written against one record instead of each keeping its own idea of who works here."
+        tools={[
+          "Node.js",
+          "Express",
+          "TypeScript",
+          "Prisma",
+          "Microsoft SQL Server",
+          "React",
+        ]}
+        meta={[
+          "Queen Service",
+          "~15,000 employees",
+          "In production",
+          "2025 — present",
+        ]}
+        links={[
+          {
+            name: "The published records",
+            url: "https://github.com/MoKenawy/my-portfolio/blob/main/Docs/publish/README.md",
+          },
+        ]}
+      />
+
+      <ProjectCard
+        eyebrow="Inside the post"
+        title="Payroll subsystem"
         problem="Payroll has no acceptable error rate: every figure is a legal obligation to a named person. The legacy platform could run a payroll but could not reproduce one — once an employee's grade, department or tax band had moved on, the run that paid them last March was no longer regenerable, and a dispute had nothing to be settled against."
         insight="Recomputing from current data is the obvious answer and the wrong one, because the run has to reproduce the state as it was rather than as it is. That makes payroll a problem about modelling time, not about arithmetic — and the dated events that make it hard (a promotion effective mid-month, a transfer corrected after the fact) are produced by the employee subsystem underneath it. The two could not be designed separately."
-        solution="A deterministic engine over the HR subsystem I built first: the same inputs always produce the same outputs, across overtime, deductions and taxes for roughly 15,000 employees. Every run is backed by transaction history and an auditable change log, so a prior payroll stays reproducible after the data beneath it has changed. A recalculation replaces only the rows it generated itself, so a payroll officer's manual correction survives a rerun instead of being silently overwritten. Underneath sits the employee record the whole platform reads from — the full lifecycle of hiring, promotion, demotion and transfer, with banking details, dependants, positions and roles."
+        solution="A deterministic engine over the HR subsystem I built first: the same inputs always produce the same outputs, across overtime, deductions and taxes for roughly 15,000 employees. Every run is backed by transaction history and an auditable change log, so a prior payroll stays reproducible after the data beneath it has changed. A recalculation replaces only the rows it generated itself, so a payroll officer's manual correction survives a rerun instead of being silently overwritten. It reads every person through the employee record above rather than keeping an idea of its own."
         evidence="Two of the decision records behind it are published, redacted: ADR-P02 on safe recalculation by row origins, which is the mechanism that keeps a manual edit alive through a rerun, and ADR-P01 on resolving monthly identity through a manifest when the legacy period key is opaque. Table and column names are renamed; the decisions, the rejected options and the consequences are not, and the commit history behind each file is intact. The platform itself belongs to my employer and is not linkable."
         tags={["Payroll", "Auditability", "Node.js"]}
-        overview="The flagship of the ERP work and the system I would want to be asked about. Payroll is unusual in that correctness is not a quality bar but the entire specification — 'mostly right' is a defect — and the requirement that shaped the design was reproducibility: a run from six months ago must be regenerable exactly, after the employees in it have been promoted, transferred, or had their tax band changed. Recomputing from today's data gives a different and wrong answer, so the engine reproduces the state as it stood. The second hard requirement is retroactive recalculation. The HR subsystem below it manages employee lifecycle events, and every one of them changes pay as of a date and can be corrected after the fact — which means a closed period sometimes has to be recomputed. A recalculation has to overwrite its own prior output while preserving a human override applied on top of it; get it wrong in one direction and you discard a payroll officer's correction, in the other and you refuse to recompute at all. The answer was to track the origin of every row and replace only the generated ones. The HR subsystem was built first, deliberately: nothing above it can be correct until the record of people is."
+        overview="The flagship of the ERP work and the system I would want to be asked about. Payroll is unusual in that correctness is not a quality bar but the entire specification — 'mostly right' is a defect — and the requirement that shaped the design was reproducibility: a run from six months ago must be regenerable exactly, after the employees in it have been promoted, transferred, or had their tax band changed. Recomputing from today's data gives a different and wrong answer, so the engine reproduces the state as it stood. The second hard requirement is retroactive recalculation. The HR subsystem below it manages employee lifecycle events, and every one of them changes pay as of a date and can be corrected after the fact — which means a closed period sometimes has to be recomputed. A recalculation has to overwrite its own prior output while preserving a human override applied on top of it; get it wrong in one direction and you discard a payroll officer's correction, in the other and you refuse to recompute at all. The answer was to track the origin of every row and replace only the generated ones. It is the reason the employee record above has its own entry: that subsystem was built first on purpose, and the two could not have been designed apart."
         tools={[
           "Node.js",
           "Express",
@@ -307,6 +361,7 @@ function Projects() {
       />
 
       <ProjectCard
+        eyebrow="Inside the post"
         title="Reporting & export subsystem"
         problem="Every new report in the legacy platform needed a developer. Someone who wanted the same figures grouped a different way filed a request and waited, and what they eventually got was a report a developer had understood second-hand."
         insight="The queue of requests is the symptom; the cause is that reports were code. If a report definition is data, the person who needs the report is the person who can make it, and the developer leaves the loop entirely. That turned out to be the instinct running through the whole platform — the work a developer does most often and values least is exactly the work the business should be able to do without one."
@@ -339,24 +394,33 @@ function Projects() {
       />
 
       <ProjectCard
-        title="SQL Server → Oracle migration"
-        problem="A cross-vendor database migration is the operation where failure is both total and quiet. The types do not line up, an empty string stops being an empty string somewhere in the crossing, and the rows that failed to arrive look exactly like the rows that were never there — until a payroll run built on them is wrong in front of the people it pays."
-        insight="The guarantee worth making is not that the data moved but that none of it was lost, and that is a claim about validation rather than about transfer. Which inverts where the work goes: the copy is the straightforward part, and the cleansing and the checking either side of it are the project."
-        solution="Planned and executed the migration of the company's entire database from Microsoft SQL Server to Oracle Database, including a transactional table of more than two million records, with data cleansing and validation through the cutover to guarantee zero data loss. It rested on the schema re-architecture described in the post above — you cannot move a database cleanly while it still holds rows pointing at parents that no longer exist."
-        evidence="This one I can describe but cannot hand you. It is my employer's production database: there is no repository to point at, and the validation artefacts stay inside the company. The decision records from the same platform are published and give a fair sample of how the work was reasoned about, but they are not this. Treat the zero-data-loss claim as something to interrogate in conversation rather than something this page proves — the honest answer to “how did you verify it?” is a better use of twenty minutes than a sentence here."
-        tags={["Migration", "Data integrity", "Oracle"]}
-        overview="The highest-risk thing I have done in production, and the one the rest of this page keeps alluding to. Moving between SQL Server and Oracle is not a copy: datetime types do not map one to one, identity columns become sequences, NVARCHAR becomes NVARCHAR2, and Oracle treats the empty string as NULL — which is a classic route to silent corruption, because nothing errors, the value simply stops being what it was. The transactional table alone exceeded two million rows. I owned both verbs on this: the planning and the execution, with data cleansing as part of the move and validation to prove nothing was lost. It is also why the schema work came first. Referential integrity is not a tidiness exercise when you are about to move everything — an orphaned row is a row you cannot classify as kept or dropped, and a migration full of them is unverifiable by construction."
+        eyebrow="Inside the post"
+        title="Auth subsystem"
+        problem="In an HR and payroll platform, who may see what is the requirement rather than a layer over it: an export embeds salaries, an employee record embeds dependants and bank details. And the rules keep moving — a department reorganises, a role gains a module, an officer leaves the team. On the legacy platform each of those was a code change, so a question about permissions was answered on a deployment schedule."
+        insight="Permissions move faster than releases. If what a role may do is a row rather than a branch, the person who owns the org chart is the person who changes it — the same instinct the reporting subsystem runs on, pointed at authorisation instead of at reports."
+        solution="A configurable RBAC model with JWT authentication, where a role's permissions are reconfigured from the dashboard without a deployment. The permission is re-checked at access time rather than trusted from the token, so revoking a role takes effect on the next read instead of the next login. Async operation resources sit on top of it owner-scoped: a user reads their own calculation runs and exports and nobody else's, and a non-owner cannot tell the difference between a resource they may not see and one that does not exist."
+        evidence="ADR-007 is published, redacted, and is this decision rather than a description of it: the read contract is 404 for a non-owner — no cross-user existence leak — 403 for a caller who has since lost the module permission, and 410 for a resource that has expired. It also records that managerial cross-user reads were deferred to a future ABAC layer rather than quietly allowed, which is the part worth reading: the thing the model does not do is written down. The role configuration itself is my employer's and is not linkable; the second independent implementation of the same pattern is the DMS entry further down, which can show its role table on screen."
+        tags={["Authorisation", "RBAC", "Node.js"]}
+        overview="The decision underneath this one is the same as the reporting subsystem's — move the thing that changes often out of code and into data — and it is the one I would defend hardest, because authorisation is where that instinct is most often refused on the grounds that it is too important to configure. The argument back is that a permission model which needs a release is a permission model that is wrong between releases. Two details carry the rest. The first is re-checking the module permission at access time instead of trusting what the token said at login: it costs a lookup per request and it is the difference between a revocation that is real and one that waits for a session to expire. The second is owner-scoping anything that embeds someone else's data — an export file is not a report, it is a specific person's payroll in a blob, and the default for it cannot be that any holder of the module permission may fetch it. Returning 404 rather than 403 to a non-owner is deliberate: 403 confirms the resource exists, which is itself a leak in a system where the resource is somebody's salary run."
         tools={[
-          "Microsoft SQL Server",
-          "Oracle Database",
-          "SQL",
           "Node.js",
+          "Express",
+          "TypeScript",
+          "JWT",
+          "Prisma",
+          "Microsoft SQL Server",
         ]}
         meta={[
           "Queen Service",
-          "2M+ record table",
-          "Production cutover",
-          "Zero data loss",
+          "Configured, not deployed",
+          "In production",
+          "2025 — present",
+        ]}
+        links={[
+          {
+            name: "ADR-007 — operation authorization",
+            url: "https://github.com/MoKenawy/my-portfolio/blob/main/Docs/publish/adr-007-operation-resource-authorization.md",
+          },
         ]}
       />
 
@@ -521,14 +585,18 @@ function Projects() {
       />
 
       {/* Same year as DriveWise and placed below it on purpose: DriveWise can
-          show two runs of the same drive, and this can show an architecture
-          diagram. Date order would flatter this entry at the reader's expense. */}
+          show two runs of the same drive, and this shows a diagram of a
+          topology. Date order would flatter this entry at the reader's expense.
+
+          The diagram leads the figure list rather than the interface: the
+          entry's argument is the split between the two halves, and the chat
+          window is the one thing a reader can already picture without help. */}
       <ProjectCard
         title="SympAI — healthcare chatbot"
         problem="A chatbot is a long-lived conversation at the front and a set of independent services behind it, and the two have nothing in common. Put them in one deployable and their traffic patterns fight each other: the interface wants to be cheap, globally served and redeployed constantly, and the API wants containers, memory and a release it can be careful about."
         insight="The split is the whole design. Once you accept that the interface and the request handling want different runtimes, the boundary between them stops being an inconvenience and becomes the thing that lets each half scale and ship without the other."
         solution="A healthcare chatbot built as loosely coupled services: a Next.js interface for real-time interaction deployed on AWS Amplify, and the main API in FastAPI on AWS ECS, with DynamoDB for storage. Each half deploys on its own."
-        evidence="The frontend repository is public. This is the oldest cloud work on the page and I would rather state its limits than let the stack line imply more: it is a 2024 project, deployed and working, not production at scale, and my recent deployment experience is on-premises Docker and NGINX instead — a real skill, but a different one."
+        evidence="The frontend repository is public, and the diagram below came out of it — the topology as it was drawn at the time, with the container image in ECR, FastAPI behind a load balancer in an auto-scaling group, DynamoDB holding the chat history, and the model itself answering from outside AWS entirely. This is the oldest cloud work on the page and I would rather state its limits than let the stack line imply more: it is a 2024 project, deployed and working, not production at scale, and my recent deployment experience is on-premises Docker and NGINX instead — a real skill, but a different one."
         tags={["Cloud deployment", "Conversational AI", "AWS"]}
         overview="Built in 2024, and the only AWS work on this page. The interesting part was the deployment topology rather than the conversation: a Next.js front end on Amplify for a responsive, real-time interface, and the main API as a containerised FastAPI service on ECS, so that the two halves could be scaled, released and reasoned about separately. DynamoDB sat behind the API. I list it because it is the thing backing any claim I make about AWS, and because being specific about when cloud experience happened is more useful than listing the services and letting a reader assume it is current — it is not. The deployment work I have done since is on-premises, which is where the DMS and the ERP platform both live."
         tools={[
@@ -540,6 +608,7 @@ function Projects() {
           "DynamoDB",
         ]}
         meta={["Healthcare", "AWS Amplify & ECS", "2024"]}
+        images={sympaiImages}
         links={[
           {
             name: "GitHub — frontend",

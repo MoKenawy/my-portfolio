@@ -18,7 +18,7 @@
 
 في أواخر السنة جرّبت التدريس فعليًا — كورسات في الذكاء الاصطناعي — وكانت ردود فعل الطلاب رائعة. الآن أعرف: أنا أحب التدريس.
 
-وفي نفس الفترة انضممت للدفعة الأولى من برنامج **DEPI — AWS Machine Learning Engineer**، وخرجت منه بمشروع **SympAI**: chatbot صحّي يساعد المستخدم على وصف أعراضه والحصول على إرشاد طبي أوّلي. بنيت الـ full-stack بـ FastAPI مع نماذج لغوية طبية (BioMistral 7B وMeditron 7B) ومحادثات متعددة الأدوار عبر LangChain، وواجهة Next.js، والكل Dockerized ومنشور على AWS (EC2 خلف API Gateway وLoad Balancer، والواجهة على Amplify بـ CI/CD).
+وفي نفس الفترة انضممت للدفعة الأولى من برنامج **DEPI — AWS Machine Learning Engineer** (يناير 2025)، وخرجت منه بمشروع **SympAI**: chatbot صحّي يساعد المستخدم على وصف أعراضه والحصول على إرشاد طبي أوّلي. بنيت الـ full-stack بـ FastAPI مع نماذج لغوية طبية (BioMistral 7B وMeditron 7B) ومحادثات متعددة الأدوار عبر LangChain، وواجهة Next.js، والكل Dockerized ومنشور على AWS (EC2 خلف API Gateway وLoad Balancer، والواجهة على Amplify بـ CI/CD).
 
 ## 2025 — الجيش: قائد على غفلة
 
@@ -65,6 +65,14 @@
 - شعرت أنني **تأخرت في سباق الذكاء الاصطناعي**، فقررت ألا أتفرج: جرّبت الـ Agentic AI Workflows وعدة coding agents (Antigravity, Codex, Cursor, Claude).
 - شعرت — عمليًا هذه المرة — **بأهمية الاختبارات**.
 - وأخيرًا صار لدي وقت للتفكير في **التصميم** نفسه، فبدأت رحلة أعمق مع البيانات: قراءة *Designing Data-Intensive Applications* لـ Martin Kleppmann، والتفكير في **توسيع النظام** (Scaling).
+
+## يوليو – نوفمبر 2026 — DEPI مرة أخرى: AI for Software Engineers
+
+في يوليو عدت إلى **مبادرة رواد مصر الرقمية (DEPI)**، التي تديرها وزارة الاتصالات وتكنولوجيا المعلومات (MCIT)، وهذه المرة في المسار المهني (Industry — Professionals) كمتدرّب في برنامج **AI for Software Engineers**: 140 ساعة، من 10 يوليو إلى 5 نوفمبر 2026، في مسارين: *Fundamentals of Agentic AI* و*Fundamentals of Entrepreneurship*.
+
+مشروع التخرج هو **Agentic PR Reviewer**، وأنا مهندس البرمجيات الوحيد فيه. هو أداة code review من سطر الأوامر لتغييرات TypeScript وJavaScript، لا تقبل ملاحظات الذكاء الاصطناعي إلا في صورة **tool calls مُتحقَّق منها بـ schema**، ولا تستخرجها أبدًا من نص النموذج، وتُبلغ عن كل فشل بدل أن تخفيه. بدأت بالمواصفات: SRS بإصدارات مرقّمة و**قرارات معمارية (ADRs)**، والقاعدة الأساسية مفروضة بالأدوات: core خالٍ من أي framework، وLangChain وLangGraph مسموح بهما في طبقة الـ agents فقط، ويتحقق من ذلك import-linter في الـ CI. الإصدار الأول يعمل ومدموج، والمراحل التالية لم تُبنَ بعد.
+
+وداخل المسار كان هناك مشروع أصغر: **PDF2Deck Agent**، يحوّل ملف PDF إلى عرض PowerPoint، ويتوقف لكي يوافق شخص على الـ outline وعلى العرض النهائي. النموذج اللغوي يقوم بالعمل الدلالي فقط، أي الـ outline؛ أما الاستخراج والتحقق وربط التنسيق والـ rendering فبكود Python عادي و deterministic. نفس فكرة مشروع التخرج من زاوية أخرى: أعطِ النموذج الخطوة الوحيدة التي تحتاجه، وأبقِ الإنسان حيث يلزم الحكم.
 
 ---
 

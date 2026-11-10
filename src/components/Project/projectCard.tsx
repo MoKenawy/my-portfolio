@@ -2,67 +2,127 @@
 
 import React from "react";
 import ProjectModal from "./projectModal";
-import type { ProjectImage, ProjectVideo } from "@/lib/media";
+import Figure from "@/components/Figure/figure";
+import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 export interface ProjectCardProps {
   title: string;
-  description: string;
-  image?: string;
-  tags?: string[];
+  /** The friction or risk that existed before the work. The card opens here. */
+  problem: string;
+  /** What explains the problem — the turn. Carried in the modal, not the card. */
+  insight: string;
+  /** What was built, trimmed to the mechanism. */
+  solution: string;
+  /** The artifact that shows it worked, described so a stranger can go and check. */
+  evidence: string;
+  /** The long-form detail, for the reader who opens the modal. */
   overview: string;
+  tags?: string[];
   tools?: string[];
   images?: ProjectImage[];
   videos?: ProjectVideo[];
+  /** A recording hosted on YouTube, shown in the modal after any local clips. */
+  embed?: ProjectEmbed;
   links?: { name: string; url: string }[];
   /** Mono metadata lines shown in the right column (e.g. stack, phase, year). */
   meta?: string[];
 }
 
 // One entry in the index — a case-study opening, not a card (design.md §4).
-// Serif title and prose left; mono metadata right; a modal for the full read.
+//
+// The card is set on the decision spine rather than feature-first: it opens on
+// the problem, gives the mechanism, then the proof, and closes on a next step.
+// That is three messages, which is the discipline the whole index is held to;
+// the insight, the full overview, the stack and the figures wait in the modal,
+// so the depth is kept without the skim paying for it.
 export default function ProjectCard({
   title,
-  description,
+  problem,
+  insight,
+  solution,
+  evidence,
   overview,
   tags = [],
   tools = [],
   images = [],
   videos = [],
+  embed,
   links = [],
   meta = [],
 }: ProjectCardProps) {
   const [open, setOpen] = React.useState(false);
+  const [lead] = images;
 
   return (
     <article className="grid grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]">
       <div className="prose-measure">
         <h2 className="font-serif text-3xl leading-tight">{title}</h2>
-        <p className="mt-3 font-serif text-lg text-paper">{description}</p>
 
-        {tags.length > 0 && (
-          <p className="mono mt-4 normal-case text-mid">
-            {tags.join("  ·  ")}
-          </p>
+        {/* The problem carries the opening — no label, it simply starts there. */}
+        <p className="mt-3 font-serif text-lg text-paper">{problem}</p>
+
+        <p className="mono mt-7">What I built</p>
+        <p className="mt-2 font-serif text-lg text-paper">{solution}</p>
+
+        <p className="mono mt-7">The proof</p>
+        <p className="mt-2 font-serif text-lg text-paper">{evidence}</p>
+
+        {/* The first figure, promoted out of the modal so the proof is visible
+            without a click — and it is the way in: pressing the plate opens the
+            record at the full set. Held to a plate, not a hero; this index is a
+            ledger rather than a gallery, and the entries without an artifact
+            simply show none. */}
+        {lead && (
+          <Figure
+            key={lead.src}
+            {...lead}
+            tone="colour"
+            sizes="(min-width: 640px) 28rem, 92vw"
+            className="mt-7 max-w-md"
+            onActivate={() => setOpen(true)}
+            activateLabel={`Open the record — ${title}`}
+          />
         )}
 
-        <ProjectModal
-          open={open}
-          onOpenChange={setOpen}
-          title={title}
-          overview={overview}
-          tools={tools}
-          images={images}
-          videos={videos}
-          links={links}
-          trigger={
-            <button
-              type="button"
-              className="mono mt-6 border border-hairline px-3 py-2 text-mid transition-colors hover:border-paper hover:text-paper"
+        {tags.length > 0 && (
+          <p className="mono mt-7 normal-case text-mid">{tags.join("  ·  ")}</p>
+        )}
+
+        {/* Next step on the entry itself, not only in the page's shared footer:
+            a reader convinced by one project shouldn't have to scroll to act. */}
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          <ProjectModal
+            open={open}
+            onOpenChange={setOpen}
+            title={title}
+            insight={insight}
+            overview={overview}
+            tools={tools}
+            images={images}
+            videos={videos}
+            embed={embed}
+            links={links}
+            trigger={
+              <button
+                type="button"
+                className="mono border border-hairline px-3 py-2 text-mid transition-colors hover:border-paper hover:text-paper"
+              >
+                Read the longer version
+              </button>
+            }
+          />
+          {links.map(({ name, url }) => (
+            <a
+              key={name}
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mono border border-hairline px-3 py-2 text-mid transition-colors hover:border-paper hover:text-paper"
             >
-              Read more
-            </button>
-          }
-        />
+              {name} ↗
+            </a>
+          ))}
+        </div>
       </div>
 
       {meta.length > 0 && (

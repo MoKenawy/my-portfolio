@@ -7,7 +7,7 @@ import { asset } from "@/lib/media";
 export const metadata: Metadata = {
   title: "Read — Mohammed Kenawy",
   description:
-    "A reading log: the books and papers worked through alongside the work, and what each one changed.",
+    "A reading log: the books and papers worked through alongside the work and what each one changed, plus the degree and taught courses behind it.",
 };
 
 // Read — the first phase of the loop. The reading trail an AI portfolio cannot
@@ -152,6 +152,52 @@ const basics: Basic[] = [
   },
 ];
 
+// The taught half of the learning trail: the degree, and the courses with a
+// certificate behind them. Newest first, like every other register on the site.
+type Credential = {
+  title: string;
+  issuer: string;
+  detail: string;
+  when: string;
+};
+
+const credentials: Credential[] = [
+  {
+    title: "AI for Software Engineers",
+    issuer:
+      "Digital Egypt Pioneers Initiative (DEPI Industry) — Egypt's Ministry of Communications and IT",
+    detail:
+      "140 hours on the professionals' track, across two halves: fundamentals of agentic AI — models, tokenizers, embeddings, retrieval, agents, LangChain, LangGraph, Langfuse — and fundamentals of entrepreneurship. The two things it produced, an agentic PR reviewer and a PDF-to-deck agent, are filed under Ship.",
+    when: "10 Jul — 5 Nov 2026",
+  },
+  {
+    title: "AWS Machine Learning",
+    issuer: "Digital Egypt Pioneers Initiative (DEPI)",
+    detail:
+      "160 hours. A separate and earlier DEPI track from the one above, taken while already employed.",
+    when: "Jan 2025",
+  },
+  {
+    title: "Advanced Learning Algorithms",
+    issuer: "Coursera",
+    detail: "34 hours. Credential PTJSVDED9N9T.",
+    when: "Oct 2023",
+  },
+  {
+    title: "Supervised Machine Learning — Regression and Classification",
+    issuer: "Coursera",
+    detail: "33 hours. Credential SFDAQ837LL2H.",
+    when: "Jul 2023",
+  },
+  {
+    title: "Bachelor of Computers and Information Technology",
+    issuer: "El Shorouk Academy, Cairo",
+    detail:
+      "Major in computer science, graded very good. First in the specialization years and fourth cumulative across all of them. The graduation project — DriveWise, on Ship — was graded excellent.",
+    when: "Graduated June 2024",
+  },
+];
+
 // Newest year first — the register reads backwards, most recent at the top.
 const basicsYears = basics
   .map(({ year }) => year)
@@ -245,6 +291,50 @@ export default function ReadPage() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* The formal register. Read is the continuous-learning proof, and the
+          academic-years shelf above is already the informal half of it; the
+          degree and the taught courses belong beside it rather than on a tab
+          of their own. Dates and hours in the mono rail, the substance at the
+          measure — the same grid as the basics list. */}
+      <section className="mt-20">
+        <p className="mono mb-5">The formal register · degree and training</p>
+        <h2 className="max-w-[20ch] font-serif text-3xl leading-tight sm:text-4xl">
+          The part with a certificate behind it.
+        </h2>
+        <hr className="flourish mt-6" />
+        <p className="prose-measure mt-6 font-serif text-lg text-paper">
+          The reading above is self-directed and unverifiable except by what it
+          produced. This is the other kind — taught, dated, and issued by
+          somebody.
+        </p>
+
+        <div className="mt-12 divide-y divide-hairline border-y border-hairline">
+          {credentials.map(({ title, issuer, detail, when }) => (
+            <article
+              key={title}
+              className="grid grid-cols-1 gap-x-10 gap-y-3 py-8 sm:grid-cols-[minmax(0,1fr)_auto]"
+            >
+              <div className="prose-measure">
+                <h3 className="font-serif text-2xl leading-tight">{title}</h3>
+                <p className="mono mt-2 normal-case text-mid">{issuer}</p>
+                <p className="mt-3 font-serif text-lg text-paper">{detail}</p>
+              </div>
+              <p className="font-mono text-xs leading-relaxed text-mid sm:text-right">
+                {when}
+              </p>
+            </article>
+          ))}
+        </div>
+
+        <p className="prose-measure mt-8 font-serif text-lg italic text-mid">
+          Every credential on that list is machine learning or AI, and only the
+          most recent is about building software with it. None of them certifies
+          what I actually do daily — backend, databases, deployment. That is a
+          real gap in the record, and the one way of closing it I have not got
+          round to.
+        </p>
       </section>
 
       {/* Cross-link to the flagship — the theory it draws on (design.md §10.3). */}

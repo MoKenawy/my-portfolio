@@ -1,0 +1,58 @@
+name: ci
+
+# This repository has no test suite, so a green tick here means three things
+# and claims nothing more: the code lints, it typechecks, and it builds the
+# same way the deploy workflow builds it. That is a real signal. The workflow
+# this replaces ran `pnpm test:coverage` against a script that has never
+# existed in package.json, so every run failed for a reason that had nothing
+# to do with the change under review — which is worse than no check at all,
+# because a genuinely broken build looked exactly the same.
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3.0.0
+        with:
+          version: 9.0.6
+
+      # Node 20 and pnpm, matching nextjs.yml deliberately: this check is only
+      # worth running if it fails where the deploy would fail.
+      - name: Install Node.js 20.x
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: "20"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # --max-warnings=0 is the standard the project is held to locally; the
+      # `lint` script omits it, so it is spelled out rather than relaxed here.
+      - name: Lint
+        run: pnpm exec next lint --max-warnings=0
+
+      - name: Typecheck
+        run: pnpm exec tsc --noEmit
+
+      # The production build is the export the site actually ships, basePath
+      # and all, so a broken route or a bad image path fails here.
+      - name: Build
+        run: pnpm exec next build

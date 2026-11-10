@@ -4,7 +4,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import Figure from "@/components/Figure/figure";
 import HostedVideo from "@/components/Figure/hostedVideo";
-import type { ProjectImage, ProjectVideo } from "@/lib/media";
+import VideoFigure from "@/components/Figure/videoFigure";
+import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 // Uses the Radix Dialog primitive (the same one shadcn's Dialog wraps) for
 // focus trap, Escape, and scroll lock; styled directly against Manuscript
@@ -14,10 +15,13 @@ interface ProjectModalProps {
   onOpenChange: (open: boolean) => void;
   trigger: React.ReactNode;
   title: string;
+  /** The turn the card doesn't have room for — what explains the problem. */
+  insight: string;
   overview: string;
   tools?: string[];
   images?: ProjectImage[];
   videos?: ProjectVideo[];
+  embed?: ProjectEmbed;
   links?: { name: string; url: string }[];
 }
 
@@ -26,10 +30,12 @@ export default function ProjectModal({
   onOpenChange,
   trigger,
   title,
+  insight,
   overview,
   tools = [],
   images = [],
   videos = [],
+  embed,
   links = [],
 }: ProjectModalProps) {
   return (
@@ -52,8 +58,14 @@ export default function ProjectModal({
 
           <hr className="flourish mt-4" />
 
+          {/* The insight leads the long read — it's the beat the card omits,
+              and the one that explains why the solution took the shape it did. */}
+          <p className="prose-measure mt-6 font-serif text-xl italic text-mid">
+            {insight}
+          </p>
+
           <Dialog.Description asChild>
-            <p className="prose-measure mt-6 font-serif text-lg text-paper">
+            <p className="prose-measure mt-5 font-serif text-lg text-paper">
               {overview}
             </p>
           </Dialog.Description>
@@ -86,13 +98,16 @@ export default function ProjectModal({
             </section>
           )}
 
-          {videos.length > 0 && (
+          {/* Local clips and a YouTube one sit in the same section: both are
+              recordings, and both stay inert until the reader presses play. */}
+          {(videos.length > 0 || embed) && (
             <section className="mt-8">
               <span className="mono block">Recordings</span>
               <div className="mt-4 space-y-8">
                 {videos.map((video) => (
                   <HostedVideo key={video.src} {...video} />
                 ))}
+                {embed && <VideoFigure {...embed} />}
               </div>
             </section>
           )}

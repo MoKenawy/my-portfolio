@@ -89,8 +89,9 @@ export default function Home() {
 
           <Beat label="How it works — the solution">
             <p className="font-serif text-lg text-paper">
-              You get one engineer who owns the whole path — analysis to
-              deployment — and hands back not just working software but the
+              You get one engineer who owns the whole path — stakeholder
+              research to deployment — and hands back not just working
+              software but the
               specification and decision record that let your team maintain it
               without me.
             </p>
@@ -108,6 +109,16 @@ export default function Home() {
                 className="mono inline-block border border-hairline px-4 py-3 text-mid transition-colors hover:border-paper hover:text-paper"
               >
                 See what I&apos;ve shipped →
+              </Link>
+              {/* The third kind of evidence on this beat, and the only one
+                  somebody else issued: the degree and the taught courses sit
+                  in Read's formal register rather than on a tab of their own,
+                  so the shortcut goes straight to that section. */}
+              <Link
+                href="/read#credentials"
+                className="mono inline-block border border-hairline px-4 py-3 text-mid transition-colors hover:border-paper hover:text-paper"
+              >
+                The certificates →
               </Link>
               <Link
                 href="/contact"

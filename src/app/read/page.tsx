@@ -167,12 +167,13 @@ const credentials: Credential[] = [
     issuer:
       "Digital Egypt Pioneers Initiative (DEPI Industry) — Egypt's Ministry of Communications and IT",
     detail:
-      "140 hours on the professionals' track, across two halves: fundamentals of agentic AI — models, tokenizers, embeddings, retrieval, agents, LangChain, LangGraph, Langfuse — and fundamentals of entrepreneurship. The two things it produced, an agentic PR reviewer and a PDF-to-deck agent, are filed under Ship.",
+      "140 hours on the professionals' track, across two halves. Fundamentals of agentic AI — models, tokenizers, embeddings, retrieval, agents, LangChain, LangGraph, Langfuse. And fundamentals of entrepreneurship, where the capstone was carried through as a product rather than only as a system — who it is for, what it would be worth to them, how it would reach them — and pitched at the end of it. The two things it produced, an agentic PR reviewer and a PDF-to-deck agent, are filed under Ship.",
     when: "10 Jul — 5 Nov 2026",
   },
   {
     title: "AWS Machine Learning",
-    issuer: "Digital Egypt Pioneers Initiative (DEPI)",
+    issuer:
+      "Digital Egypt Pioneers Initiative (DEPI) — Egypt's Ministry of Communications and IT",
     detail:
       "160 hours. A separate and earlier DEPI track from the one above, taken while already employed.",
     when: "Jan 2025",
@@ -298,7 +299,7 @@ export default function ReadPage() {
           degree and the taught courses belong beside it rather than on a tab
           of their own. Dates and hours in the mono rail, the substance at the
           measure — the same grid as the basics list. */}
-      <section className="mt-20">
+      <section id="credentials" className="mt-20 scroll-mt-24">
         <p className="mono mb-5">The formal register · degree and training</p>
         <h2 className="max-w-[20ch] font-serif text-3xl leading-tight sm:text-4xl">
           The part with a certificate behind it.

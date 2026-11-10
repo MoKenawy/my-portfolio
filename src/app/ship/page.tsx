@@ -1,6 +1,6 @@
 import ProjectCard from "@/components/Project/projectCard";
 import { ik, asset } from "@/lib/media";
-import type { ProjectImage, ProjectVideo } from "@/lib/media";
+import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 // Screens are read, not glanced at: a dashboard's point is the numbers in it,
 // and the modal shows them at roughly 576 CSS px, which a retina display draws
@@ -92,6 +92,117 @@ const drivewiseVideos: ProjectVideo[] = [
     title: "DriveWise — promotional video",
     alt: "An overhead drone shot of a dark car driving along a tree-lined road.",
     caption: "fig. 9 — the promo the team cut for the defence",
+  },
+];
+
+// Everything below is served from /public rather than ImageKit: these were
+// transcoded here to webp at the same 1600px cap, they come to about 700 KB for
+// the eleven of them, and keeping them in the repository means the evidence
+// ships with the commit that claims it. The first entry in each array is the
+// one the card shows as its plate, so it has to be the figure that argues best
+// on its own.
+const shot = (file: string, width: number, height: number) => ({
+  src: asset(`/ship/${file}.webp`),
+  width,
+  height,
+});
+
+const prReviewerImages: ProjectImage[] = [
+  {
+    ...shot("agentic-pr-reviewer/report-head", 1230, 1152),
+    alt: "The head of a generated code-review report, titled “Code review — uncommitted changes in the working tree (default) · 7 files”, under it a line reading “Started 2026-10-19T12:26:16Z · took 150422 ms · agentic-review 0.1.0 · report schema 1.0”. A boxed verdict reads “blocking. At least one finding is blocking.”, followed by “Findings: 3 blocking / 2 important / 1 nit” and a scope table.",
+    caption:
+      "fig. 1 — what a run emits. the verdict comes first, and it is the thing a pipeline can gate on",
+  },
+  {
+    ...shot("agentic-pr-reviewer/report-full", 1600, 3440),
+    alt: "The full review report: six findings, each with a file and line, a severity, a category and an evidence fingerprint — among them a blocking SQL-injection finding on src/search.ts:4 and an off-by-one on src/users.ts:15-16. Below them a change-summary table, a list of three files listed but not reviewed including PLANTED_DEFECTS.md, and a run-metadata table recording the model gemini-3.8-flash, temperature 0.0, 5341 tokens in, 652 out, and the duration of every stage.",
+    caption:
+      "fig. 2 — the whole document. the run is against a file of planted defects, which is how the findings get marked; the metadata at the foot is what makes a run arguable afterwards",
+  },
+];
+
+const pdf2deckImages: ProjectImage[] = [
+  {
+    ...shot("pdf2deck/interface", 1600, 730),
+    alt: "The “PDF → Styled PowerPoint Agent” interface: a chapter PDF loaded as ConceptsOfBiology-LR-Chapter-1.pdf, empty first- and last-page fields, a drop zone for an optional preferences file, and an output panel reading “Upload a PDF and press Generate.” with Approve and Reject buttons for the outline and the deck, all greyed out.",
+    caption:
+      "fig. 1 — before a run. a chapter, a page range, a style — and two approval gates that are not optional",
+  },
+  {
+    ...shot("pdf2deck/run-complete", 1600, 1576),
+    alt: "The same interface after a completed run: the right panel reads “Deck rendered (14 slides)” and shows the generated outline, slide 12 on the branches of biological study and slide 13 a summary, each with its bullets and placed images. The left panel's graph-execution log lists every stage completed in order — validate_input, extract_pdf, build_outline, approve_outline, map_style, render_pptx, validate_artifact — and ends waiting on deck_review.",
+    caption:
+      "fig. 2 — a finished run: fourteen slides, and the graph's own log of every stage it passed through to get there",
+  },
+];
+
+const pdf2deckEmbed: ProjectEmbed = {
+  videoId: "5vXJRONcfKI",
+  poster: asset("/ship/pdf2deck/demo-poster.jpg"),
+  title: "PDF2Deck — a full run on a biology chapter",
+  alt: "A still from the screen recording of the agent running, the interface mid-run with the outline being generated.",
+  caption:
+    "fig. 3 — the whole thing end to end, unedited: a biology chapter in, a reviewed deck out",
+};
+
+const dmsImages: ProjectImage[] = [
+  {
+    ...shot("dms/login", 1600, 760),
+    alt: "A bilingual login screen. The form is in Arabic, right to left, headed “تسجيل الدخول للنظام” with fields labelled in both Arabic and English — “اسم المستخدم / رقم التعريف” over USERNAME, “رمز المصادقة” over PASSWORD — and a submit button reading “بدء الجلسة”. A panel beside it reads “أرشيف المخططات” in Arabic and “Blueprint Curator — Engineering Archive Management System” in English, over a faint line drawing of a structure. A toggle at the top offers EN / عربي.",
+    caption:
+      "fig. 1 — the way in. bilingual by construction rather than by translation layer: arabic and english, rtl and ltr, the same screen",
+  },
+  {
+    ...shot("dms/users", 1600, 826),
+    alt: "An admin user table in Arabic, right to left, listing users by username, full name, role and department: engineers, managers and document controllers across the Construction, Technical Office, Delivery and Maintenance departments, each row with an active status chip and a row menu.",
+    caption:
+      "fig. 2 — the role model: every user is a department crossed with a role, and what a role may do is configured rather than deployed",
+  },
+  {
+    ...shot("dms/audit", 1600, 826),
+    alt: "An audit-log screen headed “سجل النظام”, with date-range and action filters above a table of entries — DIAGRAM_DOWNLOADED, DIAGRAM_CREATED, LOGIN, LOGOUT — each with a user, an Arabic-numeral timestamp and the originating IP address.",
+    caption:
+      "fig. 3 — the trail. who, what, when, and from which address — appended, never edited",
+  },
+  {
+    ...shot("dms/archive-grid", 1600, 852),
+    alt: "The diagram archive in grid view, headed “أرشيف المخططات”, with filters for department, format and date. A single card is present, titled “test”, tagged PNG, 68.6 kilobytes, with download and view buttons.",
+    caption:
+      "fig. 4 — the archive on a seeded instance: one diagram, titled test. the shelf is what is being shown here, not what is on it",
+  },
+];
+
+const jobDiscoveryImages: ProjectImage[] = [
+  {
+    ...shot("job-discovery/triage", 1600, 760),
+    alt: "A “Triage status per search profile” report: three pie charts, one per profile — AI Engineer, data engineer @ Cairo Egypt, and data engineer (remote) — each broken into new, shortlist, applied and rejected with counts and percentages beneath, over totals of 25, 32 and 0 postings. A paragraph above warns the figures describe only what the system collected and are not a measurement of the job market.",
+    caption:
+      "fig. 1 — triage per profile, on my own live search. the counts are real, including the rejections",
+  },
+  {
+    ...shot("job-discovery/schedules", 1600, 810),
+    alt: "A “Search schedules” page listing two saved profiles — data engineer in Cairo, Egypt and data engineer remote — each with its role, location, boards (indeed, linkedin), run time of 06:00 and controls to disable, run now or delete. Below is a blank form for adding a profile. The intro text ends by citing ADR-0005.",
+    caption:
+      "fig. 2 — a profile is a saved survey: a role, a place, the boards to ask and the hour to ask at. the page cites the record that fixed the behaviour",
+  },
+  {
+    ...shot("job-discovery/reports", 964, 912),
+    alt: "A “Reports” index listing three reports — employer hiring activity, source coverage and overlap, and triage status per search profile — each with a one-line description. The text above states that which reports exist, and which were considered and deferred, is recorded in ADR-0008.",
+    caption:
+      "fig. 3 — the reports index, which names the record saying which reports exist and which were deliberately not built",
+  },
+];
+
+// Already sitting in /public, unreferenced, since the entry was written.
+const currencyImages: ProjectImage[] = [
+  {
+    src: asset("/egyptian-banknote/Currency-Detection-Documetnation.jpg"),
+    width: 1432,
+    height: 758,
+    alt: "The Roboflow Universe page for the EG-Currency-Detector model, running inference on a live webcam: a hand holds a banknote up to the camera and a box is drawn round it, labelled with its class. The prediction JSON beside the frame reads class “8” at 0.955 confidence with its bounding box, and the sidebar shows the project holds 200 images and one dataset.",
+    caption:
+      "fig. 1 — the model answering live: a note held to a webcam, classed and scored at 0.955",
   },
 ];
 
@@ -287,6 +398,7 @@ function Projects() {
           "GitHub Actions",
         ]}
         meta={["AI agents", "DEPI Capstone", "Sole software engineer", "Active"]}
+        images={prReviewerImages}
       />
 
       <ProjectCard
@@ -319,9 +431,11 @@ function Projects() {
           },
           {
             name: "Demo video",
-            url: "https://drive.google.com/file/d/1uawnigtD5zGxpa5VG-PiQdWk6DqU9cnA/view",
+            url: "https://youtu.be/5vXJRONcfKI",
           },
         ]}
+        images={pdf2deckImages}
+        embed={pdf2deckEmbed}
       />
 
       {/* No link: the repository is not public, and the audit question about
@@ -354,6 +468,7 @@ function Projects() {
           "SRS excerpts on request",
           "2026 — present",
         ]}
+        images={dmsImages}
       />
 
       <ProjectCard
@@ -376,6 +491,7 @@ function Projects() {
           "GitHub Actions",
         ]}
         meta={["Data pipeline", "Open source", "2026 — present"]}
+        images={jobDiscoveryImages}
         links={[
           {
             name: "GitHub",
@@ -445,6 +561,7 @@ function Projects() {
         overview="Built to answer a problem of trust rather than one of convenience: recognising Egyptian banknote denominations from a photograph, for people who cannot read them by sight. Uses OpenCV, DataGradients, YOLO, and Roboflow; the application takes an image as input and returns the detected denomination. It stops at the detection layer — turning it into something usable would need audio output and testing with visually impaired users, neither of which it has."
         tools={["OpenCV", "YOLO", "Roboflow", "DataGradients"]}
         meta={["Computer Vision", "Roboflow Universe", "2023"]}
+        images={currencyImages}
         links={[
           {
             name: "Model & dataset",

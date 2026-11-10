@@ -40,6 +40,16 @@ export interface ProjectImage {
  * The dimensions are the recording's own — a webcam capture is not 16:9, and
  * holding the true ratio keeps the slot from jumping when the video mounts.
  */
+/** A recording that lives on YouTube rather than in /public — same figure
+ *  treatment, but nothing contacts YouTube until the reader presses play. */
+export interface ProjectEmbed {
+  videoId: string;
+  poster: string;
+  title: string;
+  alt: string;
+  caption: string;
+}
+
 export interface ProjectVideo {
   src: string;
   poster: string;

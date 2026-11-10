@@ -4,7 +4,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import Figure from "@/components/Figure/figure";
 import HostedVideo from "@/components/Figure/hostedVideo";
-import type { ProjectImage, ProjectVideo } from "@/lib/media";
+import VideoFigure from "@/components/Figure/videoFigure";
+import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 // Uses the Radix Dialog primitive (the same one shadcn's Dialog wraps) for
 // focus trap, Escape, and scroll lock; styled directly against Manuscript
@@ -20,6 +21,7 @@ interface ProjectModalProps {
   tools?: string[];
   images?: ProjectImage[];
   videos?: ProjectVideo[];
+  embed?: ProjectEmbed;
   links?: { name: string; url: string }[];
 }
 
@@ -33,6 +35,7 @@ export default function ProjectModal({
   tools = [],
   images = [],
   videos = [],
+  embed,
   links = [],
 }: ProjectModalProps) {
   return (
@@ -95,13 +98,16 @@ export default function ProjectModal({
             </section>
           )}
 
-          {videos.length > 0 && (
+          {/* Local clips and a YouTube one sit in the same section: both are
+              recordings, and both stay inert until the reader presses play. */}
+          {(videos.length > 0 || embed) && (
             <section className="mt-8">
               <span className="mono block">Recordings</span>
               <div className="mt-4 space-y-8">
                 {videos.map((video) => (
                   <HostedVideo key={video.src} {...video} />
                 ))}
+                {embed && <VideoFigure {...embed} />}
               </div>
             </section>
           )}

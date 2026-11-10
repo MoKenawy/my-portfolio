@@ -295,7 +295,8 @@ function Projects() {
           it, and an entry that says "the HR subsystem I built first" should
           have the thing it names sitting above it on the page. */}
       <ProjectCard
-        title="HR & employee records"
+        eyebrow="Inside the post"
+        title="HR subsystem"
         problem="Every module above it answers questions about people, and the legacy MS Access platform had no single record of a person to answer from. A promotion effective mid-month, a transfer corrected after the fact, a dependant added last year — each lived wherever it had been entered, so two modules could disagree about the same employee and both be defensible."
         insight="The lifecycle events are not attributes on a row, they are dated facts, and every system above depends on reading them as of a date rather than as of now. That makes the record of people the thing that has to be right first: nothing built on top of it can be correct until it is."
         solution="The employee record the whole platform reads from, built first and deliberately: the full lifecycle of hiring, promotion, demotion and transfer, with banking details, dependants, positions and roles, for roughly 15,000 employees. Every lifecycle event is dated and correctable after the fact, so a module above can ask what was true in March rather than only what is true now. Payroll, reporting and access control resolve a person through it instead of each keeping a copy."
@@ -325,7 +326,8 @@ function Projects() {
       />
 
       <ProjectCard
-        title="Payroll engine"
+        eyebrow="Inside the post"
+        title="Payroll subsystem"
         problem="Payroll has no acceptable error rate: every figure is a legal obligation to a named person. The legacy platform could run a payroll but could not reproduce one — once an employee's grade, department or tax band had moved on, the run that paid them last March was no longer regenerable, and a dispute had nothing to be settled against."
         insight="Recomputing from current data is the obvious answer and the wrong one, because the run has to reproduce the state as it was rather than as it is. That makes payroll a problem about modelling time, not about arithmetic — and the dated events that make it hard (a promotion effective mid-month, a transfer corrected after the fact) are produced by the employee subsystem underneath it. The two could not be designed separately."
         solution="A deterministic engine over the HR subsystem I built first: the same inputs always produce the same outputs, across overtime, deductions and taxes for roughly 15,000 employees. Every run is backed by transaction history and an auditable change log, so a prior payroll stays reproducible after the data beneath it has changed. A recalculation replaces only the rows it generated itself, so a payroll officer's manual correction survives a rerun instead of being silently overwritten. It reads every person through the employee record above rather than keeping an idea of its own."
@@ -359,6 +361,7 @@ function Projects() {
       />
 
       <ProjectCard
+        eyebrow="Inside the post"
         title="Reporting & export subsystem"
         problem="Every new report in the legacy platform needed a developer. Someone who wanted the same figures grouped a different way filed a request and waited, and what they eventually got was a report a developer had understood second-hand."
         insight="The queue of requests is the symptom; the cause is that reports were code. If a report definition is data, the person who needs the report is the person who can make it, and the developer leaves the loop entirely. That turned out to be the instinct running through the whole platform — the work a developer does most often and values least is exactly the work the business should be able to do without one."
@@ -391,7 +394,8 @@ function Projects() {
       />
 
       <ProjectCard
-        title="Access control & RBAC"
+        eyebrow="Inside the post"
+        title="Auth subsystem"
         problem="In an HR and payroll platform, who may see what is the requirement rather than a layer over it: an export embeds salaries, an employee record embeds dependants and bank details. And the rules keep moving — a department reorganises, a role gains a module, an officer leaves the team. On the legacy platform each of those was a code change, so a question about permissions was answered on a deployment schedule."
         insight="Permissions move faster than releases. If what a role may do is a row rather than a branch, the person who owns the org chart is the person who changes it — the same instinct the reporting subsystem runs on, pointed at authorisation instead of at reports."
         solution="A configurable RBAC model with JWT authentication, where a role's permissions are reconfigured from the dashboard without a deployment. The permission is re-checked at access time rather than trusted from the token, so revoking a role takes effect on the next read instead of the next login. Async operation resources sit on top of it owner-scoped: a user reads their own calculation runs and exports and nobody else's, and a non-owner cannot tell the difference between a resource they may not see and one that does not exist."

@@ -74,14 +74,29 @@ function changed() {
   renderRail();
 }
 
-async function save() {
-  try {
-    const r = await fetch('/api/answers', { method: 'PUT', body: JSON.stringify(answers) });
-    setStatus(r.ok ? 'saved' : 'error');
-  } catch {
-    setStatus('error');
-  }
+// Saves run one after another so an older request can never land after a newer one.
+let saving = Promise.resolve();
+function save({ keepalive = false } = {}) {
+  clearTimeout(saveTimer);
+  saveTimer = null;
+  saving = saving.then(async () => {
+    try {
+      const r = await fetch('/api/answers', { method: 'PUT', body: JSON.stringify(answers), keepalive });
+      setStatus(r.ok ? 'saved' : 'error');
+    } catch {
+      setStatus('error');
+    }
+  });
+  return saving;
 }
+
+// Write any pending change now: when leaving a field, switching file, or closing the tab.
+function flush(opts) {
+  if (saveTimer) save(opts);
+}
+document.addEventListener('focusout', () => flush());
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flush({ keepalive: true }); });
+window.addEventListener('pagehide', () => flush({ keepalive: true }));
 
 function setStatus(kind) {
   const el = document.getElementById('status');

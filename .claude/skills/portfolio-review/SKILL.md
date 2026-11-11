@@ -16,7 +16,7 @@ description: Pre-publication review of a portfolio built from this boilerplate â
    ```
    Exceptions: `README.md` and the intake templates may mention placeholders; the site code may not.
 2. **Privacy.** For every item in `## Do not publish` (names, employers, internal hosts, emails, IDs), grep `src/`, `public/` and, after step 6, `out/`. Open every image in `public/` and look at it: no private data, faces or names without consent, no internal URLs in a browser bar.
-3. **Intake files are not in git.** `git status --short` and `git ls-files Docs intake` must show only the blank templates in `intake/`, nothing from `Docs/`.
+3. **Intake files are not in git.** `git status --short` and `git ls-files Docs intake` must show only the blank templates and the form tool (`intake/tool/`) in `intake/`, nothing from `Docs/`.
 4. **Evidence and accessibility.** In `src/content/projects.ts`: every entry has `evidence`; every `links[].url` resolves (check with a HEAD request, ask before hitting anything that isn't the client's); every image and video has `alt` and a lowercase `caption`; `width`/`height` match the file.
 5. **Voice.** Read every string in `src/config/site.ts`, `src/content/*`, and the page labels against `04-brand-and-voice.md`: banned words, the chosen person, round or invented numbers, parallel triplets, claims with no intake source. Quote each offending line.
 6. **Production build with the real base path** (from 05: empty for a user site or custom domain, else `/<repo>`):

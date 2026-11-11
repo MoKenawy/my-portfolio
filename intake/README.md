@@ -2,9 +2,13 @@
 
 Fill these in **before** building the portfolio. Each file is a questionnaire; your answers become the content of the site.
 
-These are blank templates: don't fill them in place. Copy them to `Docs/intake/` (git-ignored) and answer there. In Claude Code, the `/new-portfolio` skill does this for you and interviews the client file by file.
+**Easiest way:** run `pnpm intake` (or `node intake/tool/fill.mjs`). It opens a form in your browser, one page per questionnaire, and saves your answers as filled Markdown files in `Docs/intake/` (git-ignored, never leaves your computer). You can stop and resume at any time. `pnpm intake:check` tells you whether the required answers are in.
 
-In your copy, replace every `[...]` prompt, delete the guidance lines you don't need, and write "skip" for anything that doesn't apply. Rough and honest beats polished.
+The `.md` files in this folder are blank, generated copies of the same questionnaires, for reading or filling by hand. Don't fill them in place: copy them to `Docs/intake/`. In Claude Code, the `/new-portfolio` skill interviews the client and uses the same files.
+
+If you fill by hand, replace every `[...]` prompt, delete the guidance lines you don't need, and write "skip" for anything that doesn't apply. Rough and honest beats polished.
+
+**Changing the questions or adding a language:** the questions live in [`tool/schema.mjs`](tool/schema.mjs) (structure) and [`tool/locales/en.mjs`](tool/locales/en.mjs) (all wording). To add a language, copy `en.mjs` to e.g. `ar.mjs`, translate the values and set `dir: 'rtl'` for right-to-left; then `pnpm intake -- --lang ar`. After editing either file run `pnpm intake:templates` to refresh the blank `.md` files.
 
 | Order | File | You tell us | It becomes |
 |---|---|---|---|

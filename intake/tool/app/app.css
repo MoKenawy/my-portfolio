@@ -1,0 +1,125 @@
+/* Logical properties only (inline-start/end), so a right-to-left locale mirrors without changes. */
+:root {
+  --bg: #0f0f0e;
+  --panel: #171715;
+  --line: #2b2a27;
+  --text: #ece7dd;
+  --muted: #9a958a;
+  --accent: #c0524a;
+  --ok: #7fa876;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f3ec;
+    --panel: #ffffff;
+    --line: #dcd6c8;
+    --text: #1d1c1a;
+    --muted: #6b665c;
+    --accent: #a8372f;
+    --ok: #3f7a39;
+    color-scheme: light;
+  }
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.55 "Newsreader", Georgia, "Segoe UI", "IBM Plex Sans Arabic", Tahoma, serif;
+}
+code, pre, .mono { font-family: "IBM Plex Mono", ui-monospace, Consolas, monospace; font-size: 0.85em; }
+
+.shell { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+.rail {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow: auto;
+  padding: 24px 18px; border-inline-end: 1px solid var(--line); background: var(--panel);
+}
+.rail h1 { font-size: 1.15rem; margin: 0 0 4px; }
+.rail .note { color: var(--muted); font-size: 0.85rem; margin: 0 0 18px; }
+.rail h2 { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 22px 0 8px; }
+.files { list-style: none; margin: 0; padding: 0; }
+.files button {
+  display: flex; width: 100%; justify-content: space-between; gap: 8px; align-items: baseline;
+  background: none; border: 0; color: inherit; font: inherit; text-align: start;
+  padding: 8px 10px; border-radius: 6px; cursor: pointer;
+}
+.files button:hover { background: color-mix(in srgb, var(--text) 7%, transparent); }
+.files button[aria-current="true"] { background: color-mix(in srgb, var(--accent) 18%, transparent); }
+.files .count { color: var(--muted); font-size: 0.8rem; white-space: nowrap; }
+.gate { font-size: 0.9rem; }
+.gate .pass { color: var(--ok); }
+.gate ul { margin: 6px 0 0; padding-inline-start: 18px; }
+.gate li button { background: none; border: 0; color: var(--accent); font: inherit; cursor: pointer; padding: 0; text-align: start; text-decoration: underline; }
+.status { margin-top: 18px; color: var(--muted); font-size: 0.85rem; min-height: 1.4em; }
+.status.error { color: var(--accent); }
+
+.main { padding: 32px clamp(18px, 5vw, 56px) 80px; max-width: 880px; }
+.main h2.file { font-size: 1.7rem; margin: 0 0 6px; }
+.intro { color: var(--muted); white-space: pre-line; margin: 0 0 24px; }
+.toolbar { display: flex; gap: 10px; margin: 0 0 24px; }
+
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px 22px; margin: 0 0 22px; }
+.card h3 { margin: 0 0 4px; font-size: 1.15rem; }
+.maps { color: var(--muted); font-size: 0.8rem; margin: 0 0 10px; }
+.maps code { background: color-mix(in srgb, var(--text) 8%, transparent); padding: 1px 5px; border-radius: 4px; margin-inline-end: 4px; }
+.card .intro { margin: 0 0 14px; font-size: 0.95rem; }
+.block { border-top: 1px dashed var(--line); margin-top: 18px; padding-top: 14px; }
+.block:first-of-type { border-top: 0; margin-top: 0; padding-top: 0; }
+.blockhead { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.blockhead h4 { margin: 0; font-size: 1rem; }
+h4.sub { margin: 22px 0 8px; font-size: 1rem; color: var(--accent); }
+
+.field { margin: 0 0 16px; }
+.field > label, .field > .label { display: block; font-weight: 600; margin-bottom: 5px; }
+.req { color: var(--accent); font-weight: 400; font-size: 0.78rem; margin-inline-start: 6px; }
+.opt { color: var(--muted); font-weight: 400; font-size: 0.78rem; margin-inline-start: 6px; }
+input[type="text"], textarea, select {
+  width: 100%; background: var(--bg); color: inherit; font: inherit;
+  border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px;
+}
+textarea { resize: vertical; min-height: 4.5em; }
+input[type="text"]:focus, textarea:focus, button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.choices { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; }
+.choices label { display: inline-flex; gap: 6px; align-items: center; font-weight: 400; cursor: pointer; }
+.choices .other { flex: 1 1 200px; }
+.badge {
+  display: inline-flex; gap: 8px; align-items: center; margin-top: 6px; font-size: 0.8rem;
+  color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 1px 4px 1px 10px;
+}
+.badge button { font-size: 0.78rem; padding: 1px 10px; }
+
+button.btn, .badge button, .upload {
+  background: none; color: inherit; font: inherit; cursor: pointer;
+  border: 1px solid var(--line); border-radius: 6px; padding: 7px 14px;
+}
+button.btn:hover, .upload:hover { border-color: var(--accent); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.danger { color: var(--muted); }
+.upload { display: inline-block; font-size: 0.8rem; padding: 4px 10px; white-space: nowrap; }
+.upload input { display: none; }
+
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th { text-align: start; font-weight: 600; font-size: 0.8rem; color: var(--muted); padding: 4px 6px; vertical-align: bottom; }
+td { padding: 3px 4px; vertical-align: top; min-width: 120px; }
+td.act { min-width: 0; width: 1%; }
+td .cellwrap { display: flex; gap: 6px; align-items: center; }
+
+.checklist { list-style: none; margin: 0; padding: 0; }
+.checklist li { margin: 0 0 10px; }
+.checklist label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; }
+.checklist input { margin-top: 6px; }
+.sent { color: var(--ok); font-size: 0.82rem; margin-inline-start: 28px; }
+
+.skipbar { margin-top: 10px; color: var(--muted); font-size: 0.9rem; }
+.skipbar label { cursor: pointer; display: inline-flex; gap: 8px; align-items: center; }
+.skipped { color: var(--muted); font-style: italic; }
+
+.pager { display: flex; justify-content: space-between; margin-top: 30px; }
+pre.preview { white-space: pre-wrap; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 20px; overflow-x: auto; unicode-bidi: plaintext; }
+
+@media (max-width: 760px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { position: static; height: auto; border-inline-end: 0; border-bottom: 1px solid var(--line); }
+}

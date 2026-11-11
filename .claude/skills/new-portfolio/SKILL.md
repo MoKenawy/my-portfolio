@@ -23,7 +23,7 @@ Runs four phases in order. Each phase ends with a gate; the next phase starts on
 - One small content edit on a finished site. Edit `src/config/site.ts` or `src/content/*` directly.
 
 ## Steps
-1. **Check for a run in progress.** If `Docs/intake/STATUS.md` exists, read it, tell the user which phase it is at and what is open, and continue from there. Do not start over or overwrite `Docs/intake/` without asking.
+1. **Check for a run in progress.** If `Docs/intake/STATUS.md` or `Docs/intake/answers.json` exists, read it (and run `pnpm intake:check`), tell the user which phase it is at and what is open, and continue from there. Do not start over or overwrite `Docs/intake/` without asking.
 2. **Otherwise start fresh.** Create `Docs/intake/STATUS.md` from the template below.
 3. **Run each phase** by invoking its skill. After each one, update STATUS.md: phase, gate result, open `[TODO]`s, decisions taken.
 4. **Stop at a failed gate.** Report what is missing and what the user or client must supply. Do not push past it.

@@ -10,7 +10,7 @@ description: Gather everything needed for a new portfolio by interviewing the ow
 - Anything the client already has: CV (PDF), LinkedIn export, an old site, project READMEs, write-ups.
 
 ## Steps
-1. **Copy, never edit the templates.** Create `Docs/intake/` and copy `intake/01-*.md` … `intake/06-*.md` into it. Work only on the copies. Confirm with `git check-ignore -v Docs/intake/01-about-me.md` that they are ignored.
+1. **Choose how the client answers.** Offer the form: `pnpm intake` (`node intake/tool/fill.mjs`) opens a browser form that writes `Docs/intake/answers.json` plus the six filled `.md` files. If the client uses it, wait, then read the results. Otherwise interview in chat: write answers into `Docs/intake/answers.json` (shape in `intake/tool/render.mjs`; set `source` on pre-filled values) and run `pnpm intake:render` to produce the `.md` files. Never edit the blank templates in `intake/`, and don't hand-edit the rendered `.md` (the next render overwrites them). Confirm with `git check-ignore -v Docs/intake/01-about-me.md` that `Docs/` is ignored.
 2. **Ask for existing material first.** "Do you have a CV, a LinkedIn profile export, an old site, or project write-ups?" Read whatever is given and pre-fill the copies. Mark every pre-filled line `(from CV — confirm)` (or the actual source).
 3. **Interview one file at a time, 01 → 06.** For each file:
    - Show the client the questions for one section at a time, not the whole file.
@@ -41,7 +41,7 @@ These must be filled (not `[TODO]`, not empty) before portfolio-build starts:
 | 04 | At least one audience row; the voice section |
 | 05 | Hosting: where, domain, repository name |
 
-Report the gate as a table (field → filled / missing). If it fails, list exactly what the client must provide and stop.
+`pnpm intake:check` runs this gate (exit 1 if it fails). Report it as a table (field → filled / missing). If it fails, list exactly what the client must provide and stop.
 
 ## Hand-off
 Gate passed → set Intake to "passed" in STATUS.md and invoke `portfolio-build`.

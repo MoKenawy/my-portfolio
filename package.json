@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "intake": "node intake/tool/fill.mjs",
+    "intake:check": "node intake/tool/fill.mjs --check",
+    "intake:render": "node intake/tool/fill.mjs --render",
+    "intake:templates": "node intake/tool/fill.mjs --templates"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.19",

@@ -175,8 +175,8 @@ const credentials: Credential[] = [
     issuer:
       "Digital Egypt Pioneers Initiative (DEPI) — Egypt's Ministry of Communications and IT",
     detail:
-      "160 hours. A separate and earlier DEPI track from the one above, taken while already employed.",
-    when: "Jan 2025",
+      "159 hours. A separate and earlier DEPI track from the one above. Issued 30 September 2024.",
+    when: "30 Sep 2024",
   },
   {
     title: "Advanced Learning Algorithms",

@@ -135,61 +135,91 @@ const queenHrImages: ProjectImage[] = [
       "fig. 2 — filing one. the field that carries the weight is the effective date, which is not the day the clerk typed it — that gap is the whole difference between a payroll that can be reproduced and one that cannot",
   },
   {
+    ...shot("hr/hr-main-page", 1366, 633),
+    alt: "The employee directory, in Arabic and laid out right to left. A header reads “employee directory”, with a description about managing the workforce efficiently — viewing details, editing, or adding new members — and three buttons: add employee, quick entry and export data. A tile gives the number of search results, blurred. Below sit an advanced-filters control and a note that the table is ordered by computer number descending, then by the other columns. The employee list opens with a search by name or computer number and a second search by national number, over sortable columns for computer number, name, job, rank or grade, location, sub-location, sector, status and actions. The side rail lists users, roles, permissions, employees, bulk transfer and termination, reports, report administration, payroll, payroll months, monthly payroll review and payroll settings.",
+    caption:
+      "fig. 3 — the way in to a person: a directory searched by name, computer number or national number, with quick entry and export beside add. the rail on the right is the rest of the platform, all of it one click from the record of who works here",
+  },
+  {
     ...shot("hr/employee-record", 1366, 633),
     alt: "An employee record. A green header strip carries a photograph slot, a status of “continuing”, the job title first driver and an edit button, with the name and national number blurred. Under it runs a rail of tabs — personal data, relatives, contact methods, academic qualifications, training courses, bank accounts, career path, attendance — scrolling past the edge of the frame, with personal data open on a computer number of 274329 and a date of birth of 25/08/1993.",
     caption:
-      "fig. 3 — one person, and the registers that hang off them, on a rail that runs past the edge of the screen. payroll, reporting and access control each resolve a person through this rather than keeping a copy",
+      "fig. 4 — one person, and the registers that hang off them, on a rail that runs past the edge of the screen. payroll, reporting and access control each resolve a person through this rather than keeping a copy",
   },
   {
     ...shot("hr/bulk-movement", 1366, 633),
     alt: "A page headed “bulk transfer and termination of employees”, at step one, selecting the target employees. A row of filters narrows by location, sub-location, sector, job and release sheet; below it a table with a select-all checkbox lists employees by computer number, name, current sector, current location and current job. The rows are blurred in the capture.",
     caption:
-      "fig. 4 — the same events at scale. filter down the structure, select, and the movements are written for every person caught by the filter at once",
+      "fig. 5 — the same events at scale. filter down the structure, select, and the movements are written for every person caught by the filter at once",
   },
   {
     ...shot("hr/org-structure", 1366, 1206),
     alt: "The system-settings page for the organisational structure, laid out as eleven cards: sectors, departments, sections — this one marked “soon” — locations, sub-locations, jobs, financial grades, ranks, banks, printers and the release sheet. Each card carries a one-line description and a manage button.",
     caption:
-      "fig. 5 — the structure a person is placed inside, kept as reference data. sectors, locations, jobs, grades and ranks are rows somebody in the business edits, not constants compiled into the thing",
+      "fig. 6 — the structure a person is placed inside, kept as reference data. sectors, locations, jobs, grades and ranks are rows somebody in the business edits, not constants compiled into the thing",
+  },
+  {
+    ...shot("hr/hr-config-cities", 1366, 808),
+    alt: "The cities page of the system settings, in Arabic and right to left, described as viewing and managing every city in the system, twenty-eight in all. A search by city code or name sits beside an add button. A table lists cities by code, name, an administrative P-code and the number of employees working there — Cairo EG01, Alexandria EG02, Giza EG21, Port Said EG03, Ismailia EG19, Suez EG04, Qalyubia EG14, Sharqia EG13, Dakahlia EG12 and Damietta EG11 — with every count at zero and edit and delete controls on one row. A footer reads that ten of twenty-eight results are shown, over three pages.",
+    caption:
+      "fig. 7 — one of the eleven cards from fig. 6, opened. a city is a row with a code and a standard administrative identifier, and the count beside it is how many people are placed there, so the list says what is safe to delete",
   },
 ];
 
 const queenPayrollImages: ProjectImage[] = [
   {
-    ...shot("payroll/monthly-run", 1366, 1549),
-    alt: "The monthly payroll review for 2026-09, described as the prepared salaries shown for checking before the month is closed. Each row is one employee, name blurred, carrying job number, month, release sheet, printer, bank, basic salary, total entitlements, tax, insurance, total deductions and net salary. Most rows pay onto a Meeza card; one is marked “no bank” and one “various banks”. Every figure is set in Arabic-Indic numerals.",
+    ...shot("payroll/payroll-profiles", 1366, 633),
+    alt: "The employee payroll-profiles page, in Arabic, described as viewing and editing employees' salary set-ups. Under an advanced-filters control and a search by name or computer number, a table lists employees by job number, job title, sector, location, sub-location, printer, bank, status and net salary, with an action button on each row. The visible rows all pay through the same bank and are marked continuing; the names and organisational columns are blurred, and the net salaries are set in Arabic-Indic numerals.",
     caption:
-      "fig. 1 — a month laid out for review before it closes. the arithmetic is the easy half; the hard half is that this view has to come back identical after everyone in it has been promoted, transferred or re-banded",
+      "fig. 2 — the input to the run, one row per person. a salary here is a set-up each employee carries, not a number typed in at the end of the month",
   },
   {
-    ...shot("payroll/open-month", 1366, 633),
-    alt: "A dialog headed “open a new payroll month”, under a note that the statutory settings in force are pinned to the month at the moment it is opened. The month field reads 2026 / 08, with an optional notes field and a preview button. A panel headed “the settings this month will be calculated with” lists income tax #1, rehabilitation fund #1, martyrs fund #1 and social insurance #2 — each a numbered version — above a line reading that the settings are valid. The footer offers confirm and open the month, or cancel.",
+    ...shot("payroll/payroll-profile", 1366, 971),
+    alt: "A single employee's salary set-up, in Arabic. A blue card gives the net salary for the current month, over total entitlements and total deductions. Panels beside it break the set-up down: the basic salary with work-nature, transfer and supervision allowances, each with an edit button; insurance and taxes, listing tax, social insurance for the employee and the company share, a health-insurance line and the martyrs and disability funds; variable allowances, with one government incentive marked subject to tax; and loans and advances, which reads that none are recorded. Buttons at the top edit the basic salary, change the job or delete the set-up. Most of the identifying fields are blurred.",
     caption:
-      "fig. 2 — the mechanism the entry rests on, in one dialog. opening a month pins the versions of the statutory rules it will be computed with, which is what keeps the run reproducible after the law and the employee have both moved on",
+      "fig. 3 — one person's pay, taken apart. fixed allowances, statutory deductions and the manual, taxable extras are separate panels, which is what lets a rerun know which of them it may touch",
+  },
+  {
+    ...shot("payroll/social-insurance", 1366, 557),
+    alt: "An employee's social-insurance record, in Arabic. A form card holds the insurance number, status “insured”, an insurance start date of 01/03/1996, the insurance type “regular” and an end date reading “continuing”, with the insured wage and the employee's and company's shares beneath. A blue card headed GOSI accounts analyses the contributions: the registered insured wage, the employee share, the company share, and the total monthly contribution with a rate of 29.75%. Buttons offer editing the data, ending the insurance, or deleting it.",
+    caption:
+      "fig. 4 — the insurance record that the deduction is computed from. an insured wage, two shares and a rate: the arithmetic is shown, which is how a payroll officer checks it against the authority's own figure",
   },
   {
     ...shot("payroll/job-change", 1366, 633),
     alt: "A dialog headed “change job”, showing a move from one job to another. A notice reads that manually entered items — allowances, additions and deductions — will be preserved. A three-column table sets each item's current value against the proposed one: a basic salary of 1000 against 250, a work-nature allowance of 1188.62 against 350, and a travel allowance of 500 against 200. The footer offers apply the change, or go back.",
     caption:
-      "fig. 3 — ADR-P02 as a sentence in the interface. the notice promises the officer that what they entered by hand survives the recalculation that is about to run over everything around it",
+      "fig. 6 — ADR-P02 as a sentence in the interface. the notice promises the officer that what they entered by hand survives the recalculation that is about to run over everything around it",
+  },
+  {
+    ...shot("payroll/open-month", 1366, 633),
+    alt: "A dialog headed “open a new payroll month”, under a note that the statutory settings in force are pinned to the month at the moment it is opened. The month field reads 2026 / 08, with an optional notes field and a preview button. A panel headed “the settings this month will be calculated with” lists income tax #1, rehabilitation fund #1, martyrs fund #1 and social insurance #2 — each a numbered version — above a line reading that the settings are valid. The footer offers confirm and open the month, or cancel.",
+    caption:
+      "fig. 5 — the mechanism the entry rests on, in one dialog. opening a month pins the versions of the statutory rules it will be computed with, which is what keeps the run reproducible after the law and the employee have both moved on",
+  },
+  {
+    ...shot("payroll/monthly-run", 1366, 1549),
+    alt: "The monthly payroll review for 2026-09, described as the prepared salaries shown for checking before the month is closed. Each row is one employee, name blurred, carrying job number, month, release sheet, printer, bank, basic salary, total entitlements, tax, insurance, total deductions and net salary. Most rows pay onto a Meeza card; one is marked “no bank” and one “various banks”. Every figure is set in Arabic-Indic numerals.",
+    caption:
+    "fig. 1 — a month laid out for review before it closes. the arithmetic is the easy half; the hard half is that this view has to come back identical after everyone in it has been promoted, transferred or re-banded",
   },
   {
     ...shot("payroll/monthly-effects", 1366, 753),
     alt: "The monthly-effects page, described as the additions and deductions belonging to a payroll month, whatever their source. Seven records for 2026-11 are listed against one employee — absence, deductions, penalties, a late-arrival deduction and damages among them — each with its kind, deduction or entitlement, a number of days, a value, whether it is subject to tax, and a source column reading “manual entry” on all seven. The toolbar offers adding an effect, transfer-and-appointment differences, and import from a file. The values are blurred.",
     caption:
-      "fig. 4 — and the column that decides what a rerun may touch. a recalculation replaces the rows it generated itself; a row whose source reads manual entry stays exactly where the officer put it",
+      "fig. 7 — and the column that decides what a rerun may touch. a recalculation replaces the rows it generated itself; a row whose source reads manual entry stays exactly where the officer put it",
   },
   {
     ...shot("payroll/insurance-rules", 1366, 633),
     alt: "The social-insurance rules page, described as the minimum and maximum contribution limits and the insurance rates by effective date. Three rows share a deduction code and differ only in their dates and their state: one effective 2027-01-01 with no end date, marked SCHEDULED; one running 2026-01-01 to 2027-01-01, marked ACTIVE and carrying an exemption rate of 30; and one that ran 2025-01-01 to 2026-01-01, marked EXPIRED. Each carries two insurance-type items.",
     caption:
-      "fig. 5 — the law as dated rows rather than a constant. expired, active and scheduled sit in the same table, and which one a run reads is settled by the month the run is for",
+      "fig. 8 — the law as dated rows rather than a constant. expired, active and scheduled sit in the same table, and which one a run reads is settled by the month the run is for",
   },
   {
     ...shot("payroll/tax-brackets", 1366, 633),
     alt: "The income-tax brackets page. Its description states that the yearly brackets are made of bracket groups and sub-brackets, and that there is no editing after registration — a correction is recorded as a new group. One row is listed: effective 01/01/2026 with no end date, state current, a personal exemption of 20000, a deduction code of salary basic, and six groups.",
     caption:
-      "fig. 6 — and the rule underneath that keeps the history honest. a bracket set is never edited once filed; a correction is a new group, so a run from last year still finds last year's brackets",
+      "fig. 9 — and the rule underneath that keeps the history honest. a bracket set is never edited once filed; a correction is a new group, so a run from last year still finds last year's brackets",
   },
 ];
 
@@ -228,6 +258,12 @@ const queenReportingImages: ProjectImage[] = [
 
 const queenAuthImages: ProjectImage[] = [
   {
+    ...shot("auth/users", 1366, 809),
+    alt: "The users page of the same system: three tiles reading four users in total, four of them active, and no pending join requests. A table lists each user with an avatar initial, an email address, an active status and a last sign-in — fifty-seven days ago, three days ago, never signed in, and two hours ago. The names and addresses are blurred in the capture.",
+    caption:
+      "fig. 3 — the accounts the role table is actually for. names and addresses are blurred here, and the records behind all of these screens are seeded rather than live",
+  },
+  {
     ...shot("auth/roles", 1366, 1267),
     alt: "The roles-and-permissions page, described as controlling the access levels of the system's users. A table lists roles by name — Admin, Employee Affairs, Employee Bank Accounts, HR Employee, Monthly Effects Management, Monthly Effects Viewer, Monthly Salary Preparation and Monthly Salary Viewer among them — each with a description stating exactly what it excludes, a level, the number of people holding it, the number of permissions it grants and an active status. A footer reads that ten of twenty-two roles are shown. A panel below offers permission assignment down to the level of a single button.",
     caption:
@@ -238,12 +274,6 @@ const queenAuthImages: ProjectImage[] = [
     alt: "The permission-definition page, headed “the system's security starts here”. A side panel notes that the permission matrix was last updated three hours ago. Under a search by permission code and a filter by module, a table lists permissions by code, module, operation and description, the first row being the global wildcard *:* on the System module.",
     caption:
       "fig. 2 — the permissions a role is assembled from, addressed as code, module and operation. re-checking one at access time costs a lookup per request; waiting for a release costs a revocation that is not real yet",
-  },
-  {
-    ...shot("auth/users", 1366, 809),
-    alt: "The users page of the same system: three tiles reading four users in total, four of them active, and no pending join requests. A table lists each user with an avatar initial, an email address, an active status and a last sign-in — fifty-seven days ago, three days ago, never signed in, and two hours ago. The names and addresses are blurred in the capture.",
-    caption:
-      "fig. 3 — the accounts the role table is actually for. names and addresses are blurred here, and the records behind all of these screens are seeded rather than live",
   },
 ];
 

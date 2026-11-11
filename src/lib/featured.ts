@@ -38,60 +38,12 @@ export interface FeaturedItem {
   /**
    * Internal paths go to `next/link`, which applies `basePath` itself, so they
    * are deliberately not passed through `asset()`.
-   */
-  href: string;
-  external?: boolean;
+  */
+ href: string;
+ external?: boolean;
 }
 
 export const featured: FeaturedItem[] = [
-  {
-    kind: "system",
-    src: asset("/ship/agentic-pr-reviewer/report-head.webp"),
-    width: 1230,
-    height: 1152,
-    alt: "The head of a generated code-review report: its title, a boxed verdict reading “blocking”, a count of findings by severity, and the scope table.",
-    crop: "top",
-    title: "Agentic PR Reviewer",
-    meta: "DEPI capstone · 2026",
-    caption: "fig. 1 — the report the reviewer files, schema-checked before it is shown.",
-    href: "/ship#agentic-pr-reviewer",
-  },
-  {
-    kind: "system",
-    src: asset("/ship/pdf2deck/run-complete.webp"),
-    width: 1600,
-    height: 1576,
-    alt: "The PDF → Styled PowerPoint Agent after a completed run: a chapter PDF loaded on the left, and on the right “Deck rendered (14 slides)” with the generated outline, each slide with its bullets.",
-    crop: "top",
-    title: "PDF2Deck Agent",
-    meta: "DEPI track project · 2026",
-    caption: "fig. 2 — a person approves the outline and the deck; the model only proposes.",
-    href: "/ship#pdf2deck",
-  },
-  {
-    kind: "system",
-    src: asset("/ship/payroll/monthly-run.webp"),
-    width: 1366,
-    height: 1549,
-    alt: "The monthly payroll review for September 2026 in an Arabic right-to-left interface: a table with one row per employee, names blurred, carrying basic salary, entitlements, tax, insurance, deductions and net salary.",
-    crop: "top",
-    title: "Payroll subsystem",
-    meta: "Queen Service · 2025",
-    caption: "fig. 3 — every figure on the page is one a named person is paid.",
-    href: "/ship#payroll",
-  },
-  {
-    kind: "system",
-    src: asset("/ship/dms/audit.webp"),
-    width: 1600,
-    height: 826,
-    alt: "The audit log of the Diagram Management System in an Arabic right-to-left interface: a table of logins, logouts, diagram creations and downloads, each with its user, action, target and timestamp.",
-    crop: "right",
-    title: "DMS — Diagram Management System",
-    meta: "On-premises archive · TypeScript",
-    caption: "fig. 4 — who opened, created and downloaded what, kept by the system itself.",
-    href: "/ship#dms",
-  },
   {
     kind: "certificate",
     src: asset("/featured/depi-aws-ml.webp"),
@@ -130,4 +82,52 @@ export const featured: FeaturedItem[] = [
     href: "https://coursera.org/verify/SFDAQ837LL2H",
     external: true,
   },
+  {
+    kind: "system",
+    src: asset("/ship/agentic-pr-reviewer/report-head.webp"),
+    width: 1230,
+    height: 1152,
+    alt: "The head of a generated code-review report: its title, a boxed verdict reading “blocking”, a count of findings by severity, and the scope table.",
+    crop: "top",
+    title: "Agentic PR Reviewer",
+    meta: "DEPI capstone · 2026",
+    caption: "fig. 1 — the report the reviewer files, schema-checked before it is shown.",
+    href: "/ship#agentic-pr-reviewer",
+  },
+  {
+    kind: "system",
+    src: asset("/ship/pdf2deck/interface.webp"),
+    width: 1600,
+    height: 1576,
+    alt: "The PDF → Styled PowerPoint Agent after a completed run: a chapter PDF loaded on the left, and on the right “Deck rendered (14 slides)” with the generated outline, each slide with its bullets.",
+    crop: "top",
+    title: "PDF2Deck Agent",
+    meta: "DEPI track project · 2026",
+    caption: "fig. 2 — a person approves the outline and the deck; the model only proposes.",
+    href: "/ship#pdf2deck",
+  },
+  {
+    kind: "system",
+    src: asset("/ship/payroll/payroll-profile.webp"),
+    width: 1366,
+    height: 1549,
+    alt: "The monthly payroll review for September 2026 in an Arabic right-to-left interface: a table with one row per employee, names blurred, carrying basic salary, entitlements, tax, insurance, deductions and net salary.",
+    crop: "top",
+    title: "Payroll subsystem",
+    meta: "Queen Service · 2025",
+    caption: "fig. 3 — every figure on the page is one a named person is paid.",
+    href: "/ship#payroll",
+  },
+  {
+    kind: "system",
+    src: asset("/ship/dms/audit.webp"),
+    width: 1600,
+    height: 826,
+    alt: "The audit log of the Diagram Management System in an Arabic right-to-left interface: a table of logins, logouts, diagram creations and downloads, each with its user, action, target and timestamp.",
+    crop: "right",
+    title: "DMS — Diagram Management System",
+    meta: "On-premises archive · TypeScript",
+    caption: "fig. 4 — who opened, created and downloaded what, kept by the system itself.",
+    href: "/ship#dms",
+  }
 ];

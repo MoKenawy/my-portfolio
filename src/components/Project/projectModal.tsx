@@ -2,8 +2,8 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
-import Figure from "@/components/Figure/figure";
 import HostedVideo from "@/components/Figure/hostedVideo";
+import Plates from "@/components/Figure/plates";
 import VideoFigure from "@/components/Figure/videoFigure";
 import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
@@ -81,22 +81,11 @@ export default function ProjectModal({
 
           {/* Screens run full width and keep their colour: a dashboard cropped
               to a thumbnail strip proves nothing, and the interface's own
-              greens and reds are what the violation states are read by. */}
-          {images.length > 0 && (
-            <section className="mt-8">
-              <span className="mono block">Figures</span>
-              <div className="mt-4 space-y-8">
-                {images.map((image) => (
-                  <Figure
-                    key={image.src}
-                    {...image}
-                    tone="colour"
-                    sizes="(min-width: 640px) 36rem, 88vw"
-                  />
-                ))}
-              </div>
-            </section>
-          )}
+              greens and reds are what the violation states are read by. They
+              are read one at a time rather than stacked — a modal 36rem wide
+              cannot hold six screens of a dense grid at a size anyone can
+              read, and the plate opens at capture size when pressed. */}
+          <Plates images={images} title={title} />
 
           {/* Local clips and a YouTube one sit in the same section: both are
               recordings, and both stay inert until the reader presses play. */}

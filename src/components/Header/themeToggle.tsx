@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 type Mode = "dark" | "light";
 
-// Toggles the palette by stamping data-theme on <html> (design.md §11).
+// Toggles the palette by stamping data-theme on <html>.
 // The site defaults to dark; a stored choice or the toggle overrides it.
 export default function ThemeToggle() {
   const [mode, setMode] = useState<Mode>("dark");

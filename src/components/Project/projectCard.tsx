@@ -7,11 +7,8 @@ import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 export interface ProjectCardProps {
   /**
-   * A mono label above the title, in the same register as the eyebrows on
-   * `ThePost` and the band that opens the second half of the ledger. It exists
-   * so an entry belonging to the post still says so three screens after the
-   * post itself has scrolled away — the employer line in the right rail is
-   * metadata, and metadata is not where a reader looks for context.
+   * A mono label above the title — useful for context such as an employer
+   * or a series, shown where a reader looks first rather than in the metadata.
    */
   eyebrow?: string;
   title: string;
@@ -36,7 +33,7 @@ export interface ProjectCardProps {
   meta?: string[];
 }
 
-// One entry in the index — a case-study opening, not a card (design.md §4).
+// One entry in the index — a case-study opening, not a card.
 //
 // The card is set on the decision spine rather than feature-first: it opens on
 // the problem, gives the mechanism, then the proof, and closes on a next step.

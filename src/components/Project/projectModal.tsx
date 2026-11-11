@@ -8,7 +8,7 @@ import VideoFigure from "@/components/Figure/videoFigure";
 import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 // Uses the Radix Dialog primitive (the same one shadcn's Dialog wraps) for
-// focus trap, Escape, and scroll lock; styled directly against Manuscript
+// focus trap, Escape, and scroll lock; styled directly against the design
 // tokens. When shadcn's CLI is adopted later, this slots in as its Dialog.
 interface ProjectModalProps {
   open: boolean;
@@ -81,7 +81,7 @@ export default function ProjectModal({
 
           {/* Screens run full width and keep their colour: a dashboard cropped
               to a thumbnail strip proves nothing, and the interface's own
-              greens and reds are what the violation states are read by. */}
+              interface colours can carry meaning. */}
           {images.length > 0 && (
             <section className="mt-8">
               <span className="mono block">Figures</span>

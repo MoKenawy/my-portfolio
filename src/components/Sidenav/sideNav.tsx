@@ -1,28 +1,17 @@
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-
-const socialMediaLinks = [
-  {
-    label: "GitHub",
-    icon: "mdi:github",
-    href: "https://github.com/MoKenawy",
-  },
-  {
-    label: "LinkedIn",
-    icon: "mdi:linkedin",
-    href: "https://www.linkedin.com/in/mohammedkenawy/",
-  },
-];
+import { site } from "@/config/site";
 
 // A quiet vertical rail of the real profiles — square, hairline, neutral.
 // Hidden on small screens where it would crowd the prose column.
 export default function SideNav() {
+  if (site.socials.length === 0) return null;
   return (
     <nav
       aria-label="Profiles"
       className="fixed left-0 top-1/2 z-10 hidden -translate-y-1/2 flex-col border-y border-r border-hairline bg-ground lg:flex"
     >
-      {socialMediaLinks.map(({ icon, href, label }) => (
+      {site.socials.map(({ icon, href, label }) => (
         <Link
           key={href}
           href={href}

@@ -5,9 +5,8 @@ import Footer from "@/components/Footer/footer";
 
 // Standard chrome for every route: masthead, the profile rail, a centered
 // content column, and the documentation footer. Pages supply only their own
-// content. The rail sits here rather than on Home alone so the real profiles —
-// the independently verifiable half of the evidence library — are reachable
-// from wherever a reader lands.
+// content. The rail sits here rather than on Home alone so your profiles are
+// reachable from wherever a reader lands.
 export default function PageShell({
   children,
 }: {
@@ -26,7 +25,7 @@ export default function PageShell({
 }
 
 // A consistent page opening — mono eyebrow, serif title, flourish, optional lede
-// (design.md §4). Reused across the loop pages so they read as one manuscript.
+// Reused across pages so they open the same way.
 export function PageOpening({
   eyebrow,
   title,

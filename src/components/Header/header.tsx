@@ -4,12 +4,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./themeToggle";
-import { navLinks } from "@/lib/nav";
+import { site } from "@/config/site";
 import { asset } from "@/lib/media";
 
-// Masthead — the top of a manuscript, not a hero (design.md §4).
-// The nav enacts the read → learn → ship → document loop; each item carries a
-// plain-word sub-label so phase-naming never leaves a visitor guessing.
+// Masthead — the top of the page, not a hero. Nav and identity come from
+// src/config/site.ts.
 function Header() {
   const pathname = usePathname();
 
@@ -20,22 +19,24 @@ function Header() {
           href="/"
           className="flex items-center gap-3 font-serif text-2xl font-medium tracking-tight"
         >
-          <Image
-            src={asset("/Logo.svg")}
-            alt=""
-            width={32}
-            height={32}
-            className="logo-mark h-11 w-11"
-            priority
-          />
-          Mohammed Kenawy
+          {site.logo && (
+            <Image
+              src={asset(site.logo.src)}
+              alt={site.logo.alt}
+              width={32}
+              height={32}
+              className="logo-mark h-11 w-11"
+              priority
+            />
+          )}
+          {site.name}
         </Link>
 
         <nav
           aria-label="Primary"
           className="flex flex-wrap items-start gap-x-7 gap-y-3"
         >
-          {navLinks.map(({ href, name, sub, primary }) => {
+          {site.nav.map(({ href, label: name, sub, primary }) => {
             const current =
               href === "/" ? pathname === "/" : pathname.startsWith(href);
             return (
@@ -80,22 +81,14 @@ function Header() {
               </Link>
             );
           })}
-          {/* Utilities, not destinations — Contact sits outside the loop
-              (design.md §10.1), so it is a bordered button beside the theme
-              toggle rather than a sixth nav item. Held at hairline weight so it
-              never out-weighs Ship, the primary destination. */}
+          {/* Utilities, not destinations — Contact is a bordered button beside
+              the theme toggle rather than a nav item. */}
           <div className="flex items-center gap-3 self-center">
             <Link
-              href="/contact"
-              aria-current={pathname === "/contact" ? "page" : undefined}
-              className={
-                "mono border px-[10px] py-[5px] transition-colors " +
-                (pathname === "/contact"
-                  ? "border-paper text-paper"
-                  : "border-hairline text-mid hover:border-paper hover:text-paper")
-              }
+              href={site.contact.href}
+              className="mono border border-hairline px-[10px] py-[5px] text-mid transition-colors hover:border-paper hover:text-paper"
             >
-              Contact
+              {site.contact.label}
             </Link>
             <ThemeToggle />
           </div>

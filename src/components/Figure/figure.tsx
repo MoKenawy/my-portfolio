@@ -1,12 +1,10 @@
 import Image from "next/image";
 
-// A proof artifact set the way the manuscript sets one: the photograph inside a
-// hairline frame, a lowercase mono caption beneath it (design.md §8,
-// brand-guidelines-anti-ai.md §3). Photographs and scans only — never
-// illustration, never generated imagery.
+// A figure: the image inside a hairline frame with a lowercase mono caption
+// beneath it.
 //
 // Photographs default to desaturated so they sit inside the strict-neutral
-// palette (§9: no colour beyond the single accent). The files are untouched
+// palette (no colour beyond the single accent). The files are untouched
 // colour originals, so `tone="colour"` shows one exactly as it was shot.
 export default function Figure({
   src,

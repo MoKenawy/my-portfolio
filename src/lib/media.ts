@@ -1,12 +1,7 @@
-// Screenshots are served from ImageKit rather than committed to /public: the
-// repo stays light and the CDN resizes on request. Stills only — the account's
-// video quota is exhausted and ImageKit answers 403 to every video request,
-// original or transformed, so recordings are self-hosted and reach the page
-// through asset() below.
-//
-// The files sit at the root of the endpoint under their original names, spaces
-// and parentheses included, so every path goes through encodeURI.
-const IMAGEKIT = "https://ik.imagekit.io/mokenawy";
+// Optional CDN for heavy stills: set NEXT_PUBLIC_IMAGEKIT_URL (for example
+// "https://ik.imagekit.io/your-id") and use ik("file.png", "w-1600") in
+// src/content/projects.ts. Leave it unset to serve everything from /public.
+const IMAGEKIT = process.env.NEXT_PUBLIC_IMAGEKIT_URL ?? "";
 
 /**
  * A CDN asset URL. `tr` is an ImageKit transformation string: "w-1600" caps the
@@ -18,8 +13,8 @@ export function ik(file: string, tr?: string) {
 }
 
 /**
- * A file in /public. The site is served from a sub-path on GitHub Pages, and a
- * hand-written asset URL — a <video src>, a poster — does not get that prefix
+ * A file in /public. The site may be served from a sub-path (a GitHub Pages project
+ * site), and a hand-written asset URL — a <video src>, a poster — does not get that prefix
  * applied for it, so every one of them goes through here.
  */
 export function asset(path: string) {

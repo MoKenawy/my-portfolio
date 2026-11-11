@@ -3,11 +3,12 @@ import "./globals.css";
 import * as React from "react";
 import { newsreader, plexMono, plexArabic } from "./fonts/manuscript";
 import Providers from "./providers";
+import { site } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: "Mohammed Kenawy — Full-stack Engineer",
-  description:
-    "full-stack engineer working on payroll, migrations, and systems that outlive their builders. Node.js, TypeScript, SQL Server and Oracle, agent pipelines in Python, and a five-year account of the work.",
+  metadataBase: new URL(site.url),
+  title: `${site.name} — ${site.role}`,
+  description: site.description,
 };
 
 export default function RootLayout({
@@ -16,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // Dark-dominant by default (design.md §7); data-theme drives the palette.
+    // Dark-dominant by default; data-theme drives the palette.
     <html
       lang="en"
       data-theme="dark"

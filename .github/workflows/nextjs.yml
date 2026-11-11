@@ -34,9 +34,8 @@ jobs:
           cache: pnpm
 
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
 
       - name: Restore cache
         uses: actions/cache@v4
@@ -47,14 +46,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/pnpm-lock.yaml') }}-
             
-      - name: Set environment variable for GitHub Pages
-        run: echo "BASE_PATH=/my-portfolio" >> $GITHUB_ENV
-        
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # base_path is "" for user sites and custom domains, "/<repo>" otherwise.
       - name: Build with Next.js
         run: pnpm next build
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

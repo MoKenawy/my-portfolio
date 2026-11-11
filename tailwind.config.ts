@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
-// Manuscript design system — tokens map to the CSS custom properties in
-// globals.css so light/dark stays a single source of truth (design.md Rev B).
+// Tokens map to the CSS custom properties in globals.css so light/dark stays
+// a single source of truth.
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",

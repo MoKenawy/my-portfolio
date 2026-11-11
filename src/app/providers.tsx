@@ -3,7 +3,7 @@ export default function Providers({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // NextUIProvider removed in the Manuscript migration; no provider is needed
-  // now that components are styled directly against the design tokens.
+  // No provider is needed: components are styled directly against the design
+  // tokens. Add context providers here if you need them.
   return <>{children}</>;
 }

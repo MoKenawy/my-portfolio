@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 
-// Manuscript type system (design.md Rev B §3).
+// Type system: swap the files and names below to change the fonts.
 // Newsreader — editorial serif for prose/headings, with real italics.
 // IBM Plex Mono — metadata, spec strips, revision marks, code.
 // IBM Plex Sans Arabic — all Arabic, weighted equal to Latin.

@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio starter
 
-## Getting Started
+A Next.js 14 (App Router) + Tailwind + TypeScript portfolio template with a dark/light theme, a project index with modal case studies, and a GitHub Pages deploy workflow.
 
-First, run the development server:
+## Start with the intake documents
+
+Before touching code, fill in the questionnaires in [`intake/`](intake/README.md). They collect everything the site needs, in the order you will use it:
+
+| File | Covers | Ends up in |
+|---|---|---|
+| [`01-about-me.md`](intake/01-about-me.md) | Identity, goals, pitch, contact | `src/config/site.ts` |
+| [`02-timeline.md`](intake/02-timeline.md) | Your story, certificates, side notes | `src/content/about.ts`, `site.sidebar` |
+| [`03-projects.md`](intake/03-projects.md) | One block per project, plus a featured piece | `src/content/projects.ts`, `site.featured` |
+| [`04-brand-and-voice.md`](intake/04-brand-and-voice.md) | Audience, voice, what counts as proof | The wording of all of the above |
+| [`05-look-and-structure.md`](intake/05-look-and-structure.md) | Pages, colours, fonts, hosting | `site.nav`, `globals.css`, `fonts/manuscript.ts` |
+| [`06-assets.md`](intake/06-assets.md) | Files to send (logo, portrait, screenshots) | `public/` |
+
+They contain personal detail once filled in. After the content has been moved into the data files below, move `intake/` out of the repo or delete it so it is never published.
+
+## Make this your portfolio (code)
+
+Once the intake documents are filled in:
+
+1. **Identity** — edit [`src/config/site.ts`](src/config/site.ts): name, role, location, description, URL, nav, social links, hero, pitch, contact, footer. Optional blocks (`pitch`, `featured`, `portrait`, `sidebar`, `logo`) disappear when you delete them.
+2. **Biography** — edit [`src/content/about.ts`](src/content/about.ts).
+3. **Projects** — edit [`src/content/projects.ts`](src/content/projects.ts). Each entry is a `ProjectCardProps`; screenshots go in `public/projects/`.
+4. **Images** — replace `public/logo-placeholder.svg` (author it in black; the theme inverts it for dark mode), `public/figures/portrait-placeholder.svg`, and `src/app/favicon.ico`.
+5. **Fonts and colours** (optional) — fonts in [`src/app/fonts/manuscript.ts`](src/app/fonts/manuscript.ts), palette in [`src/app/globals.css`](src/app/globals.css).
+6. **Optional CDN** — set `NEXT_PUBLIC_IMAGEKIT_URL` and use `ik()` from `src/lib/media.ts`.
+
+Anything that points to a file in `public/` must go through `asset()` from `src/lib/media.ts` so it gets the base path.
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev        # http://localhost:3000
+pnpm lint
+pnpm exec tsc --noEmit
+pnpm build      # static export to ./out
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deploy to GitHub Pages
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Settings → Pages → Source: **GitHub Actions**, then push to `main`. [`nextjs.yml`](.github/workflows/nextjs.yml) reads the base path from GitHub Pages (empty for `<user>.github.io` and custom domains, `/<repo>` otherwise) and passes it to the build as `BASE_PATH`. [`ci.yml`](.github/workflows/ci.yml) lints, typechecks and builds every pull request.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Before you publish a clone
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Start from a fresh history (use **Use this template** on GitHub, or push a branch with no history to a new repo) so nothing from a previous owner survives in old commits.

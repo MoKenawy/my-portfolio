@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 /*
-  Manuscript design system — design.md Rev B.
+  Design tokens: ground / paper / mid / hairline / accent.
   Strict neutral. No hue beyond a single optional accent (off by default).
   Dark is a near-mechanical inversion of light; the two stay in lockstep.
-  The site runs dark-dominant; light surfaces (CV, teaching, DMS) flip data-theme.
+  The site runs dark-dominant; the theme toggle flips data-theme.
 */
 
 :root {
@@ -97,7 +97,7 @@ body {
     color: var(--mid);
   }
 
-  /* A short hairline rule under a title — the manuscript flourish (§4). */
+  /* A short hairline rule under a title. */
   .flourish {
     width: 44px;
     height: 1px;

@@ -3,10 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-// A teaching-video artifact, set as a figure like any other (design.md §8).
-// Class 2 in the evidence library and among the strongest proofs available —
-// a person explaining a concept in real time cannot be generated after the fact
-// (brand-guidelines-anti-ai.md §3).
+// A YouTube video, set as a figure like any other.
 //
 // The still is a self-hosted frame from the video and nothing contacts YouTube
 // until the reader presses play: the page keeps its own typography, loads no

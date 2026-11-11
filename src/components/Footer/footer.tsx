@@ -1,29 +1,24 @@
 import Link from "next/link";
+import { site } from "@/config/site";
 
-// Documentation footer (design.md §4/§5) — the last thing the reader sees is
-// what was left behind. Mono, hairline-topped, asymmetric.
-const docLinks = [
-  { name: "Ship", href: "/ship" },
-  { name: "Document", href: "/document" },
-  { name: "GitHub", href: "https://github.com/MoKenawy" },
-  // Held at full ink so the way to reach a person is never the faintest thing
-  // on the page — the footer is the only contact route on the loop pages.
-  { name: "Contact", href: "/contact", cta: true },
-];
-
+// Footer — tagline on the left, nav, socials and contact on the right.
 export default function Footer() {
+  const links = [
+    ...site.nav.filter((n) => n.href !== "/").map((n) => ({ ...n, cta: false })),
+    ...site.socials.map((s) => ({ ...s, cta: false })),
+    { label: site.contact.label, href: site.contact.href, cta: true },
+  ];
+
   return (
     <footer className="mt-24 border-t border-hairline">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-3 px-5 py-7 sm:px-8">
-        <span className="mono normal-case">
-          Durable artifacts left behind. Built with intent.
-        </span>
+        <span className="mono normal-case">{site.footer.tagline}</span>
         <nav aria-label="Elsewhere" className="flex flex-wrap gap-x-6 gap-y-2">
-          {docLinks.map(({ name, href, cta }) => {
+          {links.map(({ label, href, cta }) => {
             const external = href.startsWith("http");
             return (
               <Link
-                key={name}
+                key={label}
                 href={href}
                 {...(external
                   ? { target: "_blank", rel: "noopener noreferrer" }
@@ -35,7 +30,7 @@ export default function Footer() {
                     : "text-mid hover:text-paper")
                 }
               >
-                {name}
+                {label}
               </Link>
             );
           })}

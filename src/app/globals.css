@@ -105,6 +105,13 @@ body {
     border: 0;
   }
 
+  /* The strip's own scrollbar, kept rather than hidden: it is the only honest
+     indicator of how much of the record is still off-screen. */
+  .rail-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--hairline) transparent;
+  }
+
   /* Body prose column: Newsreader at the reading measure (§3, §11). */
   .prose-measure {
     max-width: var(--measure);

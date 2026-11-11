@@ -467,6 +467,7 @@ function Projects() {
       />
 
       <ProjectCard
+        id="payroll"
         eyebrow="Inside the post"
         title="Payroll subsystem"
         problem="Payroll has no acceptable error rate: every figure is a legal obligation to a named person. The legacy platform could run a payroll but could not reproduce one — once an employee's grade, department or tax band had moved on, the run that paid them last March was no longer regenerable, and a dispute had nothing to be settled against."
@@ -586,6 +587,7 @@ function Projects() {
       {/* The repository is private, so this entry carries no link — the proof
           is described, and says so, rather than pointed at. */}
       <ProjectCard
+        id="agentic-pr-reviewer"
         title="Agentic PR Reviewer"
         problem="An AI code reviewer that reads its findings out of the model's prose can fail without anyone noticing. When the parse comes back empty, a broken run and a clean review look exactly the same."
         insight="The model needs agency in only one step. Collecting the change, budgeting the prompt, validating what comes back and writing the report can all be a fixed pipeline. The one step where the model does act can be narrowed to a tool call, which a schema either accepts or rejects."
@@ -610,6 +612,7 @@ function Projects() {
       />
 
       <ProjectCard
+        id="pdf2deck"
         title="PDF2Deck Agent"
         problem="Turning a PDF chapter into a slide deck is mostly transcription: headings into titles, paragraphs into bullets, figures carried across one at a time. Handing all of it to a model swaps the transcription for a different problem, an outline and a layout accepted unseen."
         insight="The model is only needed for the semantic step, deciding what the outline is. Extraction, validation, style and rendering are ordinary deterministic Python. The two points where judgement matters, the outline and the finished deck, are where a person should approve, not where the model should guess."
@@ -651,6 +654,7 @@ function Projects() {
           specification is the evidence, which is the claim this entry makes
           anyway. */}
       <ProjectCard
+        id="dms"
         title="DMS — Diagram Management System"
         problem="Engineering drawings move between departments as attachments and shared folders, so nobody can say with confidence which revision is current, who has seen it, or what the drawing looked like three revisions ago. And for the kind of organisation that holds drawings like these, none of it may leave the building."
         insight="A diagram's identity is not its file. Separate the two and the version history becomes immutable by construction — a revision is a new file against a stable identity, and nothing is ever overwritten. The access question has the same shape: the rule people actually state is “the whole department, except one person”, which is a single indexed query against a polymorphic permission model and a thicket of special cases against any other."

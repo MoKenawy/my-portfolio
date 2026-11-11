@@ -6,6 +6,8 @@ import Figure from "@/components/Figure/figure";
 import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 export interface ProjectCardProps {
+  /** Fragment target, so a link elsewhere on the site can land on this entry. */
+  id?: string;
   /**
    * A mono label above the title, in the same register as the eyebrows on
    * `ThePost` and the band that opens the second half of the ledger. It exists
@@ -44,6 +46,7 @@ export interface ProjectCardProps {
 // the insight, the full overview, the stack and the figures wait in the modal,
 // so the depth is kept without the skim paying for it.
 export default function ProjectCard({
+  id,
   eyebrow,
   title,
   problem,
@@ -63,7 +66,10 @@ export default function ProjectCard({
   const [lead] = images;
 
   return (
-    <article className="grid grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]">
+    <article
+      id={id}
+      className="grid scroll-mt-24 grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]"
+    >
       <div className="prose-measure">
         {eyebrow && <p className="mono">{eyebrow}</p>}
         <h2

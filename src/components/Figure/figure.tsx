@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 // A proof artifact set the way the manuscript sets one: the photograph inside a
 // hairline frame, a lowercase mono caption beneath it (design.md §8,
@@ -20,6 +21,9 @@ export default function Figure({
   tone = "neutral",
   onActivate,
   activateLabel,
+  href,
+  external,
+  crop,
 }: {
   src: string;
   alt: string;
@@ -33,7 +37,33 @@ export default function Figure({
   /** Makes the frame itself the control that opens the fuller record. */
   onActivate?: () => void;
   activateLabel?: string;
+  /**
+   * Makes the frame a link instead. Internal paths go through `next/link`,
+   * which applies `basePath` itself, so they must not be wrapped in `asset()`.
+   * If `onActivate` is also passed it wins and `href` is ignored.
+   */
+  href?: string;
+  /** Opens `href` in a new tab as a plain anchor. */
+  external?: boolean;
+  /**
+   * Sets the plate in a fixed 4:3 window instead of at its own proportions,
+   * and says which part of the file the window looks at. For a row of plates
+   * that has to share one height; the file itself is never altered.
+   */
+  crop?: "top" | "center" | "left" | "right";
 }) {
+  // Whole class names, so Tailwind's scanner can see them.
+  const cropClass = crop
+    ? {
+        top: "aspect-[4/3] object-cover object-top",
+        center: "aspect-[4/3] object-cover object-center",
+        left: "aspect-[4/3] object-cover object-left",
+        right: "aspect-[4/3] object-cover object-right",
+      }[crop]
+    : "";
+  const frameClass =
+    "block w-full border border-hairline p-1.5 transition-colors hover:border-paper";
+
   const plate = (
     <Image
       src={src}
@@ -42,26 +72,39 @@ export default function Figure({
       height={height}
       sizes={sizes}
       priority={priority}
-      className={
-        tone === "colour" ? "h-auto w-full" : "h-auto w-full grayscale"
-      }
+      className={`h-auto w-full ${tone === "colour" ? "" : "grayscale"} ${cropClass}`}
     />
   );
 
   return (
     <figure className={className}>
-      {/* When the figure opens something, the frame is the button — the caption
-          stays outside it so a <figcaption> never lands inside phrasing content.
-          The hover brightens the rule and nothing else: no lift, no shadow. */}
+      {/* When the figure opens something, the frame is the control — a button
+          or a link — and the caption stays outside it so a <figcaption> never
+          lands inside phrasing content. The hover brightens the rule and
+          nothing else: no lift, no shadow. */}
       {onActivate ? (
         <button
           type="button"
           onClick={onActivate}
           aria-label={activateLabel}
-          className="block w-full border border-hairline p-1.5 transition-colors hover:border-paper"
+          className={frameClass}
         >
           {plate}
         </button>
+      ) : href && external ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={activateLabel}
+          className={frameClass}
+        >
+          {plate}
+        </a>
+      ) : href ? (
+        <Link href={href} aria-label={activateLabel} className={frameClass}>
+          {plate}
+        </Link>
       ) : (
         <div className="border border-hairline p-1.5">{plate}</div>
       )}

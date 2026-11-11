@@ -18,7 +18,7 @@ Through this project I fell in love with computer vision — and discovered a pa
 
 Late that year I tried teaching for real — AI courses — and the students' feedback was great. Now I know it: I love teaching.
 
-Around the same time I joined the first round of the **DEPI — AWS Machine Learning Engineer** program (January 2025), and came out of it with **SympAI**: a healthcare chatbot that helps users describe their symptoms and get preliminary medical guidance. I built the full-stack with FastAPI on top of medical language models (BioMistral 7B and Meditron 7B) with multi-turn conversations via LangChain, a Next.js frontend, everything Dockerized and deployed on AWS — EC2 behind an API Gateway and Load Balancer, with the frontend on Amplify with CI/CD.
+Around the same time I joined the first round of the **DEPI — AWS Machine Learning Engineer** program (2024), and came out of it with **SympAI**: a healthcare chatbot that helps users describe their symptoms and get preliminary medical guidance. I built the full-stack with FastAPI on top of medical language models (BioMistral 7B and Meditron 7B) with multi-turn conversations via LangChain, a Next.js frontend, everything Dockerized and deployed on AWS — EC2 behind an API Gateway and Load Balancer, with the frontend on Amplify with CI/CD.
 
 ## 2025 — The Army: A Leader by Surprise
 

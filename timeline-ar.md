@@ -18,7 +18,7 @@
 
 في أواخر السنة جرّبت التدريس فعليًا — كورسات في الذكاء الاصطناعي — وكانت ردود فعل الطلاب رائعة. الآن أعرف: أنا أحب التدريس.
 
-وفي نفس الفترة انضممت للدفعة الأولى من برنامج **DEPI — AWS Machine Learning Engineer** (يناير 2025)، وخرجت منه بمشروع **SympAI**: chatbot صحّي يساعد المستخدم على وصف أعراضه والحصول على إرشاد طبي أوّلي. بنيت الـ full-stack بـ FastAPI مع نماذج لغوية طبية (BioMistral 7B وMeditron 7B) ومحادثات متعددة الأدوار عبر LangChain، وواجهة Next.js، والكل Dockerized ومنشور على AWS (EC2 خلف API Gateway وLoad Balancer، والواجهة على Amplify بـ CI/CD).
+وفي نفس الفترة انضممت للدفعة الأولى من برنامج **DEPI — AWS Machine Learning Engineer** (2024)، وخرجت منه بمشروع **SympAI**: chatbot صحّي يساعد المستخدم على وصف أعراضه والحصول على إرشاد طبي أوّلي. بنيت الـ full-stack بـ FastAPI مع نماذج لغوية طبية (BioMistral 7B وMeditron 7B) ومحادثات متعددة الأدوار عبر LangChain، وواجهة Next.js، والكل Dockerized ومنشور على AWS (EC2 خلف API Gateway وLoad Balancer، والواجهة على Amplify بـ CI/CD).
 
 ## 2025 — الجيش: قائد على غفلة
 

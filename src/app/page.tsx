@@ -3,6 +3,8 @@ import Link from "next/link";
 import PageShell from "@/components/PageShell/pageShell";
 import Figure from "@/components/Figure/figure";
 import ContactCTA from "@/components/ContactCTA/contactCta";
+import FeaturedStrip from "@/components/Featured/featuredStrip";
+import { featured } from "@/lib/featured";
 import { flagship } from "@/lib/flagship";
 import { asset } from "@/lib/media";
 
@@ -128,6 +130,67 @@ export default function Home() {
               </Link>
             </div>
           </Beat>
+        </div>
+      </section>
+
+      {/* The evidence, in plates (design.md §10.3). Placed above the flagship on
+            purpose: the literary piece risks reading as impressive-but-impractical
+            to a recruiter, so the engineering record is the first artifact the
+            page offers and the flagship is what makes them reconsider once
+            engaged. Only the plate is framed; title and caption sit in open
+            space beneath it (§4). */}
+      <section className="mt-16">
+        <p className="mono mb-5">The evidence, in plates</p>
+        <h2 className="prose-measure font-serif text-2xl leading-snug sm:text-3xl">
+          Four systems I built, and three certificates somebody else issued.
+        </h2>
+        <hr className="flourish mt-7" />
+
+        <div className="mt-10">
+          <FeaturedStrip
+            label="Featured evidence — shipped systems and certificates"
+            hint="drag the strip, or use the arrows"
+          >
+            {featured.map((item) => (
+              <li
+                key={item.href}
+                className="w-[82vw] shrink-0 snap-start sm:w-[22rem]"
+              >
+                <Figure
+                  src={item.src}
+                  alt={item.alt}
+                  caption={item.caption}
+                  width={item.width}
+                  height={item.height}
+                  sizes="(min-width: 640px) 22rem, 82vw"
+                  href={item.href}
+                  external={item.external}
+                  crop={item.crop}
+                  activateLabel={`${item.title} — ${item.external ? "verify the credential" : item.kind === "system" ? "see it under Ship" : "see it in the register"}`}
+                />
+                <p className="mt-3 font-serif text-lg leading-snug text-paper">
+                  {item.title}
+                </p>
+                <p className="mono mt-1 normal-case">{item.meta}</p>
+              </li>
+            ))}
+            {/* The newest credential has no scan, and the strip says so rather
+                than leave a hole where the register's lead entry would be. Its
+                artifacts are the first two plates. */}
+            <li className="w-[82vw] shrink-0 snap-start sm:w-[22rem]">
+              <p className="mono">AI for Software Engineers · 140 h · Jul — Nov 2026</p>
+              <p className="mono mt-3 normal-case leading-relaxed">
+                the one credential with no scan. what it produced is the first
+                two plates.
+              </p>
+              <Link
+                href="/read#credentials"
+                className="mono mt-3 inline-block normal-case underline decoration-hairline underline-offset-4 transition-colors hover:text-paper hover:decoration-paper"
+              >
+                the full register →
+              </Link>
+            </li>
+          </FeaturedStrip>
         </div>
       </section>
 

@@ -87,15 +87,25 @@ export default function ProjectCard({
             ledger rather than a gallery, and the entries without an artifact
             simply show none. */}
         {lead && (
-          <Figure
-            key={lead.src}
-            {...lead}
-            tone="colour"
-            sizes="(min-width: 640px) 28rem, 92vw"
-            className="mt-7 max-w-md"
-            onActivate={() => setOpen(true)}
-            activateLabel={`Open the record — ${title}`}
-          />
+          <>
+            <Figure
+              key={lead.src}
+              {...lead}
+              tone="colour"
+              sizes="(min-width: 640px) 28rem, 92vw"
+              className="mt-7 max-w-md"
+              onActivate={() => setOpen(true)}
+              activateLabel={`Open the record — ${title}`}
+            />
+            {/* What the plate is the first of. Without it the frame reads as
+                decoration rather than as the way in to the rest of the set. */}
+            {images.length > 1 && (
+              <p className="mono mt-2 normal-case">
+                {images.length - 1} more {images.length === 2 ? "plate" : "plates"} in
+                the record
+              </p>
+            )}
+          </>
         )}
 
         {tags.length > 0 && (

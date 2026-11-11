@@ -96,16 +96,156 @@ const drivewiseVideos: ProjectVideo[] = [
 ];
 
 // Everything below is served from /public rather than ImageKit: these were
-// transcoded here to webp at the same 1600px cap, they come to about 820 KB for
-// the thirteen of them, and keeping them in the repository means the evidence
+// transcoded here to webp at the same 1600px cap, they come to about 1.6 MB for
+// the thirty-two of them, and keeping them in the repository means the evidence
 // ships with the commit that claims it. The first entry in each array is the
 // one the card shows as its plate, so it has to be the figure that argues best
 // on its own.
+//
+// Each file was encoded both losslessly and at q88 and the smaller kept: a
+// flat interface screen compresses better lossless, a dense table of figures
+// does not, and the text in both has to survive being read at capture size.
 const shot = (file: string, width: number, height: number) => ({
   src: asset(`/ship/${file}.webp`),
   width,
   height,
 });
+
+// The four systems from the post, caught running. These are captures of the
+// real interface against seeded records — the platform is my employer's and
+// cannot be linked, so a screen of it is the only artifact these four entries
+// can produce — and what identifies a person is blurred in the capture itself.
+//
+// They are also the artifact class the brand asks for by name: an RTL Arabic
+// interface on real hardware (brand-guidelines §3). Nothing is translated or
+// re-shot in English; the captions carry the reading instead. Each set is
+// ordered so the plate that argues the entry's own thesis comes first, because
+// that is the one the card shows.
+const queenHrImages: ProjectImage[] = [
+  {
+    ...shot("hr/career-path", 1366, 876),
+    alt: "The career-path tab of an employee record, in Arabic. A section headed “career-path log”, described as holding every one of the employee's job movements in chronological order — appointment, promotion, transfer, secondment and end of service. Four dated entries run down a rule: a job update on 01/12/1991, a promotion on 01/08/2015, a transfer on 01/05/2017 and a promotion on 01/01/2020, each tagged with the kind of movement it was. The employee's name is blurred; the job title, head of section, is not.",
+    caption:
+      "fig. 1 — the record of a person is this list, not the row above it. four dated movements, the earliest from 1991, each one correctable after someone has already acted on it",
+  },
+  {
+    ...shot("hr/career-event", 1366, 633),
+    alt: "A dialog over the career-path tab, headed “add a career-path record”. Its first field is the promotion date, set through a date picker to 10 / 11 / 2026, and beneath it a “new job” panel holding the job title head of section. The footer offers save the promotion, cancel, and a link to change which kind of movement is being filed.",
+    caption:
+      "fig. 2 — filing one. the field that carries the weight is the effective date, which is not the day the clerk typed it — that gap is the whole difference between a payroll that can be reproduced and one that cannot",
+  },
+  {
+    ...shot("hr/employee-record", 1366, 633),
+    alt: "An employee record. A green header strip carries a photograph slot, a status of “continuing”, the job title first driver and an edit button, with the name and national number blurred. Under it runs a rail of tabs — personal data, relatives, contact methods, academic qualifications, training courses, bank accounts, career path, attendance — scrolling past the edge of the frame, with personal data open on a computer number of 274329 and a date of birth of 25/08/1993.",
+    caption:
+      "fig. 3 — one person, and the registers that hang off them, on a rail that runs past the edge of the screen. payroll, reporting and access control each resolve a person through this rather than keeping a copy",
+  },
+  {
+    ...shot("hr/bulk-movement", 1366, 633),
+    alt: "A page headed “bulk transfer and termination of employees”, at step one, selecting the target employees. A row of filters narrows by location, sub-location, sector, job and release sheet; below it a table with a select-all checkbox lists employees by computer number, name, current sector, current location and current job. The rows are blurred in the capture.",
+    caption:
+      "fig. 4 — the same events at scale. filter down the structure, select, and the movements are written for every person caught by the filter at once",
+  },
+  {
+    ...shot("hr/org-structure", 1366, 1206),
+    alt: "The system-settings page for the organisational structure, laid out as eleven cards: sectors, departments, sections — this one marked “soon” — locations, sub-locations, jobs, financial grades, ranks, banks, printers and the release sheet. Each card carries a one-line description and a manage button.",
+    caption:
+      "fig. 5 — the structure a person is placed inside, kept as reference data. sectors, locations, jobs, grades and ranks are rows somebody in the business edits, not constants compiled into the thing",
+  },
+];
+
+const queenPayrollImages: ProjectImage[] = [
+  {
+    ...shot("payroll/monthly-run", 1366, 1549),
+    alt: "The monthly payroll review for 2026-09, described as the prepared salaries shown for checking before the month is closed. Each row is one employee, name blurred, carrying job number, month, release sheet, printer, bank, basic salary, total entitlements, tax, insurance, total deductions and net salary. Most rows pay onto a Meeza card; one is marked “no bank” and one “various banks”. Every figure is set in Arabic-Indic numerals.",
+    caption:
+      "fig. 1 — a month laid out for review before it closes. the arithmetic is the easy half; the hard half is that this view has to come back identical after everyone in it has been promoted, transferred or re-banded",
+  },
+  {
+    ...shot("payroll/open-month", 1366, 633),
+    alt: "A dialog headed “open a new payroll month”, under a note that the statutory settings in force are pinned to the month at the moment it is opened. The month field reads 2026 / 08, with an optional notes field and a preview button. A panel headed “the settings this month will be calculated with” lists income tax #1, rehabilitation fund #1, martyrs fund #1 and social insurance #2 — each a numbered version — above a line reading that the settings are valid. The footer offers confirm and open the month, or cancel.",
+    caption:
+      "fig. 2 — the mechanism the entry rests on, in one dialog. opening a month pins the versions of the statutory rules it will be computed with, which is what keeps the run reproducible after the law and the employee have both moved on",
+  },
+  {
+    ...shot("payroll/job-change", 1366, 633),
+    alt: "A dialog headed “change job”, showing a move from one job to another. A notice reads that manually entered items — allowances, additions and deductions — will be preserved. A three-column table sets each item's current value against the proposed one: a basic salary of 1000 against 250, a work-nature allowance of 1188.62 against 350, and a travel allowance of 500 against 200. The footer offers apply the change, or go back.",
+    caption:
+      "fig. 3 — ADR-P02 as a sentence in the interface. the notice promises the officer that what they entered by hand survives the recalculation that is about to run over everything around it",
+  },
+  {
+    ...shot("payroll/monthly-effects", 1366, 753),
+    alt: "The monthly-effects page, described as the additions and deductions belonging to a payroll month, whatever their source. Seven records for 2026-11 are listed against one employee — absence, deductions, penalties, a late-arrival deduction and damages among them — each with its kind, deduction or entitlement, a number of days, a value, whether it is subject to tax, and a source column reading “manual entry” on all seven. The toolbar offers adding an effect, transfer-and-appointment differences, and import from a file. The values are blurred.",
+    caption:
+      "fig. 4 — and the column that decides what a rerun may touch. a recalculation replaces the rows it generated itself; a row whose source reads manual entry stays exactly where the officer put it",
+  },
+  {
+    ...shot("payroll/insurance-rules", 1366, 633),
+    alt: "The social-insurance rules page, described as the minimum and maximum contribution limits and the insurance rates by effective date. Three rows share a deduction code and differ only in their dates and their state: one effective 2027-01-01 with no end date, marked SCHEDULED; one running 2026-01-01 to 2027-01-01, marked ACTIVE and carrying an exemption rate of 30; and one that ran 2025-01-01 to 2026-01-01, marked EXPIRED. Each carries two insurance-type items.",
+    caption:
+      "fig. 5 — the law as dated rows rather than a constant. expired, active and scheduled sit in the same table, and which one a run reads is settled by the month the run is for",
+  },
+  {
+    ...shot("payroll/tax-brackets", 1366, 633),
+    alt: "The income-tax brackets page. Its description states that the yearly brackets are made of bracket groups and sub-brackets, and that there is no editing after registration — a correction is recorded as a new group. One row is listed: effective 01/01/2026 with no end date, state current, a personal exemption of 20000, a deduction code of salary basic, and six groups.",
+    caption:
+      "fig. 6 — and the rule underneath that keeps the history honest. a bracket set is never edited once filed; a correction is a new group, so a run from last year still finds last year's brackets",
+  },
+];
+
+const queenReportingImages: ProjectImage[] = [
+  {
+    ...shot("reporting/definitions", 1366, 895),
+    alt: "The report-administration page, described as creating, editing and deleting report definitions, their columns and their permissions. A table lists each definition by title, module, identifier, number of columns, the permission that may view it, and its status — among them employee age ranges keyed v_emp_age_ranges with seven columns under the permission age-ranges:read, appointments under six months, terminated employees with ten columns, and active employees per location, per sector and per job title. A footer notes that ten of thirty-two are on screen.",
+    caption:
+      "fig. 1 — a report is a row. the identifier is a database view, the column count is data, and the permission that may read it sits in the same record — which is why adding one needs nobody's deployment",
+  },
+  {
+    ...shot("reporting/catalogue", 1366, 2898),
+    alt: "The page a reporting user lands on: roughly twenty-five report cards grouped under active-employee listings, terminated employees, employee statistics, job movements and monthly salaries. Beneath them a table of the most recent exports, each one a payroll disbursement sheet in PDF. The top two are marked complete and carry a download link and an expiry — one reading “expires 11 November 2026, 9:07 am” — and the eight below them are marked failed and carry neither.",
+    caption:
+      "fig. 2 — the catalogue, and under it the log that is the honest half of it. two exports completed and expire on a clock; eight failed, and are left sitting on the page rather than swept off it",
+  },
+  {
+    ...shot("reporting/columns", 1366, 842),
+    alt: "The column editor for the report “active employees per sector”, one of four tabs beside basic data, ordering and permissions, and relations. A warning reads that editing a column carrying the same technical name affects every report that uses it. Five columns are listed with their technical name, Arabic label, data type and role: emp_no as an aggregatable number, emp_name and id_number as text data, Sector_code as a list code and sector_name as a list name.",
+    caption:
+      "fig. 3 — that report's columns, edited as rows. the warning across the top is what the design costs: a technical name is shared, so a change here reaches every report that uses it",
+  },
+  {
+    ...shot("reporting/permissions", 1366, 703),
+    alt: "The ordering-and-permissions tab of the same report. A default sort puts sector_name ascending and emp_no descending. Below it sits a view permission of emp-by-sector:read, noted as making the report public if left empty, and an export permission of emp-by-sector:export, noted as needing to be held in full by the user.",
+    caption:
+      "fig. 4 — where this subsystem meets the one below it. a report carries one permission to be read and a second to be exported, because an export is not a page — it is a file with somebody's payroll inside it",
+  },
+  {
+    ...shot("reporting/templates", 1366, 633),
+    alt: "The template registry, described as managing the registered Carbone templates for PDF and DOCX reports as metadata only, with no file upload. The payroll disbursement sheet holds three versions, all xlsx — version 3 active, versions 2 and 1 inactive — each with its template reference path and creation date. Below it stat-by-hire-month sits at version 2, a docx carrying one signature, and a terminated-employees group begins.",
+    caption:
+      "fig. 5 — the templates versioned alongside the definitions. version 3 of the disbursement sheet is the active one and the two before it are kept rather than replaced",
+  },
+];
+
+const queenAuthImages: ProjectImage[] = [
+  {
+    ...shot("auth/roles", 1366, 1267),
+    alt: "The roles-and-permissions page, described as controlling the access levels of the system's users. A table lists roles by name — Admin, Employee Affairs, Employee Bank Accounts, HR Employee, Monthly Effects Management, Monthly Effects Viewer, Monthly Salary Preparation and Monthly Salary Viewer among them — each with a description stating exactly what it excludes, a level, the number of people holding it, the number of permissions it grants and an active status. A footer reads that ten of twenty-two roles are shown. A panel below offers permission assignment down to the level of a single button.",
+    caption:
+      "fig. 1 — twenty-two roles, and the descriptions are the part worth reading: each says what it does not reach. salary preparation without opening or closing the month; employee affairs without the bank accounts",
+  },
+  {
+    ...shot("auth/permissions", 1366, 633),
+    alt: "The permission-definition page, headed “the system's security starts here”. A side panel notes that the permission matrix was last updated three hours ago. Under a search by permission code and a filter by module, a table lists permissions by code, module, operation and description, the first row being the global wildcard *:* on the System module.",
+    caption:
+      "fig. 2 — the permissions a role is assembled from, addressed as code, module and operation. re-checking one at access time costs a lookup per request; waiting for a release costs a revocation that is not real yet",
+  },
+  {
+    ...shot("auth/users", 1366, 809),
+    alt: "The users page of the same system: three tiles reading four users in total, four of them active, and no pending join requests. A table lists each user with an avatar initial, an email address, an active status and a last sign-in — fifty-seven days ago, three days ago, never signed in, and two hours ago. The names and addresses are blurred in the capture.",
+    caption:
+      "fig. 3 — the accounts the role table is actually for. names and addresses are blurred here, and the records behind all of these screens are seeded rather than live",
+  },
+];
 
 const prReviewerImages: ProjectImage[] = [
   {
@@ -300,7 +440,7 @@ function Projects() {
         problem="Every module above it answers questions about people, and the legacy MS Access platform had no single record of a person to answer from. A promotion effective mid-month, a transfer corrected after the fact, a dependant added last year — each lived wherever it had been entered, so two modules could disagree about the same employee and both be defensible."
         insight="The lifecycle events are not attributes on a row, they are dated facts, and every system above depends on reading them as of a date rather than as of now. That makes the record of people the thing that has to be right first: nothing built on top of it can be correct until it is."
         solution="The employee record the whole platform reads from, built first and deliberately: the full lifecycle of hiring, promotion, demotion and transfer, with banking details, dependants, positions and roles, for roughly 15,000 employees. Every lifecycle event is dated and correctable after the fact, so a module above can ask what was true in March rather than only what is true now. Payroll, reporting and access control resolve a person through it instead of each keeping a copy."
-        evidence="This one I can describe but cannot hand you: the record is my employer's production data and there is no repository to point at. The two published payroll records are the closest thing to it on paper — ADR-P01 and ADR-P02 are both decisions about reading this record as of a date, and neither of them makes sense without it. Treat the shape of the model as something to interrogate in conversation rather than something this page proves."
+        evidence="The screens are here; the data behind them is not. These are captures of the running system against seeded records, with everything that identifies a person blurred in the capture, and there is no repository to point at. What they show is the shape of the model rather than the contents: the career path as a list of dated movements, and the dialog that files a new one against its effective date instead of against today. The two published payroll records are the closest thing to it on paper — ADR-P01 and ADR-P02 are both decisions about reading this record as of a date, and neither of them makes sense without it."
         tags={["HR", "Data modelling", "Node.js"]}
         overview="The foundation, and the entry I would put first if the page were ordered by what everything else depends on. It was built first, deliberately: nothing above it can be correct until the record of people is. The design problem is that an employee is not a row but a history — hired on a date, promoted on a date, transferred on a date, and every one of those dates is correctable after someone has already acted on it. A system that stores only the current state can answer what is true now and nothing else, which is enough for a directory and useless for a payroll. So the lifecycle events are the record and the current state is a read of them, which is what makes a payroll run from six months ago reproducible and what makes retroactive recalculation a consequence of the design rather than a feature bolted onto it. The cost is that nothing is a simple lookup: every question about a person is a question about a person on a date, and the modules above have to be written knowing that. The upside is that they can all be written against one record instead of each keeping its own idea of who works here."
         tools={[
@@ -317,6 +457,7 @@ function Projects() {
           "In production",
           "2025 — present",
         ]}
+        images={queenHrImages}
         links={[
           {
             name: "The published records",
@@ -331,7 +472,7 @@ function Projects() {
         problem="Payroll has no acceptable error rate: every figure is a legal obligation to a named person. The legacy platform could run a payroll but could not reproduce one — once an employee's grade, department or tax band had moved on, the run that paid them last March was no longer regenerable, and a dispute had nothing to be settled against."
         insight="Recomputing from current data is the obvious answer and the wrong one, because the run has to reproduce the state as it was rather than as it is. That makes payroll a problem about modelling time, not about arithmetic — and the dated events that make it hard (a promotion effective mid-month, a transfer corrected after the fact) are produced by the employee subsystem underneath it. The two could not be designed separately."
         solution="A deterministic engine over the HR subsystem I built first: the same inputs always produce the same outputs, across overtime, deductions and taxes for roughly 15,000 employees. Every run is backed by transaction history and an auditable change log, so a prior payroll stays reproducible after the data beneath it has changed. A recalculation replaces only the rows it generated itself, so a payroll officer's manual correction survives a rerun instead of being silently overwritten. It reads every person through the employee record above rather than keeping an idea of its own."
-        evidence="Two of the decision records behind it are published, redacted: ADR-P02 on safe recalculation by row origins, which is the mechanism that keeps a manual edit alive through a rerun, and ADR-P01 on resolving monthly identity through a manifest when the legacy period key is opaque. Table and column names are renamed; the decisions, the rejected options and the consequences are not, and the commit history behind each file is intact. The platform itself belongs to my employer and is not linkable."
+        evidence="Two of the decision records behind it are published, redacted: ADR-P02 on safe recalculation by row origins, which is the mechanism that keeps a manual edit alive through a rerun, and ADR-P01 on resolving monthly identity through a manifest when the legacy period key is opaque. Table and column names are renamed; the decisions, the rejected options and the consequences are not, and the commit history behind each file is intact. The platform itself belongs to my employer and is not linkable, but the figures are those two records caught in the interface they argued for: the dialog that pins a month to the versions of the statutory rules it will be computed with, and the notice promising a payroll officer that what they entered by hand survives the recalculation about to run over it. The records in the captures are seeded, and what identifies a person is blurred."
         tags={["Payroll", "Auditability", "Node.js"]}
         overview="The flagship of the ERP work and the system I would want to be asked about. Payroll is unusual in that correctness is not a quality bar but the entire specification — 'mostly right' is a defect — and the requirement that shaped the design was reproducibility: a run from six months ago must be regenerable exactly, after the employees in it have been promoted, transferred, or had their tax band changed. Recomputing from today's data gives a different and wrong answer, so the engine reproduces the state as it stood. The second hard requirement is retroactive recalculation. The HR subsystem below it manages employee lifecycle events, and every one of them changes pay as of a date and can be corrected after the fact — which means a closed period sometimes has to be recomputed. A recalculation has to overwrite its own prior output while preserving a human override applied on top of it; get it wrong in one direction and you discard a payroll officer's correction, in the other and you refuse to recompute at all. The answer was to track the origin of every row and replace only the generated ones. It is the reason the employee record above has its own entry: that subsystem was built first on purpose, and the two could not have been designed apart."
         tools={[
@@ -348,6 +489,7 @@ function Projects() {
           "In production",
           "2025 — present",
         ]}
+        images={queenPayrollImages}
         links={[
           {
             name: "ADR-P02 — recalculation safety",
@@ -365,8 +507,8 @@ function Projects() {
         title="Reporting & export subsystem"
         problem="Every new report in the legacy platform needed a developer. Someone who wanted the same figures grouped a different way filed a request and waited, and what they eventually got was a report a developer had understood second-hand."
         insight="The queue of requests is the symptom; the cause is that reports were code. If a report definition is data, the person who needs the report is the person who can make it, and the developer leaves the loop entirely. That turned out to be the instinct running through the whole platform — the work a developer does most often and values least is exactly the work the business should be able to do without one."
-        solution="A metadata-driven subsystem where users create, update and remove report definitions from the dashboard: twenty report types delivered, and changing one needs no deployment. Export to Excel, PDF and Word runs through Gotenberg on BullMQ worker queues backed by Redis, so a large export never holds the web tier, and Server-Sent Events push progress back to the user while it runs."
-        evidence="Three of its decision records are published, redacted. ADR-006 argues enqueue reliability down to a reconciliation sweep rather than a transactional outbox, and states plainly what that costs. ADR-008 sets idempotency dedupe scope per operation — a global unique index for immutable output, a filtered one for anything freshness-windowed. ADR-007 scopes an async operation resource to its owner and re-checks module permission on read. One of the five published records exists only because it caught an earlier one claiming a durability guarantee the design did not actually deliver; the correction is in the history rather than folded quietly into the original."
+        solution="A metadata-driven subsystem where users create, update and remove report definitions from the dashboard: thirty-two report definitions delivered, and changing one needs no deployment. Export to Excel, PDF and Word runs through Gotenberg on BullMQ worker queues backed by Redis, so a large export never holds the web tier, and Server-Sent Events push progress back to the user while it runs."
+        evidence="Three of its decision records are published, redacted. ADR-006 argues enqueue reliability down to a reconciliation sweep rather than a transactional outbox, and states plainly what that costs. ADR-008 sets idempotency dedupe scope per operation — a global unique index for immutable output, a filtered one for anything freshness-windowed. ADR-007 scopes an async operation resource to its owner and re-checks module permission on read. One of the five published records exists only because it caught an earlier one claiming a durability guarantee the design did not actually deliver; the correction is in the history rather than folded quietly into the original. The figures carry the other half, out of the running system against seeded records: the report definitions as rows, each holding the permission that may read it and the one that may export it, and the export log under the catalogue, where two runs completed on an expiry clock and the eight failures beneath them are left on the page."
         tags={["Background workers", "Reporting", "Node.js"]}
         overview="The subsystem that taught me most about failure modes. The design decision is the one in the first line — report definitions are rows, not code — and everything else follows from exports being slow, large, and therefore asynchronous. A long export cannot run inside a request, so it runs on a queue; once it runs on a queue the user has no idea whether anything is happening, so progress comes back over Server-Sent Events rather than polling, which is the right trade when the stream only travels one way. And once work is enqueued, the interesting questions are all about what happens when something dies mid-job: a queued operation that is never picked up, a worker that falls over after it has produced output but before it has recorded that it did, the same export requested twice. Those are the questions the published records argue out. The reporting requirements came from their own round of stakeholder interviews, separate from the core HR and payroll ones, because reporting users and operational users are not the same people and do not want the same thing."
         tools={[
@@ -381,10 +523,11 @@ function Projects() {
         ]}
         meta={[
           "Queen Service",
-          "20 report types",
+          "32 report definitions",
           "In production",
           "2025 — present",
         ]}
+        images={queenReportingImages}
         links={[
           {
             name: "The published records",
@@ -399,7 +542,7 @@ function Projects() {
         problem="In an HR and payroll platform, who may see what is the requirement rather than a layer over it: an export embeds salaries, an employee record embeds dependants and bank details. And the rules keep moving — a department reorganises, a role gains a module, an officer leaves the team. On the legacy platform each of those was a code change, so a question about permissions was answered on a deployment schedule."
         insight="Permissions move faster than releases. If what a role may do is a row rather than a branch, the person who owns the org chart is the person who changes it — the same instinct the reporting subsystem runs on, pointed at authorisation instead of at reports."
         solution="A configurable RBAC model with JWT authentication, where a role's permissions are reconfigured from the dashboard without a deployment. The permission is re-checked at access time rather than trusted from the token, so revoking a role takes effect on the next read instead of the next login. Async operation resources sit on top of it owner-scoped: a user reads their own calculation runs and exports and nobody else's, and a non-owner cannot tell the difference between a resource they may not see and one that does not exist."
-        evidence="ADR-007 is published, redacted, and is this decision rather than a description of it: the read contract is 404 for a non-owner — no cross-user existence leak — 403 for a caller who has since lost the module permission, and 410 for a resource that has expired. It also records that managerial cross-user reads were deferred to a future ABAC layer rather than quietly allowed, which is the part worth reading: the thing the model does not do is written down. The role configuration itself is my employer's and is not linkable; the second independent implementation of the same pattern is the DMS entry further down, which can show its role table on screen."
+        evidence="ADR-007 is published, redacted, and is this decision rather than a description of it: the read contract is 404 for a non-owner — no cross-user existence leak — 403 for a caller who has since lost the module permission, and 410 for a resource that has expired. It also records that managerial cross-user reads were deferred to a future ABAC layer rather than quietly allowed, which is the part worth reading: the thing the model does not do is written down. The role configuration itself is my employer's and is not linkable, but it is in the figures, against seeded records: twenty-two roles whose descriptions say what each one does not reach, and the permission catalogue they are assembled from, addressed as code, module and operation. The second independent implementation of the same pattern is the DMS entry further down."
         tags={["Authorisation", "RBAC", "Node.js"]}
         overview="The decision underneath this one is the same as the reporting subsystem's — move the thing that changes often out of code and into data — and it is the one I would defend hardest, because authorisation is where that instinct is most often refused on the grounds that it is too important to configure. The argument back is that a permission model which needs a release is a permission model that is wrong between releases. Two details carry the rest. The first is re-checking the module permission at access time instead of trusting what the token said at login: it costs a lookup per request and it is the difference between a revocation that is real and one that waits for a session to expire. The second is owner-scoping anything that embeds someone else's data — an export file is not a report, it is a specific person's payroll in a blob, and the default for it cannot be that any holder of the module permission may fetch it. Returning 404 rather than 403 to a non-owner is deliberate: 403 confirms the resource exists, which is itself a leak in a system where the resource is somebody's salary run."
         tools={[
@@ -416,6 +559,7 @@ function Projects() {
           "In production",
           "2025 — present",
         ]}
+        images={queenAuthImages}
         links={[
           {
             name: "ADR-007 — operation authorization",

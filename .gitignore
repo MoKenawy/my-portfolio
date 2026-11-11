@@ -38,5 +38,7 @@ next-env.d.ts
 Docs/
 
 # Claude Code session-local config: the dev-server launch entry and any
-# permission settings. Machine-local tooling, not site content.
-.claude/
+# permission settings. Machine-local tooling, not site content. The skills
+# in .claude/skills/ are the exception: they ship with the template.
+.claude/*
+!.claude/skills/

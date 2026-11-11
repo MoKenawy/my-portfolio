@@ -1,6 +1,10 @@
 # Client intake
 
-Fill these in **before** building the portfolio. Each file is a questionnaire; your answers become the content of the site. Replace every `[...]` prompt, delete the guidance lines you don't need, and write "skip" for anything that doesn't apply. Rough and honest beats polished.
+Fill these in **before** building the portfolio. Each file is a questionnaire; your answers become the content of the site.
+
+These are blank templates: don't fill them in place. Copy them to `Docs/intake/` (git-ignored) and answer there. In Claude Code, the `/new-portfolio` skill does this for you and interviews the client file by file.
+
+In your copy, replace every `[...]` prompt, delete the guidance lines you don't need, and write "skip" for anything that doesn't apply. Rough and honest beats polished.
 
 | Order | File | You tell us | It becomes |
 |---|---|---|---|

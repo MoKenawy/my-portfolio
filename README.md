@@ -15,6 +15,8 @@ Before touching code, fill in the questionnaires in [`intake/`](intake/README.md
 | [`05-look-and-structure.md`](intake/05-look-and-structure.md) | Pages, colours, fonts, hosting | `site.nav`, `globals.css`, `fonts/manuscript.ts` |
 | [`06-assets.md`](intake/06-assets.md) | Files to send (logo, portrait, screenshots) | `public/` |
 
+In Claude Code, run the **`/new-portfolio`** skill to do the whole flow: it interviews the client with these templates (answers go to the git-ignored `Docs/intake/`), builds the site from them, reviews it, and launches it. The phases are also separate skills: `portfolio-intake`, `portfolio-build`, `portfolio-review`, `portfolio-launch` (in `.claude/skills/`).
+
 They contain personal detail once filled in. After the content has been moved into the data files below, move `intake/` out of the repo or delete it so it is never published.
 
 ## Make this your portfolio (code)

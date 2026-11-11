@@ -175,13 +175,13 @@ const credentials: Credential[] = [
     issuer:
       "Digital Egypt Pioneers Initiative (DEPI) — Egypt's Ministry of Communications and IT",
     detail:
-      "159 hours. A separate and earlier DEPI track from the one above. Issued 30 September 2024.",
+      "159 hours. A separate and earlier DEPI track from the one above.",
     when: "30 Sep 2024",
   },
   {
     title: "Advanced Learning Algorithms",
     issuer: "Coursera",
-    detail: "34 hours. Credential PTJSVDED9N9T.",
+    detail: "34 hours.\n\n Credential PTJSVDED9N9T.",
     when: "Oct 2023",
   },
   {

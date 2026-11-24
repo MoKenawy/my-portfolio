@@ -36,7 +36,11 @@ const behaviour = (): ScrollBehavior =>
 function SkillBar({ skill }: { skill: SkillDef }) {
   const router = useRouter();
   const pathname = usePathname();
+  // `count` marked entries in all; the reader is at the `at`-th of them —
+  // the last one whose top has reached the line under the bar — or above the
+  // first, when `at` is 0.
   const [count, setCount] = React.useState(0);
+  const [at, setAt] = React.useState(0);
   const [edge, setEdge] = React.useState({ prev: false, next: false });
 
   const matches = () =>
@@ -50,11 +54,13 @@ function SkillBar({ skill }: { skill: SkillDef }) {
     if (id) document.getElementById(id)?.scrollIntoView({ block: "start" });
   }, []);
 
-  // Which way there is still somewhere to go, from where the reader is now.
+  // Where the reader is among the marked entries, and which way there is
+  // still somewhere to go.
   React.useEffect(() => {
     const measure = () => {
       const tops = matches().map((el) => el.getBoundingClientRect().top);
       setCount(tops.length);
+      setAt(tops.filter((t) => t <= ARRIVAL + EPS).length);
       setEdge({
         prev: tops.some((t) => t < ARRIVAL - EPS),
         next: tops.some((t) => t > ARRIVAL + EPS),
@@ -85,16 +91,23 @@ function SkillBar({ skill }: { skill: SkillDef }) {
   const clear = () =>
     router.replace(`${pathname}${window.location.hash}`, { scroll: false });
 
-  const button =
-    "mono border border-hairline px-2.5 py-1 transition-colors hover:border-paper hover:text-paper aria-disabled:opacity-40 aria-disabled:hover:border-hairline aria-disabled:hover:text-mid";
+  // The bar is set reversed — paper ground, ink type — the same treatment as
+  // the "Uses …" label on each marked entry, so the bar and the marks read as
+  // one thing, and the bar cannot be mistaken for the page it sits on. Still
+  // no hue (design.md §9): the inversion is the emphasis.
+  const step =
+    "mono min-h-8 border border-ground px-3 py-1.5 text-ground transition-colors hover:bg-ground hover:text-paper aria-disabled:opacity-40 aria-disabled:hover:bg-transparent aria-disabled:hover:text-ground";
 
   return (
-    <div className="sticky top-0 z-10 mt-10 border-b border-hairline bg-ground py-3">
+    <div className="sticky top-0 z-10 mt-10 bg-paper px-4 py-2.5 text-ground sm:px-5">
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <p className="mono normal-case text-paper">
-          {skill.name} — {count} {count === 1 ? "entry" : "entries"} marked
+        <p className="flex items-baseline gap-3">
+          <span className="font-serif text-xl leading-none">{skill.name}</span>
+          <span className="mono text-ground">
+            {at > 0 ? `${at} of ${count}` : `${count} marked below`}
+          </span>
         </p>
-        <div className="flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-2">
           {/* `aria-disabled`, not `disabled`, so focus is not dropped to
               <body> when the reader reaches either end. */}
           <button
@@ -102,27 +115,28 @@ function SkillBar({ skill }: { skill: SkillDef }) {
             aria-label={`Previous entry that uses ${skill.name}`}
             aria-disabled={!edge.prev}
             onClick={() => go(-1)}
-            className={button}
+            className={step}
           >
-            ↑
+            ↑ prev
           </button>
           <button
             type="button"
             aria-label={`Next entry that uses ${skill.name}`}
             aria-disabled={!edge.next}
             onClick={() => go(1)}
-            className={button}
+            className={step}
           >
-            ↓
+            next ↓
+          </button>
+          <button
+            type="button"
+            aria-label={`Clear the ${skill.name} marks`}
+            onClick={clear}
+            className="mono min-h-8 border border-ground bg-ground px-3 py-1.5 text-paper transition-colors hover:bg-transparent hover:text-ground"
+          >
+            clear ×
           </button>
         </div>
-        <button
-          type="button"
-          onClick={clear}
-          className="mono ml-auto normal-case underline decoration-hairline underline-offset-4 transition-colors hover:text-paper hover:decoration-paper"
-        >
-          clear ×
-        </button>
       </div>
     </div>
   );

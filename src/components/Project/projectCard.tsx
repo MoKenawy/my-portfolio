@@ -69,9 +69,11 @@ export default function ProjectCard({
 
   // Opened from a skill on the home page, an entry built with it says so: a
   // label above the title, so the mark is never colour or position alone, and
-  // a rule in the margin to find it by while scrolling. Neither introduces a
-  // colour (design.md §9). Entries that don't match are left exactly as they
-  // are — still the full ledger, only with some of it pointed at.
+  // a double rule in the margin to find it by while scrolling. Weight comes
+  // from inversion and thickness rather than hue (design.md §9) — the label is
+  // set reversed, like the site's one filled button, because Plex Mono ships in
+  // a single weight and a synthesised bold would only smear it. Entries that
+  // don't match are left exactly as they are.
   const skill = useActiveSkill();
   const match = skill ? usesSkill(tools, skill) : false;
 
@@ -84,12 +86,12 @@ export default function ProjectCard({
       {match && (
         <span
           aria-hidden
-          className="absolute inset-y-10 -left-3 w-px bg-paper sm:-left-5"
+          className="absolute inset-y-10 -left-4 w-[9px] border-x-[3px] border-paper sm:-left-6"
         />
       )}
       <div className="prose-measure">
         {match && (
-          <p className="mono mb-2 text-paper">
+          <p className="mono mb-3 inline-block bg-paper px-2 py-1 text-ground">
             Uses {skill!.name}
           </p>
         )}

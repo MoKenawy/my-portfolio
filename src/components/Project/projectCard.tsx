@@ -81,17 +81,12 @@ export default function ProjectCard({
         {/* The problem carries the opening — no label, it simply starts there. */}
         <p className="mt-3 font-serif text-lg text-paper">{problem}</p>
 
-        <p className="mono mt-7">What I built</p>
-        <p className="mt-2 font-serif text-lg text-paper">{solution}</p>
-
-        <p className="mono mt-7">The proof</p>
-        <p className="mt-2 font-serif text-lg text-paper">{evidence}</p>
-
-        {/* The first figure, promoted out of the modal so the proof is visible
-            without a click — and it is the way in: pressing the plate opens the
-            record at the full set. Held to a plate, not a hero; this index is a
-            ledger rather than a gallery, and the entries without an artifact
-            simply show none. */}
+        {/* The first figure, promoted out of the modal and set straight after
+            the brief, so the reader sees the thing before reading how it was
+            built — and it is the way in: pressing the plate opens the record at
+            the full set. Held to a plate, not a hero; this index is a ledger
+            rather than a gallery, and the entries without an artifact simply
+            show none. */}
         {lead && (
           <>
             <Figure
@@ -113,6 +108,12 @@ export default function ProjectCard({
             )}
           </>
         )}
+
+        <p className="mono mt-7">What I built</p>
+        <p className="mt-2 font-serif text-lg text-paper">{solution}</p>
+
+        <p className="mono mt-7">The proof</p>
+        <p className="mt-2 font-serif text-lg text-paper">{evidence}</p>
 
         {tags.length > 0 && (
           <p className="mono mt-7 normal-case text-mid">{tags.join("  ·  ")}</p>

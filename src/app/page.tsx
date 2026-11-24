@@ -166,6 +166,7 @@ export default function Home() {
                   href={item.href}
                   external={item.external}
                   crop={item.crop}
+                  tone="reveal"
                   activateLabel={`${item.title} — ${item.external ? "verify the credential" : item.kind === "system" ? "see it under Ship" : "see it in the register"}`}
                 />
                 <p className="mt-3 font-serif text-lg leading-snug text-paper">

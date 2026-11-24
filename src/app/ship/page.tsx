@@ -622,25 +622,30 @@ function Projects() {
         embed={pdf2deckEmbed}
       />
 
-      {/* No link: the repository is not public, and the audit question about
-          what may be published from it is not mine to answer unilaterally. The
-          specification is the evidence, which is the claim this entry makes
-          anyway. */}
+      {/* The repository is public and runs as it stands, so the proof is the
+          system itself rather than a description of it. The SRS is not in the
+          repository and still goes out redacted, on request. */}
       <ProjectCard
         {...project("dms")}
         problem="Engineering drawings move between departments as attachments and shared folders, so nobody can say with confidence which revision is current, who has seen it, or what the drawing looked like three revisions ago. And for the kind of organisation that holds drawings like these, none of it may leave the building."
         insight="A diagram's identity is not its file. Separate the two and the version history becomes immutable by construction — a revision is a new file against a stable identity, and nothing is ever overwritten. The access question has the same shape: the rule people actually state is “the whole department, except one person”, which is a single indexed query against a polymorphic permission model and a thicket of special cases against any other."
         solution="A React SPA over a Node.js REST API, TypeScript end to end, managing the lifecycle, distribution and archiving of engineering drawings across departments. JWT authentication with a configurable RBAC model governing per-role access to the archive. BullMQ and Redis workers take format-agnostic file processing (PDF, DWG) and automated backups off the request path. It deploys fully on-premises in Docker behind NGINX, with automated replication to secondary servers for disaster recovery, because for this buyer a cloud is not one of the options."
-        evidence="For this one the documentation is the demo. I wrote the SRS and the design models first and then directed coding agents against them — which is the part most people leave out, and the specification is precisely what makes the authorship checkable. Redacted excerpts go to serious enquirers. The repository is not public, so this entry carries no link."
+        evidence="The repository is public, and the demo is the repository: clone it, set two secrets in the example environment file, and Docker Compose brings up the database, cache, API and interface with a seeded admin account. The immutable version history, the department-except-one permission rule and the audit log are there to try rather than to take on my word, and the backend serves its own API documentation. The SRS and the design models came first and I directed coding agents against them — the specification is what makes that authorship checkable, and redacted excerpts of it still go to serious enquirers."
         tags={["On-premises", "Document management", "TypeScript"]}
         overview="A secure engineering archive, written TypeScript end to end with a fully right-to-left Arabic interface. Two decisions carry the system. The first is separating a diagram's identity from its files, which is what makes the version history immutable rather than merely recorded. The second is a polymorphic permission model, so that the real-world rule — a whole department has access except one person — resolves in one indexed query instead of a special case per exception. The on-premises constraint shapes the rest: no managed queue, no object store, no cloud backup, so BullMQ and Redis run in the same compose file as everything else and disaster recovery is automated replication to secondary servers that I had to configure rather than purchase. It is also the second independent implementation of configurable RBAC I have built, after the HR platform, which is the part I would point at if asked whether I actually understand the pattern or just used it once."
         meta={[
           "Secure engineering archive",
           "On-premises",
-          "SRS excerpts on request",
+          "Public repository",
           "2026 — present",
         ]}
         images={dmsImages}
+        links={[
+          {
+            name: "GitHub",
+            url: "https://github.com/MoKenawy/Diagram-management-System",
+          },
+        ]}
       />
 
       <ProjectCard

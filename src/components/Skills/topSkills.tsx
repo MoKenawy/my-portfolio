@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Icon } from "@iconify/react";
+import { skillHref } from "@/lib/skillIndex";
 
 export interface SkillIcon {
   body: string;
@@ -22,10 +23,6 @@ export interface SkillView {
   projects: { id: string; title: string }[];
 }
 
-// Where a project link goes. Kept in one place so the planned next step —
-// marking the matching entries on Ship — only has to take the skill's slug
-// here and add `?skill=` to the link.
-const projectHref = (id: string) => `/ship#${id}`;
 
 // The tools the record below is built with, as one ruled row of labelled marks
 // rather than a grid of tiles (design.md §9 forbids skills grids). Each mark is
@@ -109,7 +106,7 @@ export default function TopSkills({ skills }: { skills: SkillView[] }) {
               {current.projects.map((p) => (
                 <li key={p.id}>
                   <Link
-                    href={projectHref(p.id)}
+                    href={skillHref(current.slug, p.id)}
                     className="font-serif text-lg text-paper underline decoration-hairline underline-offset-4 transition-colors hover:decoration-paper"
                   >
                     {p.title} →
@@ -117,6 +114,15 @@ export default function TopSkills({ skills }: { skills: SkillView[] }) {
                 </li>
               ))}
             </ul>
+            {/* Every link above lands on Ship with this skill's entries
+                marked; this one lands at the top of the list instead of
+                on one of them. */}
+            <Link
+              href={skillHref(current.slug)}
+              className="mono mt-5 inline-block normal-case underline decoration-hairline underline-offset-4 transition-colors hover:text-paper hover:decoration-paper"
+            >
+              see all {current.projects.length} on Ship, marked →
+            </Link>
           </>
         )}
       </div>

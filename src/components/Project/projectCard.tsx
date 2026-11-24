@@ -3,6 +3,8 @@
 import React from "react";
 import ProjectModal from "./projectModal";
 import Figure from "@/components/Figure/figure";
+import { MATCH_ATTR, useActiveSkill } from "@/components/Skills/skillHighlight";
+import { usesSkill } from "@/lib/skillIndex";
 import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 export interface ProjectCardProps {
@@ -65,12 +67,32 @@ export default function ProjectCard({
   const [open, setOpen] = React.useState(false);
   const [lead] = images;
 
+  // Opened from a skill on the home page, an entry built with it says so: a
+  // label above the title, so the mark is never colour or position alone, and
+  // a rule in the margin to find it by while scrolling. Neither introduces a
+  // colour (design.md §9). Entries that don't match are left exactly as they
+  // are — still the full ledger, only with some of it pointed at.
+  const skill = useActiveSkill();
+  const match = skill ? usesSkill(tools, skill) : false;
+
   return (
     <article
       id={id}
-      className="grid scroll-mt-24 grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]"
+      {...(match ? { [MATCH_ATTR]: skill!.slug } : {})}
+      className="relative grid scroll-mt-24 grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]"
     >
+      {match && (
+        <span
+          aria-hidden
+          className="absolute inset-y-10 -left-3 w-px bg-paper sm:-left-5"
+        />
+      )}
       <div className="prose-measure">
+        {match && (
+          <p className="mono mb-2 text-paper">
+            Uses {skill!.name}
+          </p>
+        )}
         {eyebrow && <p className="mono">{eyebrow}</p>}
         <h2
           className={`font-serif text-3xl leading-tight${eyebrow ? " mt-2" : ""}`}

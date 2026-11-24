@@ -1,4 +1,5 @@
 import ProjectCard from "@/components/Project/projectCard";
+import { project } from "@/lib/projects";
 import { ik, asset } from "@/lib/media";
 import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
@@ -465,22 +466,14 @@ function Projects() {
           it, and an entry that says "the HR subsystem I built first" should
           have the thing it names sitting above it on the page. */}
       <ProjectCard
+        {...project("hr")}
         eyebrow="Inside the post"
-        title="HR subsystem"
         problem="Every module above it answers questions about people, and the legacy MS Access platform had no single record of a person to answer from. A promotion effective mid-month, a transfer corrected after the fact, a dependant added last year — each lived wherever it had been entered, so two modules could disagree about the same employee and both be defensible."
         insight="The lifecycle events are not attributes on a row, they are dated facts, and every system above depends on reading them as of a date rather than as of now. That makes the record of people the thing that has to be right first: nothing built on top of it can be correct until it is."
         solution="The employee record the whole platform reads from, built first and deliberately: the full lifecycle of hiring, promotion, demotion and transfer, with banking details, dependants, positions and roles, for roughly 15,000 employees. Every lifecycle event is dated and correctable after the fact, so a module above can ask what was true in March rather than only what is true now. Payroll, reporting and access control resolve a person through it instead of each keeping a copy."
         evidence="The screens are here; the data behind them is not. These are captures of the running system against seeded records, with everything that identifies a person blurred in the capture, and there is no repository to point at. What they show is the shape of the model rather than the contents: the career path as a list of dated movements, and the dialog that files a new one against its effective date instead of against today. The two published payroll records are the closest thing to it on paper — ADR-P01 and ADR-P02 are both decisions about reading this record as of a date, and neither of them makes sense without it."
         tags={["HR", "Data modelling", "Node.js"]}
         overview="The foundation, and the entry I would put first if the page were ordered by what everything else depends on. It was built first, deliberately: nothing above it can be correct until the record of people is. The design problem is that an employee is not a row but a history — hired on a date, promoted on a date, transferred on a date, and every one of those dates is correctable after someone has already acted on it. A system that stores only the current state can answer what is true now and nothing else, which is enough for a directory and useless for a payroll. So the lifecycle events are the record and the current state is a read of them, which is what makes a payroll run from six months ago reproducible and what makes retroactive recalculation a consequence of the design rather than a feature bolted onto it. The cost is that nothing is a simple lookup: every question about a person is a question about a person on a date, and the modules above have to be written knowing that. The upside is that they can all be written against one record instead of each keeping its own idea of who works here."
-        tools={[
-          "Node.js",
-          "Express",
-          "TypeScript",
-          "Prisma",
-          "Microsoft SQL Server",
-          "React",
-        ]}
         meta={[
           "Queen Service",
           "~15,000 employees",
@@ -497,23 +490,14 @@ function Projects() {
       />
 
       <ProjectCard
-        id="payroll"
+        {...project("payroll")}
         eyebrow="Inside the post"
-        title="Payroll subsystem"
         problem="Payroll has no acceptable error rate: every figure is a legal obligation to a named person. The legacy platform could run a payroll but could not reproduce one — once an employee's grade, department or tax band had moved on, the run that paid them last March was no longer regenerable, and a dispute had nothing to be settled against."
         insight="Recomputing from current data is the obvious answer and the wrong one, because the run has to reproduce the state as it was rather than as it is. That makes payroll a problem about modelling time, not about arithmetic — and the dated events that make it hard (a promotion effective mid-month, a transfer corrected after the fact) are produced by the employee subsystem underneath it. The two could not be designed separately."
         solution="A deterministic engine over the HR subsystem I built first: the same inputs always produce the same outputs, across overtime, deductions and taxes for roughly 15,000 employees. Every run is backed by transaction history and an auditable change log, so a prior payroll stays reproducible after the data beneath it has changed. A recalculation replaces only the rows it generated itself, so a payroll officer's manual correction survives a rerun instead of being silently overwritten. It reads every person through the employee record above rather than keeping an idea of its own."
         evidence="Two of the decision records behind it are published, redacted: ADR-P02 on safe recalculation by row origins, which is the mechanism that keeps a manual edit alive through a rerun, and ADR-P01 on resolving monthly identity through a manifest when the legacy period key is opaque. Table and column names are renamed; the decisions, the rejected options and the consequences are not, and the commit history behind each file is intact. The platform itself belongs to my employer and is not linkable, but the figures are those two records caught in the interface they argued for: the dialog that pins a month to the versions of the statutory rules it will be computed with, and the notice promising a payroll officer that what they entered by hand survives the recalculation about to run over it. The records in the captures are seeded, and what identifies a person is blurred."
         tags={["Payroll", "Auditability", "Node.js"]}
         overview="The flagship of the ERP work and the system I would want to be asked about. Payroll is unusual in that correctness is not a quality bar but the entire specification — 'mostly right' is a defect — and the requirement that shaped the design was reproducibility: a run from six months ago must be regenerable exactly, after the employees in it have been promoted, transferred, or had their tax band changed. Recomputing from today's data gives a different and wrong answer, so the engine reproduces the state as it stood. The second hard requirement is retroactive recalculation. The HR subsystem below it manages employee lifecycle events, and every one of them changes pay as of a date and can be corrected after the fact — which means a closed period sometimes has to be recomputed. A recalculation has to overwrite its own prior output while preserving a human override applied on top of it; get it wrong in one direction and you discard a payroll officer's correction, in the other and you refuse to recompute at all. The answer was to track the origin of every row and replace only the generated ones. It is the reason the employee record above has its own entry: that subsystem was built first on purpose, and the two could not have been designed apart."
-        tools={[
-          "Node.js",
-          "Express",
-          "TypeScript",
-          "Prisma",
-          "Microsoft SQL Server",
-          "React",
-        ]}
         meta={[
           "Queen Service",
           "~15,000 employees",
@@ -534,24 +518,14 @@ function Projects() {
       />
 
       <ProjectCard
+        {...project("reporting")}
         eyebrow="Inside the post"
-        title="Reporting & export subsystem"
         problem="Every new report in the legacy platform needed a developer. Someone who wanted the same figures grouped a different way filed a request and waited, and what they eventually got was a report a developer had understood second-hand."
         insight="The queue of requests is the symptom; the cause is that reports were code. If a report definition is data, the person who needs the report is the person who can make it, and the developer leaves the loop entirely. That turned out to be the instinct running through the whole platform — the work a developer does most often and values least is exactly the work the business should be able to do without one."
         solution="A metadata-driven subsystem where users create, update and remove report definitions from the dashboard: thirty-two report definitions delivered, and changing one needs no deployment. Export to Excel, PDF and Word runs through Gotenberg on BullMQ worker queues backed by Redis, so a large export never holds the web tier, and Server-Sent Events push progress back to the user while it runs."
         evidence="Three of its decision records are published, redacted. ADR-006 argues enqueue reliability down to a reconciliation sweep rather than a transactional outbox, and states plainly what that costs. ADR-008 sets idempotency dedupe scope per operation — a global unique index for immutable output, a filtered one for anything freshness-windowed. ADR-007 scopes an async operation resource to its owner and re-checks module permission on read. One of the five published records exists only because it caught an earlier one claiming a durability guarantee the design did not actually deliver; the correction is in the history rather than folded quietly into the original. The figures carry the other half, out of the running system against seeded records: the report definitions as rows, each holding the permission that may read it and the one that may export it, and the export log under the catalogue, where two runs completed on an expiry clock and the eight failures beneath them are left on the page."
         tags={["Background workers", "Reporting", "Node.js"]}
         overview="The subsystem that taught me most about failure modes. The design decision is the one in the first line — report definitions are rows, not code — and everything else follows from exports being slow, large, and therefore asynchronous. A long export cannot run inside a request, so it runs on a queue; once it runs on a queue the user has no idea whether anything is happening, so progress comes back over Server-Sent Events rather than polling, which is the right trade when the stream only travels one way. And once work is enqueued, the interesting questions are all about what happens when something dies mid-job: a queued operation that is never picked up, a worker that falls over after it has produced output but before it has recorded that it did, the same export requested twice. Those are the questions the published records argue out. The reporting requirements came from their own round of stakeholder interviews, separate from the core HR and payroll ones, because reporting users and operational users are not the same people and do not want the same thing."
-        tools={[
-          "Node.js",
-          "Express",
-          "TypeScript",
-          "BullMQ",
-          "Redis",
-          "Gotenberg",
-          "Server-Sent Events",
-          "Microsoft SQL Server",
-        ]}
         meta={[
           "Queen Service",
           "32 report definitions",
@@ -568,22 +542,14 @@ function Projects() {
       />
 
       <ProjectCard
+        {...project("auth")}
         eyebrow="Inside the post"
-        title="Auth subsystem"
         problem="In an HR and payroll platform, who may see what is the requirement rather than a layer over it: an export embeds salaries, an employee record embeds dependants and bank details. And the rules keep moving — a department reorganises, a role gains a module, an officer leaves the team. On the legacy platform each of those was a code change, so a question about permissions was answered on a deployment schedule."
         insight="Permissions move faster than releases. If what a role may do is a row rather than a branch, the person who owns the org chart is the person who changes it — the same instinct the reporting subsystem runs on, pointed at authorisation instead of at reports."
         solution="A configurable RBAC model with JWT authentication, where a role's permissions are reconfigured from the dashboard without a deployment. The permission is re-checked at access time rather than trusted from the token, so revoking a role takes effect on the next read instead of the next login. Async operation resources sit on top of it owner-scoped: a user reads their own calculation runs and exports and nobody else's, and a non-owner cannot tell the difference between a resource they may not see and one that does not exist."
         evidence="ADR-007 is published, redacted, and is this decision rather than a description of it: the read contract is 404 for a non-owner — no cross-user existence leak — 403 for a caller who has since lost the module permission, and 410 for a resource that has expired. It also records that managerial cross-user reads were deferred to a future ABAC layer rather than quietly allowed, which is the part worth reading: the thing the model does not do is written down. The role configuration itself is my employer's and is not linkable, but it is in the figures, against seeded records: twenty-two roles whose descriptions say what each one does not reach, and the permission catalogue they are assembled from, addressed as code, module and operation. The second independent implementation of the same pattern is the DMS entry further down."
         tags={["Authorisation", "RBAC", "Node.js"]}
         overview="The decision underneath this one is the same as the reporting subsystem's — move the thing that changes often out of code and into data — and it is the one I would defend hardest, because authorisation is where that instinct is most often refused on the grounds that it is too important to configure. The argument back is that a permission model which needs a release is a permission model that is wrong between releases. Two details carry the rest. The first is re-checking the module permission at access time instead of trusting what the token said at login: it costs a lookup per request and it is the difference between a revocation that is real and one that waits for a session to expire. The second is owner-scoping anything that embeds someone else's data — an export file is not a report, it is a specific person's payroll in a blob, and the default for it cannot be that any holder of the module permission may fetch it. Returning 404 rather than 403 to a non-owner is deliberate: 403 confirms the resource exists, which is itself a leak in a system where the resource is somebody's salary run."
-        tools={[
-          "Node.js",
-          "Express",
-          "TypeScript",
-          "JWT",
-          "Prisma",
-          "Microsoft SQL Server",
-        ]}
         meta={[
           "Queen Service",
           "Configured, not deployed",
@@ -617,48 +583,25 @@ function Projects() {
       {/* The repository is private, so this entry carries no link — the proof
           is described, and says so, rather than pointed at. */}
       <ProjectCard
-        id="agentic-pr-reviewer"
-        title="Agentic PR Reviewer"
+        {...project("agentic-pr-reviewer")}
         problem="An AI code reviewer that reads its findings out of the model's prose can fail without anyone noticing. When the parse comes back empty, a broken run and a clean review look exactly the same."
         insight="The model needs agency in only one step. Collecting the change, budgeting the prompt, validating what comes back and writing the report can all be a fixed pipeline. The one step where the model does act can be narrowed to a tool call, which a schema either accepts or rejects."
         solution="A command-line reviewer for TypeScript and JavaScript changes. It reviews uncommitted work, a branch range, or a public GitHub pull request by URL, read-only. The review is one model pass through a LangGraph agent. A finding enters only as an emit_finding tool call, validated against a Pydantic schema that also generates the JSON Schema and the tool schema. The run allows at most one repair turn and one retry on a rate limit, and a prompt over its token budget is refused rather than cut. Every failure ends in a report, never in a silent “clean” result. Output is a terminal summary, a JSON report and a self-contained HTML report, with exit codes that tell a script what happened."
         evidence="The repository is private for now, so this is described rather than linked. A versioned requirements specification (v1.7, with a requirements audit) and eleven architecture decision records came before and alongside the code. CI runs on every push and pull request on Linux and Windows, Python 3.12 and 3.13. The latest run passed 427 offline tests and 6 import-linter contracts that keep the core package free of LangChain and LangGraph. The tests block the network and use a scripted stand-in model, and a planted canary credential checks that no output leaks it."
         tags={["AI Agents", "LLM Engineering", "Python"]}
         overview="My DEPI capstone for the AI for Software Engineers track, where I was the sole software engineer. It is a command-line code reviewer for TypeScript and JavaScript changes that accepts AI findings only as schema-validated tool calls, never by parsing the model's prose, and reports every failure instead of hiding it. If the model never calls the finding tool, the report says so. The decision records set the shape: a fixed pipeline where the model has agency in one step; findings as validated tool calls; a local CLI core, with a future GitHub Action as an adapter; a Python harness reviewing a TypeScript target; and a framework-free core package, with LangChain and LangGraph allowed only in the agents layer, enforced by import-linter in CI. Langfuse supplies the managed system prompt, with a built-in fallback, and a render command re-renders a saved report. The first working version is built and merged, and the later stages are not built yet. It reads a public pull request from the command line; it does not post to one. The track's other half was entrepreneurship, so the same project was also argued as a product — who it is actually for, what it would be worth to them, how it would reach them — and pitched. That half leaves nothing on this page to inspect, and the honest claim is narrow: the system was reasoned about commercially as well as technically, not that a business came out of it."
-        tools={[
-          "Python",
-          "LangGraph",
-          "Langfuse",
-          "Pydantic",
-          "Typer",
-          "Jinja2",
-          "PyTest",
-          "import-linter",
-          "uv",
-          "GitHub Actions",
-        ]}
         meta={["AI agents", "DEPI Capstone", "Sole software engineer", "Active"]}
         images={prReviewerImages}
       />
 
       <ProjectCard
-        id="pdf2deck"
-        title="PDF2Deck Agent"
+        {...project("pdf2deck")}
         problem="Turning a PDF chapter into a slide deck is mostly transcription: headings into titles, paragraphs into bullets, figures carried across one at a time. Handing all of it to a model swaps the transcription for a different problem, an outline and a layout accepted unseen."
         insight="The model is only needed for the semantic step, deciding what the outline is. Extraction, validation, style and rendering are ordinary deterministic Python. The two points where judgement matters, the outline and the finished deck, are where a person should approve, not where the model should guess."
         solution="A LangGraph state machine: validate the input, extract the PDF, build the outline, wait for human approval, map the style, render the PPTX, validate it, wait for approval again. Both checkpoints use LangGraph's interrupt() with checkpointing, and a Gradio UI resumes the run with the reviewer's decision. Figures come out of the PDF with their page position, decoration is dropped, and the model picks at most one image per slide, which the renderer places beside the bullets."
         evidence="The repository is public, with five design decision records, an issue log of ten problems found while debugging the review flow, and an annotated UI guide. The demo video is a test run: chapter 1 of OpenStax's Concepts of Biology, through both approvals, to a styled deck."
         tags={["AI Agents", "LLM Engineering", "Python"]}
         overview="A track project inside the DEPI AI for Software Engineers track, built by me as the sole software engineer. It turns a PDF into a PowerPoint deck and pauses for a person to approve the outline and the finished deck. The LLM does only the semantic work, a structured-output outline; ordinary Python owns PDF extraction, validation, style mapping and rendering with python-pptx, and that split is recorded as a design decision. An optional first and last page narrow the input while keeping the original page numbers. Style comes from a JSON preferences file (colours, fonts, type scale, slide size, tone, density), which the UI can generate from an existing PowerPoint template. It works with any OpenAI-compatible endpoint."
-        tools={[
-          "Python",
-          "LangGraph",
-          "LangChain",
-          "Pydantic",
-          "Gradio",
-          "pypdf",
-          "python-pptx",
-        ]}
         meta={[
           "AI agents",
           "DEPI Track Project",
@@ -684,26 +627,13 @@ function Projects() {
           specification is the evidence, which is the claim this entry makes
           anyway. */}
       <ProjectCard
-        id="dms"
-        title="DMS — Diagram Management System"
+        {...project("dms")}
         problem="Engineering drawings move between departments as attachments and shared folders, so nobody can say with confidence which revision is current, who has seen it, or what the drawing looked like three revisions ago. And for the kind of organisation that holds drawings like these, none of it may leave the building."
         insight="A diagram's identity is not its file. Separate the two and the version history becomes immutable by construction — a revision is a new file against a stable identity, and nothing is ever overwritten. The access question has the same shape: the rule people actually state is “the whole department, except one person”, which is a single indexed query against a polymorphic permission model and a thicket of special cases against any other."
         solution="A React SPA over a Node.js REST API, TypeScript end to end, managing the lifecycle, distribution and archiving of engineering drawings across departments. JWT authentication with a configurable RBAC model governing per-role access to the archive. BullMQ and Redis workers take format-agnostic file processing (PDF, DWG) and automated backups off the request path. It deploys fully on-premises in Docker behind NGINX, with automated replication to secondary servers for disaster recovery, because for this buyer a cloud is not one of the options."
         evidence="For this one the documentation is the demo. I wrote the SRS and the design models first and then directed coding agents against them — which is the part most people leave out, and the specification is precisely what makes the authorship checkable. Redacted excerpts go to serious enquirers. The repository is not public, so this entry carries no link."
         tags={["On-premises", "Document management", "TypeScript"]}
         overview="A secure engineering archive, written TypeScript end to end with a fully right-to-left Arabic interface. Two decisions carry the system. The first is separating a diagram's identity from its files, which is what makes the version history immutable rather than merely recorded. The second is a polymorphic permission model, so that the real-world rule — a whole department has access except one person — resolves in one indexed query instead of a special case per exception. The on-premises constraint shapes the rest: no managed queue, no object store, no cloud backup, so BullMQ and Redis run in the same compose file as everything else and disaster recovery is automated replication to secondary servers that I had to configure rather than purchase. It is also the second independent implementation of configurable RBAC I have built, after the HR platform, which is the part I would point at if asked whether I actually understand the pattern or just used it once."
-        tools={[
-          "Node.js",
-          "Express",
-          "Prisma",
-          "PostgreSQL",
-          "Redis",
-          "BullMQ",
-          "React",
-          "TypeScript",
-          "Docker",
-          "NGINX",
-        ]}
         meta={[
           "Secure engineering archive",
           "On-premises",
@@ -714,24 +644,13 @@ function Projects() {
       />
 
       <ProjectCard
-        title="Automated Job Discovery & Intelligence Pipeline"
+        {...project("job-discovery")}
         problem="A job search is mostly reading. The same role is posted on four platforms under three titles, most of what you open doesn't match the CV you'd send it, and finding that out costs an evening of closing tabs rather than an evening of applying."
         insight="Judging a listing against a CV is a reading task, and a model running on your own machine can do it. The API fee and the third party are habit rather than requirement — and a CV is precisely the document you'd rather not hand to someone else's endpoint. The duplicates are the same problem in miniature: one job posted three times is still one job, and a fingerprint over the fields that don't change collapses it back to one."
         solution="A pipeline in stages, each callable on its own. Collectors pull listings from several platforms; a fingerprinting pass normalizes and merges duplicates into unified records in PostgreSQL; a local LLM served by Ollama ranks what survives against the candidate's CV. The result is triaged through a FastAPI and Jinja2 interface — company blacklisting, employer hiring metrics, application status tracking — with a Typer CLI over the same operations. Every stage is idempotent and can be invoked independently through Docker Compose, so a failed run is re-run rather than untangled."
         evidence="The repository is public and the contribution flow runs through pull requests, with GitHub Actions gating every one on the PyTest suite, type and lint checks, and a TruffleHog secret scan. The workflow file and the run history are there to read — none of it has to be taken on my word."
         tags={["Local LLM", "Data Pipeline", "Automation"]}
         overview="A fully self-hosted job aggregator: it collects postings from multiple platforms, deduplicates them, and ranks them against a candidate's CV using a local LLM instead of a hosted API — no per-call fee, no SaaS dependency, and the CV never leaves the machine. Ingestion carries custom fingerprinting logic that cleans, normalizes, and consolidates duplicate postings into single records. On top of the store sits the triage layer: a FastAPI and Jinja2 web interface and a Typer CLI, with company blacklisting, employer hiring metrics, and application status tracking, every stage idempotent and independently invocable through Docker Compose. Contribution runs as an open-source pull-request flow gated by GitHub Actions on tests, types, lint, and TruffleHog secret scanning. It is ongoing, and honest about its ceiling: the ranking is only as good as whichever local model you run, and it sorts a queue rather than deciding anything."
-        tools={[
-          "Python",
-          "FastAPI",
-          "Jinja2",
-          "Typer",
-          "PostgreSQL",
-          "Docker",
-          "Ollama",
-          "PyTest",
-          "GitHub Actions",
-        ]}
         meta={["Data pipeline", "Open source", "2026 — present"]}
         images={jobDiscoveryImages}
         links={[
@@ -743,14 +662,13 @@ function Projects() {
       />
 
       <ProjectCard
-        title="DriveWise"
+        {...project("drivewise")}
         problem="A driver falling asleep is invisible until the moment it isn't. The fleet manager finds out afterwards, from the report — by which point the only decision left is what to do about a crash that already happened."
         insight="Drowsiness is legible seconds before the crash. It is on the driver's face, and a camera can read it while there is still time for the answer to matter."
         solution="Two parts. A driving station reads speed and distance from the vehicle over a REST API and watches the driver with YOLO and OpenCV, sounding an audible alarm the moment it sees drowsiness. A Django dashboard gives the manager every violation, typed and timestamped, and an automatic rating per driver."
         evidence="Two runs of the same drive. With detection on, the alarm fires and the drive ends intact (fig. 7). With it off, nothing is watching — no box, no counter, no alarm — and the car leaves the road (fig. 8)."
         tags={["Computer Vision", "Drowsiness Detection", "Fleet Monitoring"]}
         overview="A driver-safety and fleet-monitoring system, and my graduation project, graded with distinction. The driving station communicates with the vehicle over a REST API, reads speed and distance in real time, and detects speeding, unsafe following distance, and driver drowsiness using YOLO and OpenCV. The manager's dashboard shows analytics, violation logs, and an automatic per-driver rating, with data synced through Firebase."
-        tools={["Python", "YOLO", "OpenCV", "TensorFlow", "Django", "Firebase"]}
         meta={["Computer Vision", "Graduation project", "2024"]}
         links={[
           {
@@ -770,21 +688,13 @@ function Projects() {
           entry's argument is the split between the two halves, and the chat
           window is the one thing a reader can already picture without help. */}
       <ProjectCard
-        title="SympAI — healthcare chatbot"
+        {...project("sympai")}
         problem="A chatbot is a long-lived conversation at the front and a set of independent services behind it, and the two have nothing in common. Put them in one deployable and their traffic patterns fight each other: the interface wants to be cheap, globally served and redeployed constantly, and the API wants containers, memory and a release it can be careful about."
         insight="The split is the whole design. Once you accept that the interface and the request handling want different runtimes, the boundary between them stops being an inconvenience and becomes the thing that lets each half scale and ship without the other."
         solution="A healthcare chatbot built as loosely coupled services: a Next.js interface for real-time interaction deployed on AWS Amplify, and the main API in FastAPI on AWS ECS, with DynamoDB for storage. Each half deploys on its own."
         evidence="The frontend repository is public, and the diagram below came out of it — the topology as it was drawn at the time, with the container image in ECR, FastAPI behind a load balancer in an auto-scaling group, DynamoDB holding the chat history, and the model itself answering from outside AWS entirely. This is the oldest cloud work on the page and I would rather state its limits than let the stack line imply more: it is a 2024 project, deployed and working, not production at scale, and my recent deployment experience is on-premises Docker and NGINX instead — a real skill, but a different one."
         tags={["Cloud deployment", "Conversational AI", "AWS"]}
         overview="Built in 2024, and the only AWS work on this page. The interesting part was the deployment topology rather than the conversation: a Next.js front end on Amplify for a responsive, real-time interface, and the main API as a containerised FastAPI service on ECS, so that the two halves could be scaled, released and reasoned about separately. DynamoDB sat behind the API. I list it because it is the thing backing any claim I make about AWS, and because being specific about when cloud experience happened is more useful than listing the services and letting a reader assume it is current — it is not. The deployment work I have done since is on-premises, which is where the DMS and the ERP platform both live."
-        tools={[
-          "Next.js",
-          "Python",
-          "FastAPI",
-          "AWS Amplify",
-          "AWS ECS",
-          "DynamoDB",
-        ]}
         meta={["Healthcare", "AWS Amplify & ECS", "2024"]}
         images={sympaiImages}
         links={[
@@ -799,14 +709,13 @@ function Projects() {
           length it has earned, and ranking your own work honestly reads as more
           confident than presenting unequal things as equals. */}
       <ProjectCard
-        title="Egyptian Currency Recognition"
+        {...project("currency")}
         problem="Someone with a visual impairment has to take it on trust that the note in their hand is the note they were told it is. Getting change becomes a question of who you are dealing with."
         insight="The denomination is legible from a photograph long before it is legible by feel. That makes it an object-detection problem rather than a hardware one — no special banknote, no reader device, just a camera most people already carry."
         solution="A YOLO detector trained on Egyptian banknotes with Roboflow and DataGradients: image in, denomination out. This is the detection layer an assistive tool needs, not the finished assistive tool — there is no audio output and no field testing with the people it is for."
         evidence="The trained model and the dataset behind it are public on Roboflow Universe — the classes, the training images, and the weights, open to inspection rather than described."
         tags={["Computer Vision", "Object Detection", "Accessibility"]}
         overview="Built to answer a problem of trust rather than one of convenience: recognising Egyptian banknote denominations from a photograph, for people who cannot read them by sight. Uses OpenCV, DataGradients, YOLO, and Roboflow; the application takes an image as input and returns the detected denomination. It stops at the detection layer — turning it into something usable would need audio output and testing with visually impaired users, neither of which it has."
-        tools={["OpenCV", "YOLO", "Roboflow", "DataGradients"]}
         meta={["Computer Vision", "Roboflow Universe", "2023"]}
         images={currencyImages}
         links={[

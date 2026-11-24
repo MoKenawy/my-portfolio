@@ -4,7 +4,9 @@ import PageShell from "@/components/PageShell/pageShell";
 import Figure from "@/components/Figure/figure";
 import ContactCTA from "@/components/ContactCTA/contactCta";
 import FeaturedStrip from "@/components/Featured/featuredStrip";
+import TopSkills from "@/components/Skills/topSkills";
 import { featured } from "@/lib/featured";
+import { topSkills } from "@/lib/skills";
 import { flagship } from "@/lib/flagship";
 import { asset } from "@/lib/media";
 
@@ -130,6 +132,22 @@ export default function Home() {
               </Link>
             </div>
           </Beat>
+        </div>
+      </section>
+
+      {/* The tools, read off the record rather than claimed: every skill here
+            is counted from the Ship entries that used it, and opens the list of
+            them. Above the plates so a reader scanning for a stack finds it
+            before the evidence, and has a way straight into it. */}
+      <section className="mt-16">
+        <p className="mono mb-5">Top skills</p>
+        <h2 className="prose-measure font-serif text-2xl leading-snug sm:text-3xl">
+          What the work below is built with.
+        </h2>
+        <hr className="flourish mt-7" />
+
+        <div className="mt-10">
+          <TopSkills skills={topSkills()} />
         </div>
       </section>
 

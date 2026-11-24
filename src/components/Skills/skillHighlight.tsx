@@ -28,6 +28,17 @@ export const MATCH_ATTR = "data-skill-match";
 const ARRIVAL = 96;
 const EPS = 4;
 
+// Whether the reader has got to an entry: its top is at (or above) the line
+// under the bar — or the page cannot scroll any further and the entry is on
+// screen, which is the only way to "reach" one near the end of the list.
+const reached = (el: HTMLElement) => {
+  const top = el.getBoundingClientRect().top;
+  if (top <= ARRIVAL + EPS) return true;
+  const atBottom =
+    window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+  return atBottom && top < window.innerHeight;
+};
+
 const behaviour = (): ScrollBehavior =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ? "auto"
@@ -41,7 +52,7 @@ function SkillBar({ skill }: { skill: SkillDef }) {
   // first, when `at` is 0.
   const [count, setCount] = React.useState(0);
   const [at, setAt] = React.useState(0);
-  const [edge, setEdge] = React.useState({ prev: false, next: false });
+  const [canPrev, setCanPrev] = React.useState(false);
 
   const matches = () =>
     Array.from(document.querySelectorAll<HTMLElement>(`[${MATCH_ATTR}]`));
@@ -58,13 +69,10 @@ function SkillBar({ skill }: { skill: SkillDef }) {
   // still somewhere to go.
   React.useEffect(() => {
     const measure = () => {
-      const tops = matches().map((el) => el.getBoundingClientRect().top);
-      setCount(tops.length);
-      setAt(tops.filter((t) => t <= ARRIVAL + EPS).length);
-      setEdge({
-        prev: tops.some((t) => t < ARRIVAL - EPS),
-        next: tops.some((t) => t > ARRIVAL + EPS),
-      });
+      const els = matches();
+      setCount(els.length);
+      setAt(els.filter(reached).length);
+      setCanPrev(els.some((el) => el.getBoundingClientRect().top < ARRIVAL - EPS));
     };
     measure();
     window.addEventListener("scroll", measure, { passive: true });
@@ -75,14 +83,15 @@ function SkillBar({ skill }: { skill: SkillDef }) {
     };
   }, [skill.slug]);
 
-  // Finds its own target from the live layout rather than trusting `edge`,
-  // which only follows scroll events: at either end there is simply nothing
-  // to find, so a press there does nothing.
+  // Finds its own target from the live layout rather than trusting `canPrev`,
+  // which only follows scroll events. Forward wraps: past the last marked
+  // entry, "next" goes back to the first, so the reader can keep pressing one
+  // button to go round the set. Backward stops at the first.
   const go = (dir: 1 | -1) => {
     const els = matches();
     const target =
       dir > 0
-        ? els.find((el) => el.getBoundingClientRect().top > ARRIVAL + EPS)
+        ? (els.find((el) => !reached(el)) ?? els[0])
         : [...els].reverse().find((el) => el.getBoundingClientRect().top < ARRIVAL - EPS);
     target?.scrollIntoView({ block: "start", behavior: behaviour() });
   };
@@ -91,38 +100,40 @@ function SkillBar({ skill }: { skill: SkillDef }) {
   const clear = () =>
     router.replace(`${pathname}${window.location.hash}`, { scroll: false });
 
-  // The bar is set reversed — paper ground, ink type — the same treatment as
-  // the "Uses …" label on each marked entry, so the bar and the marks read as
-  // one thing, and the bar cannot be mistaken for the page it sits on. Still
-  // no hue (design.md §9): the inversion is the emphasis.
+  // The bar is set reversed — `--reverse` ground (full white on the dark
+  // site, ink on the light one), page-coloured type — the same treatment as the
+  // "Uses …" label on each marked entry, so the bar and the marks read as one
+  // thing and the bar cannot be mistaken for the page it sits on. Still no hue
+  // (design.md §9): the inversion is the emphasis. Kept slim: one line of type
+  // and small controls, so it marks the view without taking it over.
   const step =
-    "mono min-h-8 border border-ground px-3 py-1.5 text-ground transition-colors hover:bg-ground hover:text-paper aria-disabled:opacity-40 aria-disabled:hover:bg-transparent aria-disabled:hover:text-ground";
+    "mono min-h-7 border border-ground px-2 py-0.5 text-ground transition-colors hover:bg-ground hover:text-reverse aria-disabled:opacity-40 aria-disabled:hover:bg-transparent aria-disabled:hover:text-ground";
 
   return (
-    <div className="sticky top-0 z-10 mt-10 bg-paper px-4 py-2.5 text-ground sm:px-5">
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <p className="flex items-baseline gap-3">
-          <span className="font-serif text-xl leading-none">{skill.name}</span>
+    <div className="sticky top-0 z-10 mt-10 bg-reverse px-3 py-1.5 text-ground sm:px-4">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+        <p className="flex items-baseline gap-2.5">
+          <span className="font-serif text-base leading-none">{skill.name}</span>
           <span className="mono text-ground">
             {at > 0 ? `${at} of ${count}` : `${count} marked below`}
           </span>
         </p>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-1.5">
           {/* `aria-disabled`, not `disabled`, so focus is not dropped to
               <body> when the reader reaches either end. */}
           <button
             type="button"
             aria-label={`Previous entry that uses ${skill.name}`}
-            aria-disabled={!edge.prev}
+            aria-disabled={!canPrev}
             onClick={() => go(-1)}
             className={step}
           >
             ↑ prev
           </button>
+          {/* Never disabled: past the last entry it wraps to the first. */}
           <button
             type="button"
             aria-label={`Next entry that uses ${skill.name}`}
-            aria-disabled={!edge.next}
             onClick={() => go(1)}
             className={step}
           >
@@ -132,7 +143,7 @@ function SkillBar({ skill }: { skill: SkillDef }) {
             type="button"
             aria-label={`Clear the ${skill.name} marks`}
             onClick={clear}
-            className="mono min-h-8 border border-ground bg-ground px-3 py-1.5 text-paper transition-colors hover:bg-transparent hover:text-ground"
+            className="mono min-h-7 border border-ground bg-ground px-2 py-0.5 text-reverse transition-colors hover:bg-transparent hover:text-ground"
           >
             clear ×
           </button>

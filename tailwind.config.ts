@@ -16,6 +16,7 @@ const config: Config = {
         mid: "var(--mid)",
         hairline: "var(--hairline)",
         accent: "var(--accent)",
+        reverse: "var(--reverse)",
       },
       fontFamily: {
         serif: ["var(--font-serif)", "Georgia", "serif"],

@@ -86,12 +86,12 @@ export default function ProjectCard({
       {match && (
         <span
           aria-hidden
-          className="absolute inset-y-10 -left-4 w-[9px] border-x-[3px] border-paper sm:-left-6"
+          className="absolute inset-y-10 -left-4 w-[9px] border-x-[3px] border-reverse sm:-left-6"
         />
       )}
       <div className="prose-measure">
         {match && (
-          <p className="mono mb-3 inline-block bg-paper px-2 py-1 text-ground">
+          <p className="mono mb-3 inline-block bg-reverse px-2 py-1 text-ground">
             Uses {skill!.name}
           </p>
         )}

@@ -39,7 +39,22 @@ const projectHref = (id: string) => `/ship#${id}`;
 export default function TopSkills({ skills }: { skills: SkillView[] }) {
   const [open, setOpen] = React.useState<string | null>(null);
   const panelId = React.useId();
+  const panel = React.useRef<HTMLDivElement>(null);
   const current = skills.find((s) => s.slug === open);
+
+  // Opening a skill brings its list into view, since on a short screen the
+  // list lands below the fold and the press looks like it did nothing.
+  // `nearest` scrolls only as far as needed — not at all if the list is
+  // already on screen — and focus stays on the button, so the keyboard
+  // reader can keep moving along the row.
+  React.useEffect(() => {
+    if (!open || !panel.current) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    panel.current.scrollIntoView({
+      block: "nearest",
+      behavior: reduce ? "auto" : "smooth",
+    });
+  }, [open]);
 
   return (
     <div>
@@ -78,7 +93,12 @@ export default function TopSkills({ skills }: { skills: SkillView[] }) {
 
       {/* One region for every button, so it never moves while the reader
           switches between skills. Empty and hidden until one is open. */}
-      <div id={panelId} hidden={!current} className="border-b border-hairline py-6">
+      <div
+        ref={panel}
+        id={panelId}
+        hidden={!current}
+        className="scroll-mb-8 border-b border-hairline py-6"
+      >
         {current && (
           <>
             <p className="mono">

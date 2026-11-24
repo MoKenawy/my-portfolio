@@ -31,7 +31,7 @@ const skills: Skill[] = [
   { slug: "typescript", name: "TypeScript", tools: ["TypeScript"], icon: "logos:typescript-icon" },
   { slug: "nodejs", name: "Node.js", tools: ["Node.js"], icon: "logos:nodejs-icon" },
   { slug: "python", name: "Python", tools: ["Python"], icon: "logos:python" },
-  { slug: "prisma", name: "Prisma", tools: ["Prisma"], icon: "simple-icons:prisma" },
+  { slug: "typeorm", name: "TypeORM", tools: ["TypeORM"], icon: "logos:typeorm" },
   {
     slug: "sql-server",
     name: "SQL Server",
@@ -75,15 +75,19 @@ function resolveIcon(ref: Skill["icon"]): SkillIcon {
   };
 }
 
+// Most-used first. The sort is stable, so skills with the same count keep the
+// order they are listed in above.
 export function topSkills(): SkillView[] {
-  return skills.map(({ slug, name, tools, icon, brand }) => ({
-    slug,
-    name,
-    icon: resolveIcon(icon),
-    tone: icon.startsWith("logos:") ? "logo" : "mark",
-    brand,
-    projects: projects
-      .filter((p) => p.tools.some((t) => tools.includes(t)))
-      .map(({ id, title }) => ({ id, title })),
-  }));
+  return skills
+    .map(({ slug, name, tools, icon, brand }): SkillView => ({
+      slug,
+      name,
+      icon: resolveIcon(icon),
+      tone: icon.startsWith("logos:") ? "logo" : "mark",
+      brand,
+      projects: projects
+        .filter((p) => p.tools.some((t) => tools.includes(t)))
+        .map(({ id, title }) => ({ id, title })),
+    }))
+    .sort((a, b) => b.projects.length - a.projects.length);
 }

@@ -19,9 +19,10 @@ export const projects: ProjectIndexEntry[] = [
       "Node.js",
       "Express",
       "TypeScript",
-      "Prisma",
+      "TypeORM",
       "Microsoft SQL Server",
       "React",
+      "Docker",
     ],
   },
   {
@@ -31,9 +32,10 @@ export const projects: ProjectIndexEntry[] = [
       "Node.js",
       "Express",
       "TypeScript",
-      "Prisma",
+      "TypeORM",
       "Microsoft SQL Server",
       "React",
+      "Docker",
     ],
   },
   {
@@ -48,6 +50,7 @@ export const projects: ProjectIndexEntry[] = [
       "Gotenberg",
       "Server-Sent Events",
       "Microsoft SQL Server",
+      "Docker",
     ],
   },
   {
@@ -58,8 +61,10 @@ export const projects: ProjectIndexEntry[] = [
       "Express",
       "TypeScript",
       "JWT",
-      "Prisma",
+      "TypeORM",
       "Microsoft SQL Server",
+      "React",
+      "Docker",
     ],
   },
   {
@@ -76,6 +81,7 @@ export const projects: ProjectIndexEntry[] = [
       "import-linter",
       "uv",
       "GitHub Actions",
+      "Docker",
     ],
   },
   {
@@ -89,6 +95,7 @@ export const projects: ProjectIndexEntry[] = [
       "Gradio",
       "pypdf",
       "python-pptx",
+      "Docker",
     ],
   },
   {
@@ -132,6 +139,7 @@ export const projects: ProjectIndexEntry[] = [
       "TensorFlow",
       "Django",
       "Firebase",
+      "Docker",
     ],
   },
   {
@@ -144,6 +152,7 @@ export const projects: ProjectIndexEntry[] = [
       "AWS Amplify",
       "AWS ECS",
       "DynamoDB",
+      "Docker",
     ],
   },
   {

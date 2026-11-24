@@ -16,6 +16,7 @@
   --mid: #aaaaaa;         /* secondary text, metadata */
   --hairline: #333333;    /* dividers, spec-strip rules */
   --accent: #791f1f;      /* oxblood — reviewer's pen; used once per view, opt-in */
+  --reverse: #ffffff;     /* reversed marks (skill bar, "Uses …" label) — full white, a step above the type */
 
   --measure: 68ch;        /* body reading measure (~66–75 chars) */
 }
@@ -27,6 +28,7 @@
   --mid: #5c5344;
   --hairline: #c4baa6;
   --accent: #791f1f;
+  --reverse: #1a1712;     /* white would vanish on ivory; reversed marks stay ink */
 }
 
 :root[data-theme="dark"] {
@@ -35,6 +37,7 @@
   --mid: #aaaaaa;
   --hairline: #333333;
   --accent: #791f1f;
+  --reverse: #ffffff;
 }
 
 * {

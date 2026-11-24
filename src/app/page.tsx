@@ -4,7 +4,9 @@ import PageShell from "@/components/PageShell/pageShell";
 import Figure from "@/components/Figure/figure";
 import ContactCTA from "@/components/ContactCTA/contactCta";
 import FeaturedStrip from "@/components/Featured/featuredStrip";
+import TopSkills from "@/components/Skills/topSkills";
 import { featured } from "@/lib/featured";
+import { topSkills } from "@/lib/skills";
 import { flagship } from "@/lib/flagship";
 import { asset } from "@/lib/media";
 
@@ -133,6 +135,22 @@ export default function Home() {
         </div>
       </section>
 
+      {/* The tools, read off the record rather than claimed: every skill here
+            is counted from the Ship entries that used it, and opens the list of
+            them. Above the plates so a reader scanning for a stack finds it
+            before the evidence, and has a way straight into it. */}
+      <section className="mt-16">
+        <p className="mono mb-5">Top skills</p>
+        <h2 className="prose-measure font-serif text-2xl leading-snug sm:text-3xl">
+          What the work below is built with.
+        </h2>
+        <hr className="flourish mt-7" />
+
+        <div className="mt-10">
+          <TopSkills skills={topSkills()} />
+        </div>
+      </section>
+
       {/* The evidence, in plates (design.md §10.3). Placed above the flagship on
             purpose: the literary piece risks reading as impressive-but-impractical
             to a recruiter, so the engineering record is the first artifact the
@@ -166,6 +184,7 @@ export default function Home() {
                   href={item.href}
                   external={item.external}
                   crop={item.crop}
+                  tone="reveal"
                   activateLabel={`${item.title} — ${item.external ? "verify the credential" : item.kind === "system" ? "see it under Ship" : "see it in the register"}`}
                 />
                 <p className="mt-3 font-serif text-lg leading-snug text-paper">

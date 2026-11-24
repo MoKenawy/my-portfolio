@@ -50,9 +50,16 @@ const artifacts: Artifact[] = [
     hrefLabel: "GitHub",
   },
   {
+    kind: "Repository",
+    title: "Diagram Management System",
+    note: "Public commit history for the on-premises engineering archive, with the development plan it was built against and a README that carries the architecture and the screens. A Docker Compose quick start brings the whole system up with a seeded admin account, so the demo is something to run rather than a description of one.",
+    href: "https://github.com/MoKenawy/Diagram-management-System",
+    hrefLabel: "GitHub",
+  },
+  {
     kind: "SRS + ADRs",
     title: "Diagram Management System — specification",
-    note: "A complete SRS and design models for the DMS, with the implementation broken into task prompts for coding agents. Redacted excerpts available to serious enquirers — for this buyer, the documentation is the demo.",
+    note: "A complete SRS and design models for the DMS, with the implementation broken into task prompts for coding agents. The code is public; the specification is not in the repository, and redacted excerpts go to serious enquirers.",
     status: "Excerpts on request",
   },
   {

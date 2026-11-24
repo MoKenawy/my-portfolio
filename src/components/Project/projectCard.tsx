@@ -3,6 +3,8 @@
 import React from "react";
 import ProjectModal from "./projectModal";
 import Figure from "@/components/Figure/figure";
+import { MATCH_ATTR, useActiveSkill } from "@/components/Skills/skillHighlight";
+import { usesSkill } from "@/lib/skillIndex";
 import type { ProjectEmbed, ProjectImage, ProjectVideo } from "@/lib/media";
 
 export interface ProjectCardProps {
@@ -65,12 +67,34 @@ export default function ProjectCard({
   const [open, setOpen] = React.useState(false);
   const [lead] = images;
 
+  // Opened from a skill on the home page, an entry built with it says so: a
+  // label above the title, so the mark is never colour or position alone, and
+  // a double rule in the margin to find it by while scrolling. Weight comes
+  // from inversion and thickness rather than hue (design.md §9) — the label is
+  // set reversed, like the site's one filled button, because Plex Mono ships in
+  // a single weight and a synthesised bold would only smear it. Entries that
+  // don't match are left exactly as they are.
+  const skill = useActiveSkill();
+  const match = skill ? usesSkill(tools, skill) : false;
+
   return (
     <article
       id={id}
-      className="grid scroll-mt-24 grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]"
+      {...(match ? { [MATCH_ATTR]: skill!.slug } : {})}
+      className="relative grid scroll-mt-24 grid-cols-1 gap-x-10 gap-y-4 py-10 sm:grid-cols-[minmax(0,1fr)_auto]"
     >
+      {match && (
+        <span
+          aria-hidden
+          className="absolute inset-y-10 -left-4 w-[9px] border-x-[3px] border-reverse sm:-left-6"
+        />
+      )}
       <div className="prose-measure">
+        {match && (
+          <p className="mono mb-3 inline-block bg-reverse px-2 py-1 text-ground">
+            Uses {skill!.name}
+          </p>
+        )}
         {eyebrow && <p className="mono">{eyebrow}</p>}
         <h2
           className={`font-serif text-3xl leading-tight${eyebrow ? " mt-2" : ""}`}
@@ -81,17 +105,12 @@ export default function ProjectCard({
         {/* The problem carries the opening — no label, it simply starts there. */}
         <p className="mt-3 font-serif text-lg text-paper">{problem}</p>
 
-        <p className="mono mt-7">What I built</p>
-        <p className="mt-2 font-serif text-lg text-paper">{solution}</p>
-
-        <p className="mono mt-7">The proof</p>
-        <p className="mt-2 font-serif text-lg text-paper">{evidence}</p>
-
-        {/* The first figure, promoted out of the modal so the proof is visible
-            without a click — and it is the way in: pressing the plate opens the
-            record at the full set. Held to a plate, not a hero; this index is a
-            ledger rather than a gallery, and the entries without an artifact
-            simply show none. */}
+        {/* The first figure, promoted out of the modal and set straight after
+            the brief, so the reader sees the thing before reading how it was
+            built — and it is the way in: pressing the plate opens the record at
+            the full set. Held to a plate, not a hero; this index is a ledger
+            rather than a gallery, and the entries without an artifact simply
+            show none. */}
         {lead && (
           <>
             <Figure
@@ -113,6 +132,12 @@ export default function ProjectCard({
             )}
           </>
         )}
+
+        <p className="mono mt-7">What I built</p>
+        <p className="mt-2 font-serif text-lg text-paper">{solution}</p>
+
+        <p className="mono mt-7">The proof</p>
+        <p className="mt-2 font-serif text-lg text-paper">{evidence}</p>
 
         {tags.length > 0 && (
           <p className="mono mt-7 normal-case text-mid">{tags.join("  ·  ")}</p>

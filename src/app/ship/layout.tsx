@@ -1,5 +1,6 @@
 import PageShell, { PageOpening } from "@/components/PageShell/pageShell";
 import ContactCTA from "@/components/ContactCTA/contactCta";
+import SkillHighlight from "@/components/Skills/skillHighlight";
 
 // Ship — the projects/case studies, the primary destination in the loop.
 // An index of shipped work, opened like a section of a manuscript.
@@ -16,10 +17,14 @@ export default function ShipLayout({
         lede="Shipped systems, documented as a ledger of engineering effort rather than a gallery. The post I hold first, and the four systems inside it that earned an entry; then everything built outside it. Each opens with the problem it existed to solve, and closes on the evidence that it worked — including, where the work belongs to someone else, an honest account of what that evidence cannot be."
       />
 
-      {/* Hairline-separated case-study list — no cards, no grid of tiles. */}
-      <div className="mt-16 divide-y divide-hairline border-y border-hairline">
-        {children}
-      </div>
+      {/* Hairline-separated case-study list — no cards, no grid of tiles.
+          Opened from a skill on the home page (`?skill=`), the entries that
+          use it mark themselves and a bar above the list steps between them. */}
+      <SkillHighlight>
+        <div className="mt-16 divide-y divide-hairline border-y border-hairline">
+          {children}
+        </div>
+      </SkillHighlight>
 
       <ContactCTA line="Every shipment above came with a lesson I paid for. If you want the longer version of any of them, ask." />
     </PageShell>

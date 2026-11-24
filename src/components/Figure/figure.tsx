@@ -8,7 +8,9 @@ import Link from "next/link";
 //
 // Photographs default to desaturated so they sit inside the strict-neutral
 // palette (§9: no colour beyond the single accent). The files are untouched
-// colour originals, so `tone="colour"` shows one exactly as it was shot.
+// colour originals, so `tone="colour"` shows one exactly as it was shot, and
+// `tone="reveal"` keeps it neutral at rest but shows the original while the
+// frame is hovered or keyboard-focused.
 export default function Figure({
   src,
   alt,
@@ -33,7 +35,7 @@ export default function Figure({
   sizes?: string;
   className?: string;
   priority?: boolean;
-  tone?: "neutral" | "colour";
+  tone?: "neutral" | "colour" | "reveal";
   /** Makes the frame itself the control that opens the fuller record. */
   onActivate?: () => void;
   activateLabel?: string;
@@ -61,8 +63,14 @@ export default function Figure({
         right: "aspect-[4/3] object-cover object-right",
       }[crop]
     : "";
+  const toneClass = {
+    neutral: "grayscale",
+    colour: "",
+    reveal:
+      "grayscale transition-[filter] duration-300 group-hover:grayscale-0 group-focus-visible:grayscale-0 motion-reduce:transition-none",
+  }[tone];
   const frameClass =
-    "block w-full border border-hairline p-1.5 transition-colors hover:border-paper";
+    "group block w-full border border-hairline p-1.5 transition-colors hover:border-paper";
 
   const plate = (
     <Image
@@ -72,7 +80,7 @@ export default function Figure({
       height={height}
       sizes={sizes}
       priority={priority}
-      className={`h-auto w-full ${tone === "colour" ? "" : "grayscale"} ${cropClass}`}
+      className={`h-auto w-full ${toneClass} ${cropClass}`}
     />
   );
 
